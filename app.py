@@ -26,25 +26,22 @@ if c.fetchone()[0] < 1:
     c.execute("INSERT INTO USER VALUES ('{}', '{}')".format("hliu00","hi"))
     c.execute("INSERT INTO USER VALUES ('{}', '{}')".format("hliu01","hi"))
 
-#Creates SAVEDBIKES
-c.execute(''' SELECT count(name) FROM sqlite_master WHERE type='table' AND name='SAVEDBIKES' ''')
+#Creates Points
+c.execute(''' SELECT count(name) FROM sqlite_master WHERE type='table' AND name='POINTS' ''')
 if c.fetchone()[0] < 1:
-    c.execute("CREATE TABLE SAVEDBIKES(username TEXT, bikeNumber INTEGER);")
+    c.execute("CREATE TABLE POINTS(username TEXT, points INTEGER);")
     # TESTS
-    c.execute("INSERT INTO SAVEDBIKES VALUES ('{}', '{}')".format("hliu00",2))
-    c.execute("INSERT INTO SAVEDBIKES VALUES ('{}', '{}')".format("hliu00",1))
-    c.execute("INSERT INTO SAVEDBIKES VALUES ('{}', '{}')".format("hliu01",2))
-    c.execute("INSERT INTO SAVEDBIKES VALUES ('{}', '{}')".format("hliu01",1))
+    c.execute("INSERT INTO POINTS VALUES ('{}', '{}')".format("hliu00",2))
+    c.execute("INSERT INTO POINTS VALUES ('{}', '{}')".format("hliu00",1))
 
 #Creates REVIEWS
-c.execute(''' SELECT count(name) FROM sqlite_master WHERE type='table' AND name='REVIEWS' ''')
+c.execute(''' SELECT count(name) FROM sqlite_master WHERE type='table' AND name='STORIES' ''')
 if c.fetchone()[0] < 1:
-    c.execute("CREATE TABLE REVIEWS(username TEXT, bikeNumber INTEGER, rating INTEGER, content BLOB);")
+    c.execute("CREATE TABLE REVIEWS(storyid INTEGER, title TEXT, text BLOB);")
     # TESTS
-    c.execute("INSERT INTO REVIEWS VALUES ('{}', '{}', '{}', '{}')".format("hliu00", 2, 5, "0dswdwdw"))
-    c.execute("INSERT INTO REVIEWS VALUES ('{}', '{}', '{}', '{}')".format("hliu01", 2, 5, "1dswdwdw"))
-    c.execute("INSERT INTO REVIEWS VALUES ('{}', '{}', '{}', '{}')".format("hliu00", 1, 4, "2dswdwdw"))
-    c.execute("INSERT INTO REVIEWS VALUES ('{}', '{}', '{}', '{}')".format("hliu01", 1, 4, "3dswdwdw"))
+    c.execute("INSERT INTO STORIES VALUES ('{}', '{}', '{}')".format(0, "DD", "0dswdwdw"))
+    c.execute("INSERT INTO STORIES VALUES ('{}', '{}', '{}')".format(1, "DD", "1dswdwdw"))
+
 
 #Creates BIKES
 c.execute(" SELECT count(name) FROM sqlite_master WHERE type='table' AND name='BIKES' ")
