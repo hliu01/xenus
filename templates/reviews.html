@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+{% extends "template.html" %}
+
+{% block buttons %}
+<li class="nav-item">
+  <a href="{{ url_for('root') }}" class="nav-link">Home</a>
+</li>
+
+<li class="nav-item">
+  <a href="{{ url_for('logout') }}" class="nav-link">Logout</a>
+</li>
+{% endblock %}
+
+
+{% block body %}
+<div style="margin: 15px;">
+
+<h1><p>{{ toprint[0][3] }}, {{ toprint[0][2] }}</p></h1>
+<h3><p>{{ toprint[0][1] }}</p></h3>
+<hr>
+
+<div class="container-fluid" >
+  <div class="row">
+    <div class="col-sm">
+      <div style="margin: 10px;">
+        <h2><p>Reviews</p><h2>
+          {% for entry in review %}
+          <div class="container-fluid" >
+            <div class="row">
+              <div class="col">
+                <h3><p>{{ entry[0] }}: </p><h3>
+                 <h6><p>{{ entry[3] }}</p><h6>
+                   {% for n in range(5) %}
+                   {% if n < entry[2] %}
+                   <div style="color: #ffc700; float:left; font-size:25px;">
+                   ★
+                   </div>
+                   {% else %}
+                   <div style="color: #ccc; float:left; font-size:25px;">
+                   ★
+                   </div>
+                   {% endif %}
+                   {% endfor %}
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<br><br><br>
+
+{% endblock %}
