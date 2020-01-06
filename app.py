@@ -37,35 +37,11 @@ if c.fetchone()[0] < 1:
 #Creates REVIEWS
 c.execute(''' SELECT count(name) FROM sqlite_master WHERE type='table' AND name='STORIES' ''')
 if c.fetchone()[0] < 1:
-    c.execute("CREATE TABLE REVIEWS(storyid INTEGER, title TEXT, text BLOB);")
+    c.execute("CREATE TABLE STORIES(storyid INTEGER, title TEXT, text BLOB);")
     # TESTS
     c.execute("INSERT INTO STORIES VALUES ('{}', '{}', '{}')".format(0, "DD", "0dswdwdw"))
     c.execute("INSERT INTO STORIES VALUES ('{}', '{}', '{}')".format(1, "DD", "1dswdwdw"))
 
-
-#Creates BIKES
-c.execute(" SELECT count(name) FROM sqlite_master WHERE type='table' AND name='BIKES' ")
-if c.fetchone()[0] < 1:
-    c.execute("CREATE TABLE BIKES(bikeNumber INTEGER PRIMARY KEY AUTOINCREMENT, bikeID TEXT, city TEXT, name TEXT, coors TEXT, address TEXT);")
-    bikeapi = urllib.request.urlopen("http://api.citybik.es/v2/networks")
-    bikeresponse = bikeapi.read()
-    bikedata = json.loads(bikeresponse)
-    for i in bikedata['networks']:
-        coors = "{},{}".format(i['location']['latitude'],i['location']['longitude'])
-        weatherapi = urllib.request.urlopen("https://www.metaweather.com/api/location/search/?lattlong={}".format(coors))
-        response = weatherapi.read()
-        weatherdata = json.loads(response)
-        mapapi = urllib.request.urlopen("https://www.mapquestapi.com/geocoding/v1/reverse?key=GiP6vYcbAdnVUtnHGJwYdvAdAxupOahM&location={}".format(coors))
-        response = mapapi.read()
-        mapdata = json.loads(response)
-        spotinfo = mapdata["results"][0]["locations"][0]
-        address = "{}, {}".format(spotinfo["street"],spotinfo["adminArea5"])
-        c.execute('INSERT INTO BIKES VALUES (?, ?, ?, ?, ?, ?)', (None, i['id'], weatherdata[0]["title"], i['name'], coors, address))
-    db.commit()
-    db.commit()
-    db.close()
-
-#-----------------------------------------------------------------
 
 def updateSavedBikes():
     with sqlite3.connect(DB_FILE) as connection:
@@ -97,72 +73,19 @@ searchdict = {}
 
 @app.route("/")
 def root():
-    return render_template("homepage.html", sessionstatus = "user" in session)
+    return render_template("play.html", sessionstatus = "user" in session)
 
-@app.route("/search")
-def search():
-    if request.args and request.args["searchbar"]:
-        # GEOCODE API - COORDINATE TRACK
-        u = urllib.request.urlopen("http://open.mapquestapi.com/geocoding/v1/address?key=GiP6vYcbAdnVUtnHGJwYdvAdAxupOahM&location={}".format(request.args["searchbar"].replace(" ","%20")))
-        response = u.read()
-        data = json.loads(response)
-        if len(data) == 0:
-            return redirect(url_for("root"))
-        firstresult = data["results"][0]["locations"][0]
-        locationaddress = "{}".format(address(firstresult))
-        # print(locationaddress)
-        if not (bool(locationaddress)):
-            flash("Location not found. Try a more specific search.")
-            return redirect(url_for("root"))
-        searchdict["longlat"] = "{},{}".format(firstresult["latLng"]["lat"],firstresult["latLng"]["lng"])
+@app.route("/room1")
+def room1():
+    return render_template("room1.html")
 
-        # WEATHER API - WEATHER SEARCH
-        u = urllib.request.urlopen("https://www.metaweather.com/api/location/search/?lattlong={}".format(searchdict["longlat"]))
-        response = u.read()
-        data = json.loads(response)
-        city = data[0]["title"]
-        u = urllib.request.urlopen("https://www.metaweather.com/api/location/{}".format(data[0]["woeid"]))
-        response = u.read()
-        data = json.loads(response)
-        weather = data['consolidated_weather'][0]
+@app.route("/room2")
+def room2():
+    return render_template("room2.html")
 
-        # BIKE DATABASE + API
-        with sqlite3.connect(DB_FILE) as connection:
-           cur = connection.cursor()
-           q = "SELECT * FROM BIKES WHERE city = '{}'".format(city)
-           foo = cur.execute(q)
-           bikeList = foo.fetchall()
-           bikes = []
-           addresses = []
-           for bike in bikeList:
-               bikes.append(bike)
-
-        return render_template("searchresults.html", place = data['title'],
-                                locationaddress = locationaddress,
-                                applicable_date = weather['applicable_date'], celsius = int(weather['the_temp']), farenheit = int(weather['the_temp']*9.0/5+32),
-                                bikes = bikes,
-                                weather_state_name = weather['weather_state_name'], weatherimage = "https://www.metaweather.com/static/img/weather/png/64/{}.png".format(weather['weather_state_abbr']),
-                                # reviews = formattedReviews, rating = rating,
-                                mapimage = "https://www.mapquestapi.com/staticmap/v4/getmap?key=GiP6vYcbAdnVUtnHGJwYdvAdAxupOahM&size=600,600&type=map&imagetype=jpg&zoom=13&scalebar=true&traffic=FLOW|CON|INC&center={}&xis=&ellipse=fill:0x70ff0000|color:0xff0000|width:2|40.00,-105.25,40.04,-105.30".format(searchdict['longlat']),
-                                sessionstatus = "user" in session)
-    else:
-        return redirect(url_for("root"))
-
-def address(firstresult):
-    address = []
-    if bool(firstresult["street"]):
-        address.append(firstresult["street"])
-    if bool(firstresult["adminArea6"]):
-        address.append(firstresult["adminArea6"])
-    if bool(firstresult["adminArea5"]):
-        address.append(firstresult["adminArea5"])
-    if bool(firstresult["adminArea3"]):
-        address.append(firstresult["adminArea3"])
-    final = ""
-    for item in address:
-        final += "{}, ".format(item)
-    if bool(final):
-        return final[:-2]
+@app.route("/room3")
+def room3():
+    return render_template("room3.html")
 
 @app.route("/login")
 def login():
@@ -238,47 +161,15 @@ def addUser(user, pswd, conf):
   else:
     flash('Passwords do not match. Please try again.')
     return False
-
-@app.route("/addBike")
-def addBike():
-    with sqlite3.connect(DB_FILE) as connection:
-        c = connection.cursor()
-        c.execute("INSERT INTO SAVEDBIKES VALUES ('{}', '{}')".format(session['user'],2))
-        connection.commit()
-    return redirect(url_for("profile"))
-
-@app.route("/addReview")
-def addReview():
+@app.route("/play")
+def play():
     if "user" not in session:
         return redirect(url_for('root'))
-    if (len(request.args) == 1):
-        with sqlite3.connect(DB_FILE) as connection:
-            c = connection.cursor()
-            n = c.execute("SELECT * FROM BIKES WHERE bikeNumber = (?)", (request.args["id"],)).fetchone()[3]
-            loc = c.execute("SELECT * FROM BIKES WHERE bikeNumber = (?)", (request.args["id"],)).fetchone()[2]
-            c.execute("SELECT * FROM REVIEWS WHERE username = (?) AND bikeNumber = (?)", (session['user'], request.args["id"]))
-            l = c.fetchall()
-            if (len(l) > 0) :
-                return render_template("addreview.html", name = n, location = loc, i = request.args["id"], b = l[0][3])
-            else: return render_template("addreview.html", name = n, location = loc, i = request.args["id"])
-    if (len(request.args) >= 2):
-        if (len(request.args["body"]) == 0):
-            flash('Cannot leave body empty.')
-            return redirect("http://127.0.0.1:5000/addReview?id=" + request.args["id"])
-        else:
-            if (len(request.args) == 2): rating = 0
-            else: rating = request.args["rate"]
-            with sqlite3.connect(DB_FILE) as connection:
-                c = connection.cursor()
-                c.execute("DELETE FROM REVIEWS WHERE username = (?) AND bikeNumber = (?)", (session["user"], request.args["id"]))
-                c.execute("INSERT INTO REVIEWS VALUES (?, ?, ?, ?)", (session['user'], request.args["id"], rating, request.args["body"]))
-                connection.commit()
-            return redirect(url_for("profile"))
-    with sqlite3.connect(DB_FILE) as connection:
-        c = connection.cursor()
-        c.execute("INSERT INTO REVIEWS VALUES ('{}', '{}', '{}', '{}')".format(session['user'], 2, 5, "dswdwdw"))
-        connection.commit()
-    return redirect(url_for("profile"))
+    return render_template("play.html",
+    title = "Play - {}".format(session["user"]), heading = session["user"],sessionstatus = "user" in session)
+
+
+
 
 # Dispalys user's personal blog page and loads HTML with blog writing form
 @app.route("/profile")
@@ -354,30 +245,6 @@ def reviews():
 
     return render_template("reviews.html", sessionstatus = "user" in session, review = reviews, toprint = name)
 
-@app.route("/lotto")
-def lotto():
-    return render_template('lotto.html')
-
-@app.route("/lottoresults")
-def lottoResults():
-    # generates 3 random numbers between that are either 0 and 1 and 3 random characters
-    rand1 = random.randint(0, 1)
-    rand2 = random.randint(0, 1)
-    rand3 = random.randint(0, 1)
-    charCount = dbfunctions.getCharCount(c)
-    randCharID1 = random.randint(1, charCount)
-    randCharID2 = random.randint(1, charCount)
-    randCharID3 = random.randint(1, charCount)
-    charName = dbfunctions.getName(c, randCharID1)
-    # checks if the random numbers are equal, and displays results for if the user won
-    if rand1 == rand2 == rand3:
-        return render_template('lottoresults.html', charID = randCharID1, charName = charName, img1 = dbfunctions.getImage(c, randCharID1), img2 = dbfunctions.getImage(c, randCharID1), img3 = dbfunctions.getImage(c, randCharID1), isWinner = True)
-    # displays results for if the user lost
-    else:
-        return render_template('lottoresults.html', img1 = dbfunctions.getImage(c, randCharID1), img2 = dbfunctions.getImage(c, randCharID2), img3 = dbfunctions.getImage(c, randCharID3), isWinner = False)
-
-
-# generates the results of the lotto then displays them on a page
 
 if __name__ == "__main__":
     app.debug = True
