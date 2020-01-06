@@ -1,1 +1,10 @@
-need to start
+xenus: Biraj Chowdury, Nahi Khan, Henry Liu, Albert Wan
+
+P #02 — The End
+2019-12-28
+
+liuH -- 2019-12-28 14:30
+Worked on design doc
+
+liuH -- 2020-01-01 20:08
+Finished adding roles
