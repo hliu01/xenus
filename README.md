@@ -1,2 +1,5 @@
-# xenus
-Project 2
+# P2 - Xenus
+
+
+
+Copyright Xenus 2020

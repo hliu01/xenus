@@ -17,6 +17,9 @@ Worked on component map, it is not finished as I am not sure which APIs to inclu
 khanN -- 2020-01-06 17:43
 Worked on sitemap and finished it (uploaded on github and designdoc)
 
+wanA -- 2019-12-28 14:30
+Worked on database in design doc.
+
 liuH -- 2020-01-01 20:08
 Finished adding roles
 
