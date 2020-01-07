@@ -44,30 +44,6 @@ if c.fetchone()[0] < 1:
     db.commit()
     db.commit()
     db.close()
-
-def updateSavedBikes():
-    with sqlite3.connect(DB_FILE) as connection:
-        cur = connection.cursor()
-        foo = cur.execute('SELECT * from SAVEDBIKES;') # Selects the title, username, date and content from all posts
-        savedBikes = foo.fetchall()
-        savedBikes.reverse() # Reverse for recent posts at top
-        return savedBikes
-
-def updateUsers():
-    with sqlite3.connect(DB_FILE) as connection:
-        cur = connection.cursor()
-        foo = cur.execute('SELECT * FROM USER;') # Selects all username/password combinations
-        userList = foo.fetchall()
-        userList.sort() # Usernames sorted in alphabetical order
-        return userList
-
-def updateReviews():
-    with sqlite3.connect(DB_FILE) as connection:
-        cur = connection.cursor()
-        foo = cur.execute('SELECT * FROM REVIEWS;') # Selects all username/password combinations
-        reviewList = foo.fetchall()
-        return reviewList
-
 #-----------------------------------------------------------------
 
 # DICTIONARY FOR IMPORTANT SEARCH DATA
@@ -182,8 +158,6 @@ def play():
     title = "Play - {}".format(session["user"]), heading = session["user"],sessionstatus = "user" in session)
 
 
-
-
 # Dispalys user's personal blog page and loads HTML with blog writing form
 @app.route("/profile")
 def profile():
@@ -205,7 +179,6 @@ def reviews():
        x = "SELECT * FROM BIKES WHERE bikeNumber = '{}'".format(request.args["id"])
        goo = cur.execute(x)
        name = goo.fetchall()
-
     return render_template("reviews.html", sessionstatus = "user" in session, review = reviews, toprint = name)
 
 
