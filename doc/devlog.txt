@@ -1,14 +1,24 @@
-xenus: Biraj Chowdury, Nahi Khan, Henry Liu, Albert Wan
+Xenus: Biraj Chowdury, Nahi Khan, Henry Liu, Albert Wan
 
 P #02 — The End
 2019-12-28
+**More recent updates go to top PLEASE**
 
-liuH -- 2019-12-28 14:30
-Worked on design doc
+khanN -- 2020-01-07 11:17
+Reading and learning upon bootstrap based on documentation. CSS JS HTML ALL NEEDED
+
+chowdhuryB -- 2020-01-07 00:30
+Worked on Blackjack game
+
+khanN -- 2020-01-07 00:31
+Worked on component map, it is not finished as I am not sure which APIs to include and what the database(s) store
+-> Uploaded the component map on github and put it on the designdoc
+
+khanN -- 2020-01-06 17:43
+Worked on sitemap and finished it (uploaded on github and designdoc)
 
 liuH -- 2020-01-01 20:08
 Finished adding roles
 
-chowdhuryB -- 2020-01-07 00:30
-worked on Blackjack game
-
+liuH -- 2019-12-28 14:30
+Worked on design doc
