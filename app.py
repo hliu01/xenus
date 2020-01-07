@@ -53,26 +53,26 @@ searchdict = {}
 def root():
     return render_template("play.html", sessionstatus = "user" in session)
 
-@app.route("/room1")
-def room1():
+@app.route("/level1")
+def level1():
     if "user" not in session:
         return redirect(url_for('root'))
-    return render_template("room1.html",
+    return render_template("level1.html",
     title = "Profile - {}".format(session["user"]), heading = session["user"],sessionstatus = "user" in session)
 
-@app.route("/room2")
-def room2():
+@app.route("/level2")
+def level2():
     if "user" not in session:
         return redirect(url_for('root'))
-    return render_template("room2.html",
+    return render_template("level2.html",
     title = "Profile - {}".format(session["user"]), heading = session["user"],sessionstatus = "user" in session)
 
 
-@app.route("/room3")
-def room3():
+@app.route("/level3")
+def level3():
     if "user" not in session:
         return redirect(url_for('root'))
-    return render_template("room3.html",
+    return render_template("level3.html",
     title = "Profile - {}".format(session["user"]), heading = session["user"],sessionstatus = "user" in session)
 
 
@@ -150,6 +150,7 @@ def addUser(user, pswd, conf):
   else:
     flash('Passwords do not match. Please try again.')
     return False
+
 @app.route("/play")
 def play():
     if "user" not in session:
@@ -166,21 +167,12 @@ def profile():
     return render_template("profile.html",
     title = "Profile - {}".format(session["user"]), heading = session["user"],sessionstatus = "user" in session)
 
-@app.route("/reviews")
-def reviews():
-    # print(request.args["id"])
-    # print(request.args["company"])
-
-    with sqlite3.connect(DB_FILE) as connection:
-       cur = connection.cursor()
-       q = "SELECT * FROM REVIEWS WHERE bikeNumber = '{}'".format(request.args["id"])
-       foo = cur.execute(q)
-       reviews = foo.fetchall()
-       x = "SELECT * FROM BIKES WHERE bikeNumber = '{}'".format(request.args["id"])
-       goo = cur.execute(x)
-       name = goo.fetchall()
-    return render_template("reviews.html", sessionstatus = "user" in session, review = reviews, toprint = name)
-
+#https://gist.github.com/straker/ff00b4b49669ad3dec890306d348adc4
+@app.route("/snake")
+def snake():
+    if "user" not in session:
+        return redirect(url_for('root'))
+    return render_template("snake.html", heading = session["user"],sessionstatus = "user" in session)
 
 if __name__ == "__main__":
     app.debug = True
