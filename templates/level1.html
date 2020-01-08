@@ -43,7 +43,6 @@
   <center>
     <h1>Level 1</h1>
     <p> Welcome to Xenus. Your first mission is to hack into the spaceship. Use your computational acumen to succesfully hack into the spaceship</p>
-            <center><h1><a href="{{ url_for('snake') }}"><button type="button" class="btn btn-success">Continue</button></a></h1></center>
   </center>
 </div>
 <head>
@@ -56,40 +55,47 @@ p {
 }
 </style>
 </head>
-<body>
-
-<p id="demo"></p>
 
 <script>
-// Set the date we're counting down to
-var countDownDate = new Date("Jan 5, 2021 17:35:25").getTime();
+  function startTimer(duration, display) {
+      var start = Date.now(),
+          diff,
+          minutes,
+          seconds;
+      function timer() {
+          // get the number of seconds that have elapsed since
+          // startTimer() was called
+          diff = duration - (((Date.now() - start) / 1000) | 0);
 
-// Update the count down every 1 second
-var x = setInterval(function() {
+          // does the same job as parseInt truncates the float
+          minutes = (diff / 60) | 0;
+          seconds = (diff % 60) | 0;
 
-  // Get today's date and time
-  var now = new Date().getTime();
+          minutes = minutes < 10 ? "0" + minutes : minutes;
+          seconds = seconds < 10 ? "0" + seconds : seconds;
 
-  // Find the distance between now and the count down date
-  var distance = countDownDate - now;
+          display.textContent = minutes + ":" + seconds;
 
-  // Time calculations for days, hours, minutes and seconds
-  var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-  var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-  var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-  // Output the result in an element with id="demo"
-  document.getElementById("demo").innerHTML = days + "d " + hours + "h "
-  + minutes + "m " + seconds + "s ";
-
-  // If the count down is over, write some text
-  if (distance < 0) {
-    clearInterval(x);
-    document.getElementById("demo").innerHTML = "EXPIRED";
+          if (diff <= 0) {
+              // add one second so that the count down starts at the full duration
+              // example 05:00 not 04:59
+              start = Date.now() + 1000;
+          }
+      };
+      // we don't want to wait a full second before the timer starts
+      timer();
+      setInterval(timer, 1000);
   }
-}, 1000);
+
+  window.onload = function () {
+      var fiveMinutes = 60 * 10,
+          display = document.querySelector('#time');
+      startTimer(fiveMinutes, display);
+  };
 </script>
+<body>
+    <center><div>You have <span id="time"></span> minutes!</div></center>
+    <center><h1><a href="{{ url_for('snake') }}"><button type="button" class="btn btn-success">Continue</button></a></h1></center>
 
 </body>
 
