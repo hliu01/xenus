@@ -1,11 +1,21 @@
 Xenus: Biraj Chowdury, Nahi Khan, Henry Liu, Albert Wan
-
 P #02 — The End
 2019-12-28
-**More recent updates go to top PLEASE**
 
-khanN -- 2020-01-07 11:17
-Reading and learning upon bootstrap based on documentation. CSS JS HTML ALL NEEDED
+liuH -- 2019-12-28 13:30
+Worked on design doc overview
+
+wanA -- 2019-12-28 14:30
+Worked on database in design doc.
+
+liuH -- 2019-12-28 14:30
+Worked on design doc
+
+liuH -- 2020-01-01 20:08
+Finished assigning roles
+
+khanN -- 2020-01-06 17:43
+Worked on sitemap and finished it (uploaded on github and designdoc)
 
 chowdhuryB -- 2020-01-07 00:30
 Worked on Blackjack game
@@ -14,18 +24,27 @@ khanN -- 2020-01-07 00:31
 Worked on component map, it is not finished as I am not sure which APIs to include and what the database(s) store
 -> Uploaded the component map on github and put it on the designdoc
 
-khanN -- 2020-01-06 17:43
-Worked on sitemap and finished it (uploaded on github and designdoc)
+khanN -- 2020-01-07 14:17
+Reading and learning upon bootstrap based on documentation. CSS JS HTML ALL NEEDED
 
-wanA -- 2019-12-28 14:30
-Worked on database in design doc.
+wanA -- 2020-01-07 14:20
+Worked on storyline for the game
 
-liuH -- 2020-01-01 20:08
-Finished adding roles
+wanA -- 2020-01-07 18:30
+Edited database names to make them easier to use and removed points database because it wasn't needed
 
-liuH -- 2019-12-28 14:30
-Worked on design doc
+khanN -- 2020-01-07 19:17
+Added APIs to component map
 
-chowdhuryB -- 2019-01-08 11:34
+chowdhuryB -- 2019-01-07 23:48
 Worked on database operations to play BlackJack
 worked on database for the site as a whole
+
+liuH -- 2020-01-07 2:30
+Worked on design doc overview to make it more detailed
+Worked on deciding which APIs to implement
+Changed our front-end framework to bootstrap because that is the code
+that the PM had for his previous project
+Added more games to the designdoc which was discussed in class
+Decided to make the puzzles timed
+Added in-depth explanation of different games/puzzles
