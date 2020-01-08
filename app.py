@@ -14,9 +14,16 @@ app = Flask(__name__)
 app.secret_key = urandom(32)
 
 utl.dbfunctions.setup()
+DB_FILE = "Info.db"
 
 # DICTIONARY FOR IMPORTANT SEARCH DATA
 searchdict = {}
+
+def checkAuth(): #checks if the user is logged in
+    if "userID" in session:
+        return True
+    else:
+        return False
 
 @app.route("/")
 def root():
@@ -47,37 +54,39 @@ def level3():
 
 @app.route("/login")
 def login():
-    # if user already logged in, redirects back to discover
-    if 'user' in session:
+    # if already logged in, don't display login page
+    if checkAuth():
+        return redirect(url_for('play'))
+    else:
+        return render_template('login.html')
+
+
+@app.route("/auth", methods=["POST"])
+def auth():
+    username = request.form['username']
+    password = request.form['password']
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+    c.execute("SELECT username,password FROM users WHERE username = ?", (username, ))
+    a = c.fetchone()
+    db.commit()
+    c.close()
+    if a == None: #checks login username and password
+        flash("No user found with given username") #no given username in database
+        return redirect(url_for('login'))
+    elif password != a[1]:
+        flash("Incorrect password") #password is incorrect for given username
+        return redirect(url_for('login'))
+    else: #successfully pass the tests
+        session['username'] = username
+        flash("Welcome " + username + ". You have been logged in successfully.")
         return redirect(url_for('root'))
-    # checking to see if things were submitted
-    if (request.args):
-        if (bool(request.args["username"]) and bool(request.args["password"])):
-            # setting request.args to variables to make life easier
-            inpUser = request.args["username"]
-            inpPass = request.args["password"]
-            with sqlite3.connect(DB_FILE) as connection:
-                cur = connection.cursor()
-                q = 'SELECT username, password FROM USER;'
-                foo = cur.execute(q)
-                userList = foo.fetchall()
-                for row in userList:
-                    if inpUser == row[0] and inpPass == row[1]:
-                        session['user'] = inpUser
-                        return(redirect(url_for("root")))
-                flash('Username not found or login credentials incorrect.')
-                return(redirect(url_for("login")))
-        else:
-            flash('Login unsuccessful')
-            return(redirect(url_for("login")))
-    return render_template("login.html")
 
 @app.route("/register")
 def register():
   # if user already logged in, redirects back to discover
   if 'user' in session:
     return redirect(url_for('root'))
-
   # checking to see if things were submitted
   if (request.args):
     if (bool(request.args["username"]) and bool(request.args["password"])):
@@ -85,7 +94,6 @@ def register():
       inpUser = request.args["username"]
       inpPass = request.args["password"]
       inpConf = request.args["confirmPass"]
-
       if(addUser(inpUser, inpPass, inpConf)):
         flash('Success! Please login.')
         return redirect(url_for("login"))
@@ -103,21 +111,14 @@ def logout():
     return redirect(url_for("root"))
 
 def addUser(user, pswd, conf):
-  userList = updateUsers()
-  for row in userList:
-    if user == row[0]:
-      flash('Username already taken. Please try again.')
-      return False
-  if (pswd == conf):
-    # SQLite3 is being weird with threading, so I've created a separate object
-    with sqlite3.connect(DB_FILE) as connection:
-      cur = connection.cursor()
-      q = "INSERT INTO USER VALUES('{}', '{}');".format(user, pswd) # Successfully registers new user
-      cur.execute(q)
-      connection.commit()
-    return True
-  else:
-    flash('Passwords do not match. Please try again.')
+    if (utl.dbfunctions.userExists(user)):
+        flash('Username already taken. Please try again.')
+        return False
+    if (pswd == conf):
+        utl.dbfunctions.adduser(user,pswd)
+        return True
+    else:
+        flash('Passwords do not match. Please try again.')
     return False
 
 @app.route("/play")
