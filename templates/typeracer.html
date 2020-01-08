@@ -1,0 +1,74 @@
+{% extends "homepage.html" %}
+
+{% block body %}
+<!DOCTYPE html>
+<head>
+  <title></title>
+  <style>
+  html, body {
+    height: 100%;
+    margin: 0;
+  }
+  body {
+    background: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  canvas {
+    border: 1px solid white;
+  }
+
+  #p1
+  {
+    color:red;
+	position:absolute;
+	left:100px;
+	top:100px;
+  }
+    #p2
+  {
+    color:red;
+	position:absolute;
+	left:100px;
+	top:120px;
+  }
+  #score
+  {
+    color:white;
+    position:absolute;
+	left:170px;
+	top:100px;
+  }
+  #high
+  {
+    color:white;
+    position:absolute;
+	left:210px;
+	top:120px;
+  }
+  #button{
+    position:absolute;
+	left:1300px;
+	top:700px;
+
+  }
+  #note{
+    color:white;
+    position:absolute;
+	left:500px;
+	top:100px;
+
+  }
+  </style>
+</head>
+<body>
+  <center>
+  <div class="timer" id="timer"></div>
+  <div class="container">
+    <div class="quote-display" id="quoteDisplay"></div>
+    <textarea id="quoteInput" class="quote-input" autofocus></textarea>
+  </div>
+  </center>
+</body>
+{% endblock %}

@@ -180,6 +180,12 @@ def indexx():
         return redirect(url_for('root'))
     return render_template("indexx.html", heading = session["user"],sessionstatus = "user" in session)
 
+@app.route("/typeracer")
+def typeracer():
+    if "user" not in session:
+        return redirect(url_for('root'))
+    return render_template("typeracer.html", heading = session["user"],sessionstatus = "user" in session)
+
 if __name__ == "__main__":
     app.debug = True
     app.run()
