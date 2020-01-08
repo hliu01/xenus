@@ -13,7 +13,7 @@ from os import urandom
 app = Flask(__name__)
 app.secret_key = urandom(32)
 
-dbfunctions.setup()
+utl.dbfunctions.setup()
 
 # DICTIONARY FOR IMPORTANT SEARCH DATA
 searchdict = {}

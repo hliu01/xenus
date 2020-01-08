@@ -48,23 +48,32 @@ def userdraw(cardImg,score):
 def getUserScore():
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
-    c.execute("SELECT score FROM userGame VALUES")
+    c.execute("SELECT score FROM userGame")
     data = c.fetchall()
     int totalscore;
     for (score in data):
         totalscore += score[0];
+    db.commit()
+    c.close()
     return totalscore
 
 def getOurScore():
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
-    c.execute("SELECT score FROM ourGame VALUES")
+    c.execute("SELECT score FROM ourGame")
     data = c.fetchall()
     int totalscore;
     for (score in data):
         totalscore += score[0];
+    db.commit()
+    c.close()
     return totalscore
 
-def replaceAce():
+def replaceAceForUser():
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
+    if (getUserScore() > 21):
+        c.execute("UPDATE userGame SET score = 1 WHERE score = 11 ORDER BY score LIMIT 1")
+    db.commit()
+    c.close()
+    return
