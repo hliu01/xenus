@@ -8,9 +8,12 @@ import sqlite3, random
 import os
 from flask import flash
 import urllib.request, json
+import utl.dbfunctions
 from os import urandom
 app = Flask(__name__)
 app.secret_key = urandom(32)
+
+dbfunctions.setup()
 
 # DICTIONARY FOR IMPORTANT SEARCH DATA
 searchdict = {}

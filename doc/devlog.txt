@@ -25,3 +25,7 @@ Finished adding roles
 
 liuH -- 2019-12-28 14:30
 Worked on design doc
+
+chowdhuryB -- 2019-01-08 11:34
+Worked on database operations to play BlackJack
+worked on database for the site as a whole
