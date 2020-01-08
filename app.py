@@ -45,13 +45,6 @@ if c.fetchone()[0] < 1:
     db.commit()
     db.close()
 
-def updateSavedBikes():
-    with sqlite3.connect(DB_FILE) as connection:
-        cur = connection.cursor()
-        foo = cur.execute('SELECT * from SAVEDBIKES;') # Selects the title, username, date and content from all posts
-        savedBikes = foo.fetchall()
-        savedBikes.reverse() # Reverse for recent posts at top
-        return savedBikes
 
 def updateUsers():
     with sqlite3.connect(DB_FILE) as connection:
@@ -60,13 +53,6 @@ def updateUsers():
         userList = foo.fetchall()
         userList.sort() # Usernames sorted in alphabetical order
         return userList
-
-def updateReviews():
-    with sqlite3.connect(DB_FILE) as connection:
-        cur = connection.cursor()
-        foo = cur.execute('SELECT * FROM REVIEWS;') # Selects all username/password combinations
-        reviewList = foo.fetchall()
-        return reviewList
 
 #-----------------------------------------------------------------
 
@@ -192,22 +178,35 @@ def profile():
     return render_template("profile.html",
     title = "Profile - {}".format(session["user"]), heading = session["user"],sessionstatus = "user" in session)
 
-@app.route("/reviews")
-def reviews():
-    # print(request.args["id"])
-    # print(request.args["company"])
+@app.route("/blackjack")
+def playBlackJack():
+    req = urllib.request.urlopen(
+        "https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=6"
+        )
+    res = req.read()
+    deck = json.loads(res)
+    session['deckid'] = deck["deckid"]
+    return render_template('blackjack.html')
 
-    with sqlite3.connect(DB_FILE) as connection:
-       cur = connection.cursor()
-       q = "SELECT * FROM REVIEWS WHERE bikeNumber = '{}'".format(request.args["id"])
-       foo = cur.execute(q)
-       reviews = foo.fetchall()
-       x = "SELECT * FROM BIKES WHERE bikeNumber = '{}'".format(request.args["id"])
-       goo = cur.execute(x)
-       name = goo.fetchall()
+@app.route("/shuffle")
+def shuffle():
+    if not ('deckid' in session):
+        return url_for('playBlackJack')
+    req = urllib.request.urlopen(
+        "https://deckofcardsapi.com/api/deck/" + session['deckid'] + "/shuffle/?deck_count=6"
+        )
+    return render_template('blackjack.html')
 
-    return render_template("reviews.html", sessionstatus = "user" in session, review = reviews, toprint = name)
-
+@app.route("/draw")
+def drawCard():
+    if not ('deckid' in session):
+        return url_for('playBlackJack')
+    req = urllib.request.urlopen(
+        "https://deckofcardsapi.com/api/deck/" + session['deckid'] +"/draw/?count=1"
+        )
+    res = req.read()
+    card = json.loads(res)
+    render_template('blackjack.html')
 
 if __name__ == "__main__":
     app.debug = True
