@@ -174,6 +174,12 @@ def snake():
         return redirect(url_for('root'))
     return render_template("snake.html", heading = session["user"],sessionstatus = "user" in session)
 
+@app.route("/indexx")
+def indexx():
+    if "user" not in session:
+        return redirect(url_for('root'))
+    return render_template("indexx.html", heading = session["user"],sessionstatus = "user" in session)
+
 if __name__ == "__main__":
     app.debug = True
     app.run()

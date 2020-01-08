@@ -55,6 +55,13 @@ p {
 }
 </style>
 </head>
+<body>
+
+  <center><h1><a href="{{ url_for('snake') }}"><button type="button" class="btn btn-success">Continue</button></a></h1></center>
+
+</body>
+
+<p id="demo"></p>
 
 <script>
   function startTimer(duration, display) {
@@ -88,15 +95,14 @@ p {
   }
 
   window.onload = function () {
-      var fiveMinutes = 60 * 10,
+      var fiveMinutes = 60 * 5,
           display = document.querySelector('#time');
       startTimer(fiveMinutes, display);
   };
+
 </script>
 <body>
-    <center><div>You have <span id="time"></span> minutes!</div></center>
-    <center><h1><a href="{{ url_for('snake') }}"><button type="button" class="btn btn-success">Continue</button></a></h1></center>
-
+    <div>Registration closes in <span id="time"></span> minutes!</div>
 </body>
 
 
