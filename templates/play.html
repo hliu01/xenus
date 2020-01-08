@@ -16,6 +16,11 @@
     border-color:lightgray;
     border-width: 5px;
   }
+  .btn-primary, .btn-success, .btn-primary:hover, .btn-primary:active, .btn-primary:visited {
+    background-color: white !important;
+    border-color: black !important;
+    color: black !important;
+
 
   .submitLink {
     background-color: transparent;
@@ -40,17 +45,17 @@
   <div class="row">
 
     <div class="col-lg border">
-        <center><h1><a href="{{ url_for('room1') }}"><button type="button" class="btn btn-success">Room 1</button></a></h1></center>
+        <center><h1><a href="{{ url_for('level1') }}"><button type="button" class="btn btn-success">Level 1</button></a></h1></center>
         <p>insert pic here</p>
     </div>
 
     <div class="col-lg border">
-        <center><h1><a href="{{ url_for('room2') }}"><button type="button" class="btn btn-success">Room 2</button></a></h1></center>
+        <center><h1><a href="{{ url_for('level2') }}"><button type="button" class="btn btn-success">Level 2</button></a></h1></center>
         <p>insert pic here</p>
     </div>
 
     <div class="col-lg border">
-        <center><h1><a href="{{ url_for('room3') }}"><button type="button" class="btn btn-success">Room 3</button></a></h1></center>
+        <center><h1><a href="{{ url_for('level3') }}"><button type="button" class="btn btn-success">Level 3</button></a></h1></center>
         <p>insert pic here</p>
     </div>
 

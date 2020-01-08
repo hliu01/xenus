@@ -1,0 +1,99 @@
+{% extends "homepage.html" %}
+
+{% block css %}
+<style>
+  .col-lg{
+    margin: 15px;
+    padding: 20px;
+  }
+  .btn-primary, .btn-success, .btn-primary:hover, .btn-primary:active, .btn-primary:visited {
+    background-color: white !important;
+    border-color: black !important;
+    color: black !important;
+
+}
+  .footer-copyright{
+    padding: 6px;
+    margin-top: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    color: white; text-align: center;
+    border-top: solid;
+    border-color:lightgray;
+    border-width: 5px;
+  }
+
+  .submitLink {
+    background-color: transparent;
+    text-decoration: underline;
+    border: none;
+    color: blue;
+    cursor: pointer;
+  }
+  submitLink:focus {
+    outline: none;
+  }
+
+</style>
+{% endblock %}
+
+{% block searchresults %}
+
+<div class="container-fluid">
+  <center>
+    <h1>Level 1</h1>
+    <p> Welcome to Xenus. Your first mission is to hack into the spaceship. Use your computational acumen to succesfully hack into the spaceship</p>
+            <center><h1><a href="{{ url_for('snake') }}"><button type="button" class="btn btn-success">Continue</button></a></h1></center>
+  </center>
+</div>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+p {
+  text-align: center;
+  font-size: 15px;
+  margin-top: 0px;
+}
+</style>
+</head>
+<body>
+
+<p id="demo"></p>
+
+<script>
+// Set the date we're counting down to
+var countDownDate = new Date("Jan 5, 2021 17:35:25").getTime();
+
+// Update the count down every 1 second
+var x = setInterval(function() {
+
+  // Get today's date and time
+  var now = new Date().getTime();
+
+  // Find the distance between now and the count down date
+  var distance = countDownDate - now;
+
+  // Time calculations for days, hours, minutes and seconds
+  var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+  var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+  var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+  // Output the result in an element with id="demo"
+  document.getElementById("demo").innerHTML = days + "d " + hours + "h "
+  + minutes + "m " + seconds + "s ";
+
+  // If the count down is over, write some text
+  if (distance < 0) {
+    clearInterval(x);
+    document.getElementById("demo").innerHTML = "EXPIRED";
+  }
+}, 1000);
+</script>
+
+</body>
+
+
+<br><br><br>
+
+{% endblock %}

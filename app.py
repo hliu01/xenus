@@ -12,50 +12,6 @@ from os import urandom
 app = Flask(__name__)
 app.secret_key = urandom(32)
 
-#-----------------------------------------------------------------
-
-#DATABASE SETUP
-DB_FILE = "Info.db"
-db = sqlite3.connect(DB_FILE)
-c = db.cursor()
-#Creates USER
-c.execute(''' SELECT count(name) FROM sqlite_master WHERE type='table' AND name='USER' ''')
-if c.fetchone()[0] < 1:
-    c.execute("CREATE TABLE USER(username TEXT, password TEXT);")
-    # TESTS
-    c.execute("INSERT INTO USER VALUES ('{}', '{}')".format("hliu00","hi"))
-    c.execute("INSERT INTO USER VALUES ('{}', '{}')".format("hliu01","hi"))
-
-#Creates Points
-c.execute(''' SELECT count(name) FROM sqlite_master WHERE type='table' AND name='POINTS' ''')
-if c.fetchone()[0] < 1:
-    c.execute("CREATE TABLE POINTS(username TEXT, points INTEGER);")
-    # TESTS
-    c.execute("INSERT INTO POINTS VALUES ('{}', '{}')".format("hliu00",2))
-    c.execute("INSERT INTO POINTS VALUES ('{}', '{}')".format("hliu00",1))
-
-#Creates REVIEWS
-c.execute(''' SELECT count(name) FROM sqlite_master WHERE type='table' AND name='STORIES' ''')
-if c.fetchone()[0] < 1:
-    c.execute("CREATE TABLE STORIES(storyid INTEGER, title TEXT, text BLOB);")
-    # TESTS
-    c.execute("INSERT INTO STORIES VALUES ('{}', '{}', '{}')".format(0, "DD", "0dswdwdw"))
-    c.execute("INSERT INTO STORIES VALUES ('{}', '{}', '{}')".format(1, "DD", "1dswdwdw"))
-    db.commit()
-    db.commit()
-    db.close()
-
-
-def updateUsers():
-    with sqlite3.connect(DB_FILE) as connection:
-        cur = connection.cursor()
-        foo = cur.execute('SELECT * FROM USER;') # Selects all username/password combinations
-        userList = foo.fetchall()
-        userList.sort() # Usernames sorted in alphabetical order
-        return userList
-
-#-----------------------------------------------------------------
-
 # DICTIONARY FOR IMPORTANT SEARCH DATA
 searchdict = {}
 
@@ -63,26 +19,26 @@ searchdict = {}
 def root():
     return render_template("play.html", sessionstatus = "user" in session)
 
-@app.route("/room1")
-def room1():
+@app.route("/level1")
+def level1():
     if "user" not in session:
         return redirect(url_for('root'))
-    return render_template("room1.html",
+    return render_template("level1.html",
     title = "Profile - {}".format(session["user"]), heading = session["user"],sessionstatus = "user" in session)
 
-@app.route("/room2")
-def room2():
+@app.route("/level2")
+def level2():
     if "user" not in session:
         return redirect(url_for('root'))
-    return render_template("room2.html",
+    return render_template("level2.html",
     title = "Profile - {}".format(session["user"]), heading = session["user"],sessionstatus = "user" in session)
 
 
-@app.route("/room3")
-def room3():
+@app.route("/level3")
+def level3():
     if "user" not in session:
         return redirect(url_for('root'))
-    return render_template("room3.html",
+    return render_template("level3.html",
     title = "Profile - {}".format(session["user"]), heading = session["user"],sessionstatus = "user" in session)
 
 
@@ -160,14 +116,13 @@ def addUser(user, pswd, conf):
   else:
     flash('Passwords do not match. Please try again.')
     return False
+
 @app.route("/play")
 def play():
     if "user" not in session:
         return redirect(url_for('root'))
     return render_template("play.html",
     title = "Play - {}".format(session["user"]), heading = session["user"],sessionstatus = "user" in session)
-
-
 
 
 # Dispalys user's personal blog page and loads HTML with blog writing form
@@ -207,6 +162,13 @@ def drawCard():
     res = req.read()
     card = json.loads(res)
     render_template('blackjack.html')
+
+
+@app.route("/snake")
+def snake():
+    if "user" not in session:
+        return redirect(url_for('root'))
+    return render_template("snake.html", heading = session["user"],sessionstatus = "user" in session)
 
 if __name__ == "__main__":
     app.debug = True
