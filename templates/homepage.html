@@ -37,8 +37,10 @@
 <center>{{ message }}</center>
 {% endfor %}
 
-{% else %}
+{% block searchresults %}
+{% endblock %}
 
+{% else %}
 <center>
 <br>
 <a href="{{ url_for('login') }}"><button type="button" class="btn btn-success">Log In</button></a>
@@ -48,6 +50,5 @@
 </center>
 <br><br><br>
 {% endif %}
-{% block searchresults %}
-{% endblock %}
+
 {% endblock %}

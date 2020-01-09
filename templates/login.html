@@ -23,7 +23,7 @@
 </style>
 {% endblock %}
 
-{% block title %} Login {% endblock %}
+{% block title %} | Login{% endblock %}
 
 {% block buttons %}
 <li class="nav-item">
@@ -36,25 +36,25 @@
 {% endblock %}
 
 {% block body %}
-    {% for message in get_flashed_messages() %}
-        <br><br>
-        <center><b>{{ message }}</b></center>
-    {% endfor %}
+
+{% if msg %}
+<h3>{{ msg }}</h3>
+{% endif %}
+
 <center>
-  <form class="container" action="/auth" method="POST">
+  <form class="container" action="/login" method="GET">
     Username<br>
-  	<input class="form-control" type="text" name="username" placeholder="Username" required>
-    <br>
+  	<input class="form-control" type="text" name="username" placeholder="Username"><br>
     Password
-  	<input class="form-control" type="password" name="password" placeholder="Password" required>
-    <br>
+  	<input class="form-control" type="password" name="password" placeholder="Password"><br>
   	<button class="btn btn-success" type="submit">Log In</button>
   </form>
-  <br>
-  <br>
-  <br>
+  <br><br><br>
 </center>
 
-
+{% for message in get_flashed_messages() %}
+<br><br>
+<center><b>{{ message }}</b></center>
+{% endfor %}
 
 {% endblock %}
