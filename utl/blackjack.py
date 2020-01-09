@@ -7,16 +7,16 @@ cardvalues = {"ACE":1,"2": 2, "3": 3, "4": 4, "5", 5, "6": 6, "7": 7, "8": 8, "9
 def newGame():
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
-    c.execute("DROP TABLE IF EXISTS userGame")
-    c.execute("""CREATE TABLE currentgame(
+    c.execute("DROP TABLE IF EXISTS userGame;")
+    c.execute("""CREATE TABLE usergame(
         text cards,
         Integer score,
-    )""")
-    c.execute("DROP TABLE IF EXISTS ourGame")
-    c.execute("""CREATE TABLE currentgame(
+    );""")
+    c.execute("DROP TABLE IF EXISTS ourGame;")
+    c.execute("""CREATE TABLE ourgame(
         text cards,
         Integer score,
-    )""")
+    );""")
     db.commit()
     c.close()
     return
@@ -28,19 +28,19 @@ def wedraw(cardImg,cardVal):
     if (cardVal == "ACE"):
         if (getOurScore()) > 11):
             score = 1
-    c.execute("INSERT INTO ourGame VALUES(?,?);",(cardImg,score))
+    c.execute("INSERT INTO ourGame VALUES(?,?);",(cardImg,score,))
     db.commit()
     c.close()
     return
 
-def userdraw(cardImg,score):
+def userdraw(cardImg,cardVal):
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
     score = cardvalues[cardVal]
     if (cardVal == "ACE"):
         if (getUserScore()) > 11):
             score = 1
-    c.execute("INSERT INTO userGame VALUES(?,?);",(cardImg,score))
+    c.execute("INSERT INTO userGame VALUES(?,?);",(cardImg,score,))
     db.commit()
     c.close()
     return
@@ -48,7 +48,7 @@ def userdraw(cardImg,score):
 def getUserScore():
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
-    c.execute("SELECT score FROM userGame")
+    c.execute("SELECT score FROM userGame;")
     data = c.fetchall()
     int totalscore;
     for (score in data):
@@ -60,7 +60,7 @@ def getUserScore():
 def getOurScore():
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
-    c.execute("SELECT score FROM ourGame")
+    c.execute("SELECT score FROM ourGame;")
     data = c.fetchall()
     int totalscore;
     for (score in data):
@@ -73,7 +73,25 @@ def replaceAceForUser():
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
     if (getUserScore() > 21):
-        c.execute("UPDATE userGame SET score = 1 WHERE score = 11 ORDER BY score LIMIT 1")
+        c.execute("UPDATE userGame SET score = 1 WHERE score = 11 ORDER BY score LIMIT 1;")
     db.commit()
     c.close()
     return
+
+def getusercards():
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+    c.execute("SELECT cards FROM userGame;")
+    cards = c.fetchall();
+    db.commit()
+    c.close()
+    return cards
+
+def getourcards():
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+    c.execute("SELECT cards FROM ourGame;")
+    cards = c.fetchall();
+    db.commit()
+    c.close()
+    return cards

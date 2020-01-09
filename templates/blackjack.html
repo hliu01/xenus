@@ -1,9 +1,23 @@
 {% extends "template.html" %}
 
+{% block css %}
+
+{% endblock %}
+
 {% block body %}
     <div class=container-fluid>
         <div class=row>
-
+            {% for card in ourcards%}
+                <div class = col-sm>
+                    <img src={{card}}>
+                </div>
         </div>
-
+        <h1 class="display-5"> Your Cards</h1>
+        <div class=row>
+            {% for card in usercards%}
+                <div class = col-sm>
+                    <img src={{card}}>
+                </div>
+        </div>
+        <button type="button" id="draw">HIT ME</button>
 {% endblock %}

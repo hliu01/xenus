@@ -145,16 +145,18 @@ def playBlackJack():
     res = req.read()
     deck = json.loads(res)
     session['deckid'] = deck["deckid"]
-    return render_template('blackjack.html')
+    shuffle()
+    users = utl.dbfunctions.getusercards()
+    ours =  utl.dbfunctions.getourcards()
+    return render_template('blackjack.html',ourcards = ours,usercards = users)
 
-@app.route("/shuffle")
 def shuffle():
     if not ('deckid' in session):
         return url_for('playBlackJack')
     req = urllib.request.urlopen(
         "https://deckofcardsapi.com/api/deck/" + session['deckid'] + "/shuffle/?deck_count=6"
         )
-    return render_template('blackjack.html')
+    return True
 
 @app.route("/draw")
 def drawCard():
@@ -165,7 +167,8 @@ def drawCard():
         )
     res = req.read()
     card = json.loads(res)
-    render_template('blackjack.html')
+    utl.dbfunctions.userdraw(card[image],card[value])
+    return redirect(url_for('playBlackJack'))
 
 
 @app.route("/snake")
