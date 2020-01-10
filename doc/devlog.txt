@@ -48,3 +48,11 @@ that the PM had for his previous project
 Added more games to the designdoc which was discussed in class
 Decided to make the puzzles timed
 Added in-depth explanation of different games/puzzles
+
+khanN -- 2020-01-10 1:07
+Worked on template.html 
+Added a new html file (yet to make additions to it)
+It is quite late, and I may have made the navbar cleaner, but its functionality is far from good in the homepage
+I need to work on color scheme (black, blue, purple)
+will connect the hrefs appropriately
+Also created a new css file just for template.html
