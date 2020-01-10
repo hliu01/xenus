@@ -158,6 +158,13 @@ def play():
     return render_template("play.html",
     title = "Play - {}".format(session["user"]), heading = session["user"],sessionstatus = "user" in session)
 
+@app.route("/indexxx")
+def index():
+    if "user" not in session:
+        return redirect(url_for('root'))
+    return render_template("indexxx.html",
+    title = "Play - {}".format(session["user"]), heading = session["user"],sessionstatus = "user" in session)
+
 
 # Dispalys user's personal blog page and loads HTML with blog writing form
 @app.route("/profile")

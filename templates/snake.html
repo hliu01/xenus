@@ -68,8 +68,11 @@
 <p id="score"></p>
 <p id="high"></p>
 <p id="note">There should be a button that allows you to continue once you get 300 points</p>
-<center><h1><a href="{{ url_for('level3') }}"><button type="button" class="btn btn-success">Level 3</button></a></h1></center>
+
 <canvas width="400" height="400" id="game"></canvas>
+
+<p id="myP"><a href="{{ url_for('level3') }}"><button type="button" class="btn btn-success">continue!</button></a></p>
+
 <script>
 var canvas = document.getElementById('game');
 var context = canvas.getContext('2d');
@@ -107,6 +110,15 @@ function getRandomInt(min, max) {
 // game loop
 function loop() {
   requestAnimationFrame(loop);
+  if(score>30){
+    document.getElementById("myP").style.visibility = "visible";
+  }
+  else if(max>30){
+    document.getElementById("myP").style.visibility = "visible";
+  }
+else{
+  document.getElementById("myP").style.visibility = "hidden";
+}
   // slow game loop to 15 fps instead of 60 (60/15 = 4)
   if (++count < 4) {
     return;
@@ -149,7 +161,8 @@ function loop() {
     // snake ate apple
     if (cell.x === apple.x && cell.y === apple.y) {
       snake.maxCells++;
-	  score+=10;
+      score+=10;
+
 	  //max=score;
 	  document.getElementById('score').innerHTML=score;
 
@@ -174,6 +187,7 @@ function loop() {
 	    {
 	     max=score;
 	    }
+
     	snake.x = 160;
         snake.y = 160;
         snake.cells = [];
