@@ -37,14 +37,14 @@
   {
     color:white;
     position:absolute;
-	left:170px;
+	left:200px;
 	top:100px;
   }
   #high
   {
     color:white;
     position:absolute;
-	left:210px;
+	left:150px;
 	top:120px;
   }
   #button{
@@ -56,22 +56,36 @@
   #note{
     color:white;
     position:absolute;
-	left:500px;
 	top:100px;
+
+  }
+  #myP2{
+    color:red;
+    position:absolute;
+        left:580px;
+	top:120px;
+
+  }
+  #myP{
+    position:absolute;
+        left:680px;
+	top:140px;
 
   }
   </style>
 </head>
 <body>
-<p id="p1">SCORE:</p>
-<p id="p2">HIGHSCORE:</p>
+<p id="p1">RESOURCES:</p>
+<p id="p2">HIGH:</p>
 <p id="score"></p>
 <p id="high"></p>
-<p id="note">There should be a button that allows you to continue once you get 300 points</p>
-
+<center><p id="note">Mission #1:Gather 300 resources to last you for your trip to Earth.</p></center>
+<p id="myP2">You have succesfully collected 300 resources!</p>
+<p id="myP"><a href="{{ url_for('computation') }}"><button type="button" class="btn btn-success">continue!</button></a></p>
 <canvas width="400" height="400" id="game"></canvas>
 
-<p id="myP"><a href="{{ url_for('level3') }}"><button type="button" class="btn btn-success">continue!</button></a></p>
+
+
 
 <script>
 var canvas = document.getElementById('game');
@@ -95,7 +109,7 @@ var snake = {
   cells: [],
 
   // length of the snake. grows when eating an apple
-  maxCells:100
+  maxCells:4
 };
 var apple = {
   x: 320,
@@ -110,14 +124,18 @@ function getRandomInt(min, max) {
 // game loop
 function loop() {
   requestAnimationFrame(loop);
-  if(score>30){
+  if(score>9){
     document.getElementById("myP").style.visibility = "visible";
+    document.getElementById("myP2").style.display = "block";
   }
-  else if(max>30){
+  //change to 299 later
+  else if(max>9){
     document.getElementById("myP").style.visibility = "visible";
+    document.getElementById("myP2").style.display = "block";
   }
 else{
   document.getElementById("myP").style.visibility = "hidden";
+  document.getElementById("myP2").style.display = "none";
 }
   // slow game loop to 15 fps instead of 60 (60/15 = 4)
   if (++count < 4) {
