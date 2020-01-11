@@ -71,29 +71,43 @@ p {
     };
   }
   function initializeClock(id, endtime){
-  var clock = document.getElementById(id);
-  var timeinterval = setInterval(function(){
-    var t = getTimeRemaining(endtime);
-    clock.innerHTML = t.minutes + ' minutes ' + 'and ' +
-                      t.seconds + ' seconds ';
-    if(t.total<=0){
-      clearInterval(timeinterval);
-    }
-  },1000);
-}
+    var clock = document.getElementById(id);
+    var timeinterval = setInterval(function(){
+      var t = getTimeRemaining(endtime);
+      clock.innerHTML = t.minutes + ' minutes ' + 'and ' +
+      t.seconds + ' seconds ';
+      if(t.total<=0){
+        clearInterval(timeinterval);
+      }
+    },1000);
+  }
 
 
   function timeRemaining()
-  	{
+  {
+    var timeInMinutes = 10;
+    var currentTime = Date.parse(new Date());
+    // if there's a cookie with the name myClock, use that value as the deadline
+    if(document.cookie && document.cookie.match('myClock')){
+      // get deadline value from cookie
+      var deadline = document.cookie.match(/(^|;)myClock=([^;]+)/)[2];
+    }
+    // otherwise, set a deadline 10 minutes from now and
+    // save it in a cookie with that name
+    else{
+      // create deadline 10 minutes from now
       var timeInMinutes = 10;
       var currentTime = Date.parse(new Date());
       var deadline = new Date(currentTime + timeInMinutes*60*1000);
-      initializeClock('clockdiv', deadline);
-      var timeLeft = getTimeRemaining(deadline).minutes
-  	document.forms[0].minutes.value = timeLeft;
+      // store deadline in cookie for future reference
+      document.cookie = 'myClock=' + deadline + '; path=/';
+    }
+    initializeClock('clockdiv', deadline);
+    document.forms[0].minutes.value = timeLeft;
     document.getElementById('output').innerHTML = timeLeft;
 
-  	}
+  }
+
 
 </script>
 

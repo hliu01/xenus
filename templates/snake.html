@@ -3,124 +3,138 @@
 {% block body %}
 <!DOCTYPE html>
 <head>
-  <title></title>
-  <style>
-  html, body {
-    height: 100%;
-    margin: 0;
-  }
-  body {
-    background: black;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  canvas {
-    border: 1px solid white;
-  }
+<title></title>
+<style>
+html, body {
+  height: 100%;
+  margin: 0;
+}
+body {
+  background: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+canvas {
+  border: 1px solid white;
+}
 
-  #p1
-  {
-    color:red;
-	position:absolute;
-	left:100px;
-	top:100px;
-  }
-    #p2
-  {
-    color:red;
-    position:absolute;
-    left:100px;
-    top:120px;
-  }
-  #score
-  {
-    color:white;
-    position:absolute;
-    left:200px;
-    top:100px;
-  }
-  #high
-  {
-    color:white;
-    position:absolute;
-    left:150px;
-    top:120px;
-  }
-  #button{
-    position:absolute;
-    left:1300px;
-    top:700px;
+#p1
+{
+  color:red;
+  position:absolute;
+  left:100px;
+  top:100px;
+}
+#p2
+{
+  color:red;
+  position:absolute;
+  left:100px;
+  top:120px;
+}
+#score
+{
+  color:white;
+  position:absolute;
+  left:200px;
+  top:100px;
+}
+#high
+{
+  color:white;
+  position:absolute;
+  left:150px;
+  top:120px;
+}
+#button{
+  position:absolute;
+  left:1300px;
+  top:700px;
 
+}
+#note{
+  color:white;
+  position:absolute;
+  top:100px;
+
+}
+#myP2{
+  color:red;
+  position:absolute;
+  left:580px;
+  top:120px;
+
+}
+#myP{
+  position:absolute;
+  top:80px;
+
+}
+</style>
+</head>
+<body>
+<p id="p1">RESOURCES:</p>
+<p id="p2">HIGH:</p>
+<p id="score"></p>
+<p id="high"></p>
+<center><p id="note">Mission #1:Gather 300 resources to last you for your trip to Earth.</p></center>
+<center><p id="myP2">You have succesfully collected 300 resources!</p></center>
+<p id="myP"><a href="{{ url_for('computation') }}"><button type="button" class="btn btn-success">continue!</button></a></p>
+<canvas width="400" height="400" id="game"></canvas>
+
+<p id="demo"></p>
+<script>
+
+function getTimeRemaining(endtime){
+  var t = Date.parse(endtime) - Date.parse(new Date());
+  var seconds = Math.floor( (t/1000) % 60 );
+  var minutes = Math.floor( (t/1000/60) % 60 );
+  return {
+    'total': t,
+    'minutes': minutes,
+    'seconds': seconds
+  };
+}
+function initializeClock(id, endtime){
+  var clock = document.getElementById(id);
+  var timeinterval = setInterval(function(){
+    var t = getTimeRemaining(endtime);
+    clock.innerHTML = t.minutes + ' minutes ' + 'and ' +
+    t.seconds + ' seconds ';
+    if(t.total<=0){
+      clearInterval(timeinterval);
+    }
+  },1000);
+}
+
+
+function timeRemaining()
+{
+  var timeInMinutes = 10;
+  var currentTime = Date.parse(new Date());
+  // if there's a cookie with the name myClock, use that value as the deadline
+  if(document.cookie && document.cookie.match('myClock')){
+    // get deadline value from cookie
+    var deadline = document.cookie.match(/(^|;)myClock=([^;]+)/)[2];
   }
-  #note{
-    color:white;
-    position:absolute;
-    top:100px;
-
-  }
-  #myP2{
-    color:red;
-    position:absolute;
-    left:580px;
-    top:120px;
-
-  }
-  #myP{
-    position:absolute;
-    left:680px;
-    top:140px;
-
-  }
-  </style>
-  </head>
-  <body>
-  <p id="p1">RESOURCES:</p>
-  <p id="p2">HIGH:</p>
-  <p id="score"></p>
-  <p id="high"></p>
-  <center><p id="note">Mission #1:Gather 300 resources to last you for your trip to Earth.</p></center>
-  <p id="myP2">You have succesfully collected 300 resources!</p>
-  <p id="myP"><a href="{{ url_for('computation') }}"><button type="button" class="btn btn-success">continue!</button></a></p>
-  <canvas width="400" height="400" id="game"></canvas>
-
-  <p id="demo"></p>
-  <script>
-  function getTimeRemaining(endtime){
-    var t = Date.parse(endtime) - Date.parse(new Date());
-    var seconds = Math.floor( (t/1000) % 60 );
-    var minutes = Math.floor( (t/1000/60) % 60 );
-    return {
-      'total': t,
-      'minutes': minutes,
-      'seconds': seconds
-    };
-  }
-  function initializeClock(id, endtime){
-    var clock = document.getElementById(id);
-    var timeinterval = setInterval(function(){
-      var t = getTimeRemaining(endtime);
-      clock.innerHTML = t.minutes + ' minutes ' + 'and ' +
-      t.seconds + ' seconds ';
-      if(t.total<=0){
-        clearInterval(timeinterval);
-      }
-    },1000);
-  }
-
-
-
-  function timeRemaining()
-  {
-    var timeInMinutes = "{{ minutes}}";
+  // otherwise, set a deadline 10 minutes from now and
+  // save it in a cookie with that name
+  else{
+    // create deadline 10 minutes from now
+    var timeInMinutes = 10;
     var currentTime = Date.parse(new Date());
     var deadline = new Date(currentTime + timeInMinutes*60*1000);
-    var timeLeft = getTimeRemaining(deadline).minutes
-    initializeClock('clockdiv', deadline);
-    document.forms[0].minutes.value = timeLeft*60;
-    document.getElementById('output').innerHTML = timeLeft;
-
+    // store deadline in cookie for future reference
+    document.cookie = 'myClock=' + deadline + '; path=/';
   }
+  initializeClock('clockdiv', deadline);
+  document.forms[0].minutes.value = timeLeft;
+  document.getElementById('output').innerHTML = timeLeft;
+
+}
+
+
 
 var canvas = document.getElementById('game');
 var context = canvas.getContext('2d');
@@ -159,19 +173,19 @@ function getRandomInt(min, max) {
 // game loop
 function loop() {
   requestAnimationFrame(loop);
-  if(score>9){
+  if(score>29){
     document.getElementById("myP").style.visibility = "visible";
     document.getElementById("myP2").style.display = "block";
   }
   //change to 299 later
-  else if(max>9){
+  else if(max>29){
     document.getElementById("myP").style.visibility = "visible";
     document.getElementById("myP2").style.display = "block";
   }
-else{
-  document.getElementById("myP").style.visibility = "hidden";
-  document.getElementById("myP2").style.display = "none";
-}
+  else{
+    document.getElementById("myP").style.visibility = "hidden";
+    document.getElementById("myP2").style.display = "none";
+  }
   // slow game loop to 15 fps instead of 60 (60/15 = 4)
   if (++count < 4) {
     return;
@@ -216,8 +230,8 @@ else{
       snake.maxCells++;
       score+=10;
 
-	  //max=score;
-	  document.getElementById('score').innerHTML=score;
+      //max=score;
+      document.getElementById('score').innerHTML=score;
 
       // canvas is 400x400 which is 25x25 grids
       apple.x = getRandomInt(0, 25) * grid;
@@ -225,37 +239,37 @@ else{
     }
     // check collision with all cells after this one (modified bubble sort)
     for (var i = index + 1; i < snake.cells.length; i++)
-	{
+    {
 
       // snake occupies same space as a body part. reset game
       if (cell.x === snake.cells[i].x && cell.y === snake.cells[i].y)
-	 {
-     if(score>10)
-     {
-      proceed = true;
-     }
+      {
+        if(score>10)
+        {
+          proceed = true;
+        }
 
 
-	    if(score>max)
-	    {
-	     max=score;
-	    }
+        if(score>max)
+        {
+          max=score;
+        }
 
-    	snake.x = 160;
+        snake.x = 160;
         snake.y = 160;
         snake.cells = [];
         snake.maxCells = 4;
         snake.dx = grid;
         snake.dy = 0;
-		score=0;
+        score=0;
         apple.x = getRandomInt(0, 25) * grid;
         apple.y = getRandomInt(0, 25) * grid;
-	    document.getElementById('high').innerHTML=max;
+        document.getElementById('high').innerHTML=max;
       }
     }
   }
 
-  );
+);
 
 }
 // listen to keyboard events to move the snake
@@ -291,12 +305,12 @@ requestAnimationFrame(loop);
 </script>
 <body onload="timeRemaining()">
 
-  <center><div>You have <span id="clockdiv"></span></div>
-    <form action="/snake">
-      <input id = "minutes" type="hidden" name="minutes" value = "">
-      <input type="submit" value = "continue">
-    </form>
-    </center>
+<center><div>You have <span id="clockdiv"></span></div>
+<form action="/snake">
+<input id = "minutes" type="hidden" name="minutes" value = "">
+<input type="submit" value = "continue">
+</form>
+</center>
 </body>
 
 </html>
