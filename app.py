@@ -134,22 +134,25 @@ def logout():
     return redirect(url_for("root"))
 
 def addUser(user, pswd, conf):
-  userList = updateUsers()
-  for row in userList:
-    if user == row[0]:
-      flash('Username already taken. Please try again.')
-      return False
-  if (pswd == conf):
-    # SQLite3 is being weird with threading, so I've created a separate object
     with sqlite3.connect(DB_FILE) as connection:
-      cur = connection.cursor()
-      q = "INSERT INTO USER VALUES('{}', '{}');".format(user, pswd) # Successfully registers new user
-      cur.execute(q)
-      connection.commit()
-    return True
-  else:
-    flash('Passwords do not match. Please try again.')
-    return False
+        cur = connection.cursor()
+        q = 'SELECT username, password FROM USER;'
+        foo = cur.execute(q)
+        userList = foo.fetchall()
+    for row in userList:
+        if user == row[0]:
+            flash('Username already taken. Please try again.')
+            return False
+    if (pswd == conf):
+        with sqlite3.connect(DB_FILE) as connection:
+            cur = connection.cursor()
+            q = "INSERT INTO USER VALUES('{}', '{}');".format(user, pswd) # Successfully registers new user
+            cur.execute(q)
+            connection.commit()
+        return True
+    else:
+        flash('Passwords do not match. Please try again.')
+        return False
 
 @app.route("/play")
 def play():
@@ -179,8 +182,7 @@ def profile():
 def snake():
     if "user" not in session:
         return redirect(url_for('root'))
-    minutes = request.args["minutes"]
-    return render_template("snake.html", heading = session["user"],sessionstatus = "user" in session, minutes = minutes)
+    return render_template("snake.html", heading = session["user"],sessionstatus = "user" in session)
 
 @app.route("/computation")
 def computation():

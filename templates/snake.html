@@ -47,28 +47,47 @@ canvas {
   left:150px;
   top:120px;
 }
-#button{
-  position:absolute;
-  left:1300px;
-  top:700px;
 
-}
-#note{
+#mission1{
   color:white;
   position:absolute;
+    left:520px;
   top:100px;
 
 }
-#myP2{
+#successMessage{
   color:red;
   position:absolute;
   left:580px;
-  top:120px;
+  top:135px;
 
 }
-#myP{
+#timeMessage{
+  color:white;
   position:absolute;
-  top:80px;
+  left:585px;
+  top:118px;
+
+}
+#computationButton{
+  color:white;
+  position:absolute;
+  left:660px;
+  top:160px;
+
+}
+#button{
+  color:white;
+  position:absolute;
+  left:580px;
+  top:130px;
+
+}
+#time{
+  color:white;
+  position:absolute;
+  left:645px;
+  top:118px;
 
 }
 </style>
@@ -78,11 +97,10 @@ canvas {
 <p id="p2">HIGH:</p>
 <p id="score"></p>
 <p id="high"></p>
-<center><p id="note">Mission #1:Gather 300 resources to last you for your trip to Earth.</p></center>
-<center><p id="myP2">You have succesfully collected 300 resources!</p></center>
-<p id="myP"><a href="{{ url_for('computation') }}"><button type="button" class="btn btn-success">continue!</button></a></p>
+<center><p id="mission1">Mission #1:Gather 300 resources to last you for your trip to Earth.</p></center>
+<p id="successMessage">You have succesfully collected 300 resources!</p>
+<p id="timeMessage">You have</p>
 <canvas width="400" height="400" id="game"></canvas>
-
 <p id="demo"></p>
 <script>
 
@@ -128,10 +146,7 @@ function timeRemaining()
     // store deadline in cookie for future reference
     document.cookie = 'myClock=' + deadline + '; path=/';
   }
-  initializeClock('clockdiv', deadline);
-  document.forms[0].minutes.value = timeLeft;
-  document.getElementById('output').innerHTML = timeLeft;
-
+  initializeClock('time', deadline);
 }
 
 
@@ -173,18 +188,18 @@ function getRandomInt(min, max) {
 // game loop
 function loop() {
   requestAnimationFrame(loop);
-  if(score>29){
-    document.getElementById("myP").style.visibility = "visible";
-    document.getElementById("myP2").style.display = "block";
+  if(score>5){
+    document.getElementById("computationButton").style.visibility = "visible";
+    document.getElementById("successMessage").style.display = "block";
   }
   //change to 299 later
-  else if(max>29){
-    document.getElementById("myP").style.visibility = "visible";
-    document.getElementById("myP2").style.display = "block";
+  else if(max>5){
+    document.getElementById("computationButton").style.visibility = "visible";
+    document.getElementById("successMessage").style.display = "block";
   }
   else{
-    document.getElementById("myP").style.visibility = "hidden";
-    document.getElementById("myP2").style.display = "none";
+    document.getElementById("computationButton").style.visibility = "hidden";
+    document.getElementById("successMessage").style.display = "none";
   }
   // slow game loop to 15 fps instead of 60 (60/15 = 4)
   if (++count < 4) {
@@ -304,13 +319,8 @@ document.addEventListener('keydown', function(e) {
 requestAnimationFrame(loop);
 </script>
 <body onload="timeRemaining()">
-
-<center><div>You have <span id="clockdiv"></span></div>
-<form action="/snake">
-<input id = "minutes" type="hidden" name="minutes" value = "">
-<input type="submit" value = "continue">
-</form>
-</center>
+  <center><div><span id="time"></span></div></center>
+<p id="computationButton"><a href="{{ url_for('computation') }}"><button type="button" class="btn btn-success">continue!</button></a></p>
 </body>
 
 </html>

@@ -90,7 +90,16 @@ p {
     // if there's a cookie with the name myClock, use that value as the deadline
     if(document.cookie && document.cookie.match('myClock')){
       // get deadline value from cookie
-      var deadline = document.cookie.match(/(^|;)myClock=([^;]+)/)[2];
+      if (deadline < 100){
+        var timeInMinutes = 10;
+        var currentTime = Date.parse(new Date());
+        var deadline = new Date(currentTime + timeInMinutes*60*1000);
+        // store deadline in cookie for future reference
+        document.cookie = 'myClock=' + deadline + '; path=/;';
+      }
+      else{
+        deadline = document.cookie.match(/(^|;)myClock=([^;]+)/)[2];
+      }
     }
     // otherwise, set a deadline 10 minutes from now and
     // save it in a cookie with that name
@@ -100,11 +109,9 @@ p {
       var currentTime = Date.parse(new Date());
       var deadline = new Date(currentTime + timeInMinutes*60*1000);
       // store deadline in cookie for future reference
-      document.cookie = 'myClock=' + deadline + '; path=/';
+      document.cookie = 'myClock=' + deadline + '; path=/; domain=.yourdomain.com';
     }
     initializeClock('clockdiv', deadline);
-    document.forms[0].minutes.value = timeLeft;
-    document.getElementById('output').innerHTML = timeLeft;
 
   }
 
@@ -116,7 +123,6 @@ p {
 
   <center><div>You have <span id="clockdiv"></span></div>
     <form action="/snake">
-      <input id = "minutes" type="hidden" name="minutes" value = "">
       <input type="submit" value = "continue">
     </form>
     </center>
