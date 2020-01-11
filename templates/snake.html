@@ -29,99 +29,98 @@
     #p2
   {
     color:red;
-	position:absolute;
-	left:100px;
-	top:120px;
+    position:absolute;
+    left:100px;
+    top:120px;
   }
   #score
   {
     color:white;
     position:absolute;
-	left:200px;
-	top:100px;
+    left:200px;
+    top:100px;
   }
   #high
   {
     color:white;
     position:absolute;
-	left:150px;
-	top:120px;
+    left:150px;
+    top:120px;
   }
   #button{
     position:absolute;
-	left:1300px;
-	top:700px;
+    left:1300px;
+    top:700px;
 
   }
   #note{
     color:white;
     position:absolute;
-	top:100px;
+    top:100px;
 
   }
   #myP2{
     color:red;
     position:absolute;
-        left:580px;
-	top:120px;
+    left:580px;
+    top:120px;
 
   }
   #myP{
     position:absolute;
-        left:680px;
-	top:140px;
+    left:680px;
+    top:140px;
 
   }
   </style>
-</head>
-<body>
-<p id="p1">RESOURCES:</p>
-<p id="p2">HIGH:</p>
-<p id="score"></p>
-<p id="high"></p>
-<center><p id="note">Mission #1:Gather 300 resources to last you for your trip to Earth.</p></center>
-<p id="myP2">You have succesfully collected 300 resources!</p>
-<p id="myP"><a href="{{ url_for('computation') }}"><button type="button" class="btn btn-success">continue!</button></a></p>
-<canvas width="400" height="400" id="game"></canvas>
+  </head>
+  <body>
+  <p id="p1">RESOURCES:</p>
+  <p id="p2">HIGH:</p>
+  <p id="score"></p>
+  <p id="high"></p>
+  <center><p id="note">Mission #1:Gather 300 resources to last you for your trip to Earth.</p></center>
+  <p id="myP2">You have succesfully collected 300 resources!</p>
+  <p id="myP"><a href="{{ url_for('computation') }}"><button type="button" class="btn btn-success">continue!</button></a></p>
+  <canvas width="400" height="400" id="game"></canvas>
 
-<p id="demo"></p>
-<script>
-  function startTimer(duration, display) {
-      var start = Date.now(),
-          diff,
-          minutes,
-          seconds;
-      function timer() {
-          // get the number of seconds that have elapsed since
-          // startTimer() was called
-          diff = duration - (((Date.now() - start) / 1000));
-
-          // does the same job as parseInt truncates the float
-          minutes = (diff / 60) | 0;
-          seconds = (diff % 60) | 0;
-
-          minutes = minutes < 10 ? "0" + minutes : minutes;
-          seconds = seconds < 10 ? "0" + seconds : seconds;
-
-          display.textContent = minutes + ":" + seconds;
-
-          if (diff <= 0) {
-              // add one second so that the count down starts at the full duration
-              // example 05:00 not 04:59
-              start = Date.now() + 1000;
-          }
-      };
-      // we don't want to wait a full second before the timer starts
-      timer();
-      setInterval(timer, 1000);
+  <p id="demo"></p>
+  <script>
+  function getTimeRemaining(endtime){
+    var t = Date.parse(endtime) - Date.parse(new Date());
+    var seconds = Math.floor( (t/1000) % 60 );
+    var minutes = Math.floor( (t/1000/60) % 60 );
+    return {
+      'total': t,
+      'minutes': minutes,
+      'seconds': seconds
+    };
   }
-  var min = "{{ minutes}}";
+  function initializeClock(id, endtime){
+    var clock = document.getElementById(id);
+    var timeinterval = setInterval(function(){
+      var t = getTimeRemaining(endtime);
+      clock.innerHTML = t.minutes + ' minutes ' + 'and ' +
+      t.seconds + ' seconds ';
+      if(t.total<=0){
+        clearInterval(timeinterval);
+      }
+    },1000);
+  }
 
-  window.onload = function () {
-      var tenMinutes = 60 * 10,
-          display = document.querySelector('#time');
-      startTimer(min, display);
-  };
+
+
+  function timeRemaining()
+  {
+    var timeInMinutes = "{{ minutes}}";
+    var currentTime = Date.parse(new Date());
+    var deadline = new Date(currentTime + timeInMinutes*60*1000);
+    var timeLeft = getTimeRemaining(deadline).minutes
+    initializeClock('clockdiv', deadline);
+    document.forms[0].minutes.value = timeLeft*60;
+    document.getElementById('output').innerHTML = timeLeft;
+
+  }
 
 var canvas = document.getElementById('game');
 var context = canvas.getContext('2d');
@@ -290,10 +289,16 @@ document.addEventListener('keydown', function(e) {
 // start the game
 requestAnimationFrame(loop);
 </script>
-<center><div>You have <span id="time"></span> minutes!</div></center>
+<body onload="timeRemaining()">
 
-
+  <center><div>You have <span id="clockdiv"></span></div>
+    <form action="/snake">
+      <input id = "minutes" type="hidden" name="minutes" value = "">
+      <input type="submit" value = "continue">
+    </form>
+    </center>
 </body>
+
 </html>
 
 {% endblock %}
