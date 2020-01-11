@@ -43,6 +43,7 @@
   <center>
     <h1>Level 1</h1>
     <p> You have successfully gathered the resources you needed. Now you need to hack into the spaceship. Use your computational acumen to successfully hack into the spaceship. </p>
+
   </center>
 </div>
 <head>
@@ -110,6 +111,27 @@ function timeRemaining()
 <body onload="timeRemaining()">
   <center><div>You have <span id="time"></span></div></center>
 </body>
+<div class = "form-group">
+   <form action = "/triviaresults" method='POST'>
+     <ol>
+       {% for i in q %}
+           <li class="lead">{{i|safe}}</li>
+           <div class="form-check">
+           {% for j in q[i] %}
+               <input required="true" class ="form-check-input" type='radio' value='{{j}}' name='{{i}}' />
+               <label class="form-check-label"> {{j|safe}} </label>
+               <br>
+           {% endfor %}
+           </div>
+           <br>
+       {% endfor %}
+       <br>
+     </ol>
+     <div class="text-center">
+       <button type="submit" class="btn btn-success btn-lg">Submit</button>
+     </div>
+   </form>
+ </div>
 
 
 <br><br><br>

@@ -9,6 +9,8 @@ import os
 from flask import flash
 import urllib.request, json
 from os import urandom
+import utl.dbfunctions as dbfunctions
+import urllib.request as urlrequest
 app = Flask(__name__)
 app.secret_key = urandom(32)
 
@@ -17,33 +19,8 @@ app.secret_key = urandom(32)
 #DATABASE SETUP
 DB_FILE = "Info.db"
 db = sqlite3.connect(DB_FILE)
-c = db.cursor()
-#Creates USER
-c.execute(''' SELECT count(name) FROM sqlite_master WHERE type='table' AND name='USER' ''')
-if c.fetchone()[0] < 1:
-    c.execute("CREATE TABLE USER(username TEXT, password TEXT);")
-    # TESTS
-    c.execute("INSERT INTO USER VALUES ('{}', '{}')".format("hliu00","hi"))
-    c.execute("INSERT INTO USER VALUES ('{}', '{}')".format("hliu01","hi"))
-
-#Creates Points
-c.execute(''' SELECT count(name) FROM sqlite_master WHERE type='table' AND name='POINTS' ''')
-if c.fetchone()[0] < 1:
-    c.execute("CREATE TABLE POINTS(username TEXT, points INTEGER);")
-    # TESTS
-    c.execute("INSERT INTO POINTS VALUES ('{}', '{}')".format("hliu00",2))
-    c.execute("INSERT INTO POINTS VALUES ('{}', '{}')".format("hliu00",1))
-
-#Creates REVIEWS
-c.execute(''' SELECT count(name) FROM sqlite_master WHERE type='table' AND name='STORIES' ''')
-if c.fetchone()[0] < 1:
-    c.execute("CREATE TABLE STORIES(storyid INTEGER, title TEXT, text BLOB);")
-    # TESTS
-    c.execute("INSERT INTO STORIES VALUES ('{}', '{}', '{}')".format(0, "DD", "0dswdwdw"))
-    c.execute("INSERT INTO STORIES VALUES ('{}', '{}', '{}')".format(1, "DD", "1dswdwdw"))
-    db.commit()
-    db.commit()
-    db.close()
+c = db.cursor() #facilitate db operations
+dbfunctions.setup()
 #-----------------------------------------------------------------
 
 # DICTIONARY FOR IMPORTANT SEARCH DATA
@@ -188,7 +165,13 @@ def snake():
 def computation():
     if "user" not in session:
         return redirect(url_for('root'))
-    return render_template("computation.html", heading = session["user"],sessionstatus = "user" in session)
+    with sqlite3.connect(DB_FILE) as connection:
+        c = connection.cursor()
+        q = 'SELECT question, one, two , three, four FROM TRIVIA;'
+        foo = c.execute(q)
+        List = foo.fetchall()
+        connection.commit()
+    return render_template('computation.html',q = List, heading = session["user"],sessionstatus = "user" in session)
 
 if __name__ == "__main__":
     app.debug = True
