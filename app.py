@@ -179,7 +179,8 @@ def profile():
 def snake():
     if "user" not in session:
         return redirect(url_for('root'))
-    return render_template("snake.html", heading = session["user"],sessionstatus = "user" in session)
+    minutes = request.args["minutes"]
+    return render_template("snake.html", heading = session["user"],sessionstatus = "user" in session, minutes = minutes)
 
 @app.route("/computation")
 def computation():
