@@ -90,9 +90,10 @@ p {
     // if there's a cookie with the name myClock, use that value as the deadline
     if(document.cookie && document.cookie.match('myClock')){
       // get deadline value from cookie
-      if (deadline < 100){
+      var check = document.cookie.match(/(^|;)myClock=([^;]+)/)[2];
+      var currentTime = Date.parse(new Date());
+      if (check < currentTime){
         var timeInMinutes = 10;
-        var currentTime = Date.parse(new Date());
         var deadline = new Date(currentTime + timeInMinutes*60*1000);
         // store deadline in cookie for future reference
         document.cookie = 'myClock=' + deadline + '; path=/;';
