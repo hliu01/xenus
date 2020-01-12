@@ -54,7 +54,7 @@ def addUser(user, pswd, conf):
 
 def quest(list):
     q = request.urlopen("https://opentdb.com/api.php?amount=10&category=19&type=multiple").read()
-    for i in range105):
+    for i in range(10):
         count = json.loads(q)['results'][i]
         ans = [count['correct_answer']]
         list[count['question']] = [*ans,*count['incorrect_answers']]

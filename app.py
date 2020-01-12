@@ -167,7 +167,7 @@ def computation():
         return redirect(url_for('root'))
     with sqlite3.connect(DB_FILE) as connection:
         c = connection.cursor()
-        q = 'SELECT question, one, two , three, four FROM TRIVIA;'
+        q = 'SELECT questions, one, two , three, four FROM TRIVIA;'
         foo = c.execute(q)
         List = foo.fetchall()
         connection.commit()

@@ -83,7 +83,7 @@ canvas {
   top:130px;
 
 }
-#time{
+#clockdiv{
   color:white;
   position:absolute;
   left:645px;
@@ -108,9 +108,11 @@ canvas {
 <center><p id="mission1">Mission #1:Gather 300 resources to last you for your trip to Earth.</p></center>
 <p id="successMessage">You have succesfully collected 300 resources!</p>
 <p id="timeMessage">You have</p>
+<center><div><span id="clockdiv"></span></div></center>
 <canvas width="400" height="400" id="game"></canvas>
 <p id="demo"></p>
 <script>
+
 
 function getTimeRemaining(endtime){
   var t = Date.parse(endtime) - Date.parse(new Date());
@@ -135,16 +137,13 @@ function initializeClock(id, endtime){
 }
 
 
-
 function timeRemaining()
 {
-  var timeInMinutes = 10;
-  var currentTime = Date.parse(new Date());
-  // if there's a cookie with the name myClock, use that value as the deadline
-  if(document.cookie && document.cookie.match('myClock4')){
+  // if there's a cookie with the name myClock52, use that value as the deadline
+  if(document.cookie && document.cookie.match('myClock5')){
     // get deadline value from cookie
-    var deadline = document.cookie.match(/(^|;)myClock4=([^;]+)/)[2];
-  }
+    var deadline = document.cookie.match(/(^|;)myClock5=([^;]+)/)[2];
+      }
   // otherwise, set a deadline 10 minutes from now and
   // save it in a cookie with that name
   else{
@@ -153,11 +152,14 @@ function timeRemaining()
     var currentTime = Date.parse(new Date());
     var deadline = new Date(currentTime + timeInMinutes*60*1000);
     // store deadline in cookie for future reference
-    document.cookie = 'myClock4=' + deadline + '; path=/';
+    var now = new Date();
+    var minutes = 10;
+    now.setTime(now.getTime() + (minutes * 60 * 1000));
+    document.cookie = 'myClock5=' + deadline + '; path=/;' + "expires=" + now.toUTCString() + ";";
   }
-  initializeClock('time', deadline);
-}
+  initializeClock('clockdiv', deadline);
 
+}
 
 
 var canvas = document.getElementById('game');
@@ -328,7 +330,6 @@ document.addEventListener('keydown', function(e) {
 requestAnimationFrame(loop);
 </script>
 <body onload="timeRemaining()">
-  <center><div><span id="time"></span></div></center>
   <form action="/computation">
     <input type="submit" value = "continue" id="computationButton" >
   </form>
