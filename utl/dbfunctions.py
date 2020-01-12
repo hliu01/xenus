@@ -14,7 +14,9 @@ def setup():
         c.execute("CREATE TABLE USER(username TEXT, password TEXT);")
         c.execute("INSERT INTO USER VALUES ('{}', '{}')".format("hliu00","hi"))
         c.execute("INSERT INTO USER VALUES ('{}', '{}')".format("hliu01","hi"))
-    addQuestionsToDatabase();
+    c.execute(''' SELECT count(name) FROM sqlite_master WHERE type='table' AND name='TRIVIA' ''')
+    if c.fetchone()[0] < 1:
+        addQuestionsToDatabase();
     db.commit()
     c.close()
     return

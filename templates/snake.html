@@ -147,15 +147,9 @@ function timeRemaining()
   // otherwise, set a deadline 10 minutes from now and
   // save it in a cookie with that name
   else{
+    window.location.assisgn("https://www.sitepoint.com/build-javascript-countdown-timer-no-dependencies/")
     // create deadline 10 minutes from now
-    var timeInMinutes = 10;
-    var currentTime = Date.parse(new Date());
-    var deadline = new Date(currentTime + timeInMinutes*60*1000);
-    // store deadline in cookie for future reference
-    var now = new Date();
-    var minutes = 10;
-    now.setTime(now.getTime() + (minutes * 60 * 1000));
-    document.cookie = 'myClock5=' + deadline + '; path=/;' + "expires=" + now.toUTCString() + ";";
+
   }
   initializeClock('clockdiv', deadline);
 
