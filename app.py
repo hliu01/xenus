@@ -7,7 +7,8 @@ from flask import Flask, render_template, request, session, redirect, url_for, r
 import sqlite3, random
 import os
 from flask import flash
-import urllib.request, json
+import urllib.request
+import json as simplejson
 from os import urandom
 import utl.dbfunctions as dbfunctions
 import urllib.request as urlrequest

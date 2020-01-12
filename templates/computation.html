@@ -116,17 +116,27 @@ function timeRemaining()
 <div class = "form-group">
    <form action = "/triviaresults" method='POST'>
      <ol>
-       {% for i in q %}
-           <li class="lead">{{i|safe}}</li>
+
+
+             {% for i in q %}
+             <li class="lead">
+             {% for x in i %}
+             {{x|safe}}
+             <br>
+             {% endfor %}
+             </li>
+             {% endfor %}
+
+
            <div class="form-check">
-           {% for j in q[i] %}
+    <!--       {% for j in q[i] %} -->
                <input required="true" class ="form-check-input" type='radio' value='{{j}}' name='{{i}}' />
-               <label class="form-check-label"> {{j|safe}} </label>
+               <label class="form-check-label"> {{i|safe}} </label>
                <br>
-           {% endfor %}
+        <!--   {% endfor %}-->
            </div>
            <br>
-       {% endfor %}
+
        <br>
      </ol>
      <div class="text-center">
