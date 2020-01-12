@@ -168,6 +168,7 @@ def computation():
         return redirect(url_for('root'))
     with sqlite3.connect(DB_FILE) as connection:
         c = connection.cursor()
+        dbfunctions.addQuestionsToDatabase()
         q = 'SELECT questions, one, two , three, four FROM TRIVIA;'
         foo = c.execute(q)
         List = foo.fetchall()

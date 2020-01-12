@@ -66,10 +66,13 @@ def quest(list):
 def addQuestionsToDatabase():
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
+    c.execute('DROP TABLE IF EXISTS TRIVIA')
     c.execute('CREATE TABLE IF NOT EXISTS TRIVIA (questions TEXT, one TEXT, two TEXT, three TEXT, four TEXT)')
     """Adds questions and choices into the database"""
     que = {}
     que = quest(que)
-    c.execute('INSERT INTO TRIVIA VALUES (?, ?, ?, ?, ?)', (ques, que[ques][0], que[ques][1], que[ques][2], que[ques][3]))
+    for i in range(10):
+        ques = list(que)[i]
+        c.execute('INSERT INTO TRIVIA VALUES (?, ?, ?, ?, ?)', (str(ques), str(que[ques][0]), str(que[ques][1]), str(que[ques][2]), str(que[ques][3])))
     db.commit()
     db.close()
