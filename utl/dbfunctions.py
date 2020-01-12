@@ -68,6 +68,8 @@ def addQuestionsToDatabase():
     c = db.cursor()
     c.execute('DROP TABLE IF EXISTS TRIVIA')
     c.execute('CREATE TABLE IF NOT EXISTS TRIVIA (questions TEXT, one TEXT, two TEXT, three TEXT, four TEXT)')
+    c.execute('DROP TABLE IF EXISTS answers')
+    c.execute('CREATE TABLE IF NOT EXISTS answers (answer TEXT)')
     """Adds questions and choices into the database"""
     que = {}
     que = quest(que)
