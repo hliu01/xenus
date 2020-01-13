@@ -6,18 +6,59 @@
 
 {% block body %}
     <div class=container-fluid>
+        {% if gameStarted %}
         <div class=row>
-            {% for card in ourcards%}
-                <div class = col-sm>
-                    <img src={{card}}>
-                </div>
-        </div>
-        <h1 class="display-5"> Your Cards</h1>
-        <div class=row>
-            {% for card in usercards%}
-                <div class = col-sm>
-                    <img src={{card}}>
-                </div>
-        </div>
-        <button type="button" id="draw">HIT ME</button>
+                {% if userMove %}
+                    <h1 class="display-3"> The House</h1>
+                    <div class=row>
+                        <div class = col-sm>
+                            <img src={{ourcards[0][0]}}>
+                        </div>
+                        <div class = col-sm>
+                            <img src="https://bicyclecards.com/wp-content/uploads/2015/06/Oak-Leaf-Back.jpg">
+                        </div>
+                        <h1 class="display-4">Our Score:{{ourscore}}</h1>
+                    </div>
+                    <br>
+                    <h1 class="display-3"> Your Cards</h1>
+                    <div class=row>
+                        {% for card in usercards%}
+                        <div class = col-sm>
+                            <img src={{card[0]}}>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <center><h1><a href="/draw"><button type="button" class="btn btn-success">HIT ME</button></a></h1></center>
+                    <center><h1><a href="/houseblackjack"><button type="button" class="btn btn-success">STAY</button></a></h1></center>
+                    <h1 class="display-4">Your Score:{{userscore}}</h1>
+                {% else %}
+                    <h1 class="display-3"> The House</h1>
+                    <br>
+                    <div class=row>
+                        {% for card in ourcards%}
+                            <div class = col-sm>
+                                <img src={{card[0]}}>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <h1 class="display-4">Our Score:{{ourscore}}</h1>
+                    <br>
+                    <h1 class="display-3"> Your Cards</h1>
+                    <div class=row>
+                        {% for card in usercards%}
+                        <div class = col-sm>
+                            <img src={{card[0]}}>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <h1 class="display-4">Your Score:{{userscore}}</h1>
+                    <br>
+                {% endif %}
+            </div>
+            <br>
+            <br>
+            <br>
+        {% else %}
+            <center><h1><a href="/playblackjack"><button type="button" class="btn btn-success">START GAME</button></a></h1></center>
+        {% endif %}
 {% endblock %}

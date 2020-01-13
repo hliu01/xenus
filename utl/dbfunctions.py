@@ -24,7 +24,6 @@ def setup():
 def userExists(user):
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
-    print("username")
     c.execute("SELECT username FROM users WHERE username = ?;",(user,))
     m = c.fetchall()
     if (m == []):
@@ -53,6 +52,8 @@ def addUser(user, pswd, conf):
     else:
         flash('Passwords do not match. Please try again.')
         return False
+
+
 
 def quest(list):
     q = request.urlopen("https://opentdb.com/api.php?amount=10&category=19&type=multiple").read()

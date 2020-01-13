@@ -11,6 +11,7 @@ import urllib.request
 import json as simplejson
 from os import urandom
 import utl.dbfunctions as dbfunctions
+import utl.blackjack as blackjack
 import urllib.request as urlrequest
 app = Flask(__name__)
 app.secret_key = urandom(32)
@@ -161,6 +162,84 @@ def snake():
     if "user" not in session:
         return redirect(url_for('root'))
     return render_template("snake.html", heading = session["user"],sessionstatus = "user" in session)
+
+@app.route("/blackjack")
+def startBlackJack():
+    blackjack.newGame()
+    url = "https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=6"
+    req = urlrequest.Request(url,headers={'User-Agent': 'Mozilla/5.0'})
+    req = urlrequest.urlopen(req)
+    res = req.read()
+    deck = simplejson.loads(res)
+    session['deckid'] = deck["deck_id"]
+    shuffle()
+    users = blackjack.getusercards()
+    ours =  blackjack.getourcards()
+    print(users)
+    print(ours)
+    return render_template('blackjack.html',gameStarted = False)
+
+def shuffle():
+    if not ('deckid' in session):
+        return url_for('startBlackJack')
+    url = "https://deckofcardsapi.com/api/deck/" + session['deckid'] + "/shuffle/?deck_count=6"
+    req = urlrequest.Request(url,headers={'User-Agent': 'Mozilla/5.0'})
+    req = urlrequest.urlopen(req)
+    res = req.read()
+    deck = simplejson.loads(res)
+    return True
+
+@app.route("/draw")
+def drawCard():
+    if not ('deckid' in session):
+        return redirect(url_for('startBlackJack'))
+    url = "https://deckofcardsapi.com/api/deck/" + session['deckid'] +"/draw/?count=1"
+    req = urlrequest.Request(url,headers={'User-Agent': 'Mozilla/5.0'})
+    req = urlrequest.urlopen(req)
+    res = req.read()
+    card = simplejson.loads(res)['cards'][0]
+    print(card)
+    blackjack.userdraw(card['image'],card['value'])
+    return redirect(url_for('playBlackJack'))
+
+def housedrawCard():
+    if not ('deckid' in session):
+        return redirect(url_for('startBlackJack'))
+    url = "https://deckofcardsapi.com/api/deck/" + session['deckid'] +"/draw/?count=1"
+    req = urlrequest.Request(url,headers={'User-Agent': 'Mozilla/5.0'})
+    req = urlrequest.urlopen(req)
+    res = req.read()
+    card = simplejson.loads(res)['cards'][0]
+    print(card)
+    blackjack.wedraw(card['image'],card['value'])
+    return
+
+@app.route("/playblackjack")
+def playBlackJack():
+    users = blackjack.getusercards()
+    ours =  blackjack.getourcards()
+    if (ours == []):
+        housedrawCard()
+        housedrawCard()
+        ours =  blackjack.getourcards()
+        housemove = False
+    uscore = blackjack.getUserScore()
+    oscore = blackjack.getOurScore()
+    print(users)
+    print(ours)
+    return render_template('blackjack.html',gameStarted =True,userMove = True,ourcards = ours,ourscore = oscore,usercards = users,userscore =uscore)
+
+@app.route("/houseblackjack")
+def houseBlackJack():
+    users = blackjack.getusercards()
+    ours =  blackjack.getourcards()
+    uscore = blackjack.getUserScore()
+    oscore = blackjack.getOurScore()
+    if (uscore > oscore):
+        housedrawCard()
+    print(users)
+    print(ours)
+    return render_template('blackjack.html',gameStarted =True,userMove = False,ourcards = ours,ourscore = oscore,usercards = users,userscore = uscore)
 
 @app.route("/computation")
 def computation():
