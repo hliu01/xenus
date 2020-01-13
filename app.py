@@ -23,6 +23,8 @@ DB_FILE = "Info.db"
 db = sqlite3.connect(DB_FILE)
 c = db.cursor() #facilitate db operations
 dbfunctions.setup()
+db.commit()
+db.close()
 #-----------------------------------------------------------------
 
 # DICTIONARY FOR IMPORTANT SEARCH DATA
@@ -177,7 +179,7 @@ def startBlackJack():
     ours =  blackjack.getourcards()
     print(users)
     print(ours)
-    return render_template('blackjack.html',gameStarted = False)
+    return render_template('blackjack.html',gameOver = False,gameStarted = False)
 
 def shuffle():
     if not ('deckid' in session):
@@ -218,16 +220,17 @@ def housedrawCard():
 def playBlackJack():
     users = blackjack.getusercards()
     ours =  blackjack.getourcards()
+    uscore = blackjack.getUserScore()
+    oscore = "?"
     if (ours == []):
         housedrawCard()
         housedrawCard()
         ours =  blackjack.getourcards()
-        housemove = False
-    uscore = blackjack.getUserScore()
-    oscore = blackjack.getOurScore()
+    if (uscore > 21):
+        return render_template('blackjack.html',gameOver = True, userWin = False)
     print(users)
     print(ours)
-    return render_template('blackjack.html',gameStarted =True,userMove = True,ourcards = ours,ourscore = oscore,usercards = users,userscore =uscore)
+    return render_template('blackjack.html',gameOver = False ,gameStarted =True,userMove = True,ourcards = ours,ourscore = oscore,usercards = users,userscore =uscore)
 
 @app.route("/houseblackjack")
 def houseBlackJack():
@@ -237,9 +240,28 @@ def houseBlackJack():
     oscore = blackjack.getOurScore()
     if (uscore > oscore):
         housedrawCard()
+    if (uscore > 21):
+        return render_template('blackjack.html',gameOver = True, userWin = True)
     print(users)
     print(ours)
-    return render_template('blackjack.html',gameStarted =True,userMove = False,ourcards = ours,ourscore = oscore,usercards = users,userscore = uscore)
+    return render_template('blackjack.html',gameOver = False ,gameStarted =True,userMove = False,ourcards = ours,ourscore = oscore,usercards = users,userscore = uscore)
+
+@app.route("/typeracer")
+def typeracer():
+    if "user" not in session:
+        return redirect(url_for('root'))
+    return render_template("typeracer.html", heading = session["user"],sessionstatus = "user" in session)
+
+@app.route('/checktyperacer', methods=['POST'])
+def checktyperacer():
+    if "user" not in session:
+        return redirect(url_for('root'))
+    comment = request.form['comment']
+    if comment == "hi":
+        return render_template("checktyperacer.html", heading = session["user"],sessionstatus = "user" in session)
+    else:
+        return render_template("typeracer.html", heading = session["user"],sessionstatus = "user" in session)
+
 
 @app.route("/computation")
 def computation():

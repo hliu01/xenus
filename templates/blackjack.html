@@ -5,53 +5,71 @@
 {% endblock %}
 
 {% block body %}
+    <style>
+        div{
+            display:inline;
+        }
+    </style>
+    {% if gameOver %}
+        {% if userWin %}
+            <h3>WINNER WINNER</h3>
+            <br>
+            <center><h1><a href="/startBlackJack"><button type="button" class="btn btn-success">Play Again?</button></a></h1></center>
+        {% else %}
+            <br>
+            <br>
+            <br>
+            <h3>AT LEAST YOU TRIED, next time try harder</h3>
+            <br>
+            <center><h1><a href="/startBlackJack"><button type="button" class="btn btn-success">Redemption?</button></a></h1></center>
+        {% endif %}
+    {% endif %}
     <div class=container-fluid>
         {% if gameStarted %}
-        <div class=row>
                 {% if userMove %}
                     <h1 class="display-3"> The House</h1>
-                    <div class=row>
-                        <div class = col-sm>
+                    <div class="row">
+                        <div class = "col">
                             <img src={{ourcards[0][0]}}>
                         </div>
-                        <div class = col-sm>
+                        <div class = "col">
                             <img src="https://bicyclecards.com/wp-content/uploads/2015/06/Oak-Leaf-Back.jpg">
                         </div>
-                        <h1 class="display-4">Our Score:{{ourscore}}</h1>
+                        <h3 class="display-4">Our Score: {{ourscore}}</h3>
                     </div>
                     <br>
                     <h1 class="display-3"> Your Cards</h1>
-                    <div class=row>
+                    <div class="row">
                         {% for card in usercards%}
-                        <div class = col-sm>
+                        <div class = "col">
                             <img src={{card[0]}}>
                         </div>
                         {% endfor %}
                     </div>
                     <center><h1><a href="/draw"><button type="button" class="btn btn-success">HIT ME</button></a></h1></center>
                     <center><h1><a href="/houseblackjack"><button type="button" class="btn btn-success">STAY</button></a></h1></center>
-                    <h1 class="display-4">Your Score:{{userscore}}</h1>
+                    <h3 class="display-4">Your Score: {{userscore}}</h3>
                 {% else %}
                     <h1 class="display-3"> The House</h1>
                     <br>
-                    <div class=row>
+                    <div class="row">
                         {% for card in ourcards%}
-                            <div class = col-sm>
+                            <div class = "col">
                                 <img src={{card[0]}}>
                             </div>
                         {% endfor %}
                     </div>
-                    <h1 class="display-4">Our Score:{{ourscore}}</h1>
+                    <h3 class="display-4">Our Score: {{ourscore}}</h3>
                     <br>
                     <h1 class="display-3"> Your Cards</h1>
-                    <div class=row>
+                    <div class="row">
                         {% for card in usercards%}
-                        <div class = col-sm>
+                        <div class = "col">
                             <img src={{card[0]}}>
                         </div>
                         {% endfor %}
                     </div>
-                    <h1 class="display-4">Your Score:{{userscore}}</h1>
+                    <h3 class="display-4">Your Score: {{userscore}}</h3>
                     <br>
                 {% endif %}
             </div>
@@ -59,6 +77,8 @@
             <br>
             <br>
         {% else %}
-            <center><h1><a href="/playblackjack"><button type="button" class="btn btn-success">START GAME</button></a></h1></center>
+            {% if not gameOver %}
+                <center><h1><a href="/playblackjack"><button type="button" class="btn btn-success">START GAME</button></a></h1></center>
+            {% endif %}
         {% endif %}
 {% endblock %}
