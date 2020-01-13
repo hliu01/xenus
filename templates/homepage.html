@@ -2,6 +2,7 @@
 
 {% block buttons %}
 {% if sessionstatus %}
+<html lang="en">
 <li class="nav-item">
   <a href="{{ url_for('play') }}" class="nav-link">Play</a>
 </li>
@@ -19,16 +20,19 @@
 <li class="nav-item">
   <a href="{{ url_for('register') }}" class="nav-link">Register</a>
 </li>
+
 {% endif %}
 {% endblock %}
 
 {% block body %}
-<a href="{{ url_for('root') }}" class="nav-link" style="color: black; padding: 0px;">
-<div class="jumbotron text-center" style="background-color: #aed6f1; border-radius: 0; margin-top:-16px;">
+
+
+<!--<a href="{{ url_for('root') }}" class="nav-link" style="color: black; padding: 0px;">-->
+<div class="jumbotron text-center" style="border-radius: 0; margin-top:-16px;">
   <h1>Escape the Xenus</h1>
   <p>Will You Overcome The Challenges?</p>
 </div>
-</a>
+<!---</a>--->
 
 {% if sessionstatus %}
 
@@ -43,12 +47,35 @@
 {% else %}
 <center>
 <br>
-<a href="{{ url_for('login') }}"><button type="button" class="btn btn-success">Log In</button></a>
+<a href="#bottom"><button type="button" class="btn btn-success">Overview</button></a>
 <br>
 <br>
-<p>Don't have an account? <a href="{{ url_for('register') }}">Register here.</a></p>
+<p><i>See what we're all about!</i></p>
 </center>
-<br><br><br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<!---------Gallery / Overview------>
+
+<center><h1>Gallery</h1>
+
+  <!--cool--->
+
+  <img src="images/spaceinvaders.png" class="img-fluid" alt="Responsive image">
+  <img src="images/blackjack.jpeg" class="img-fluid" alt="Responsive image">
+  <img src="images/snake.jpg" class="img-fluid" alt="Responsive image">
+
+</center>
+
+
+
 {% endif %}
 
 {% endblock %}

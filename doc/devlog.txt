@@ -50,9 +50,17 @@ Decided to make the puzzles timed
 Added in-depth explanation of different games/puzzles
 
 khanN -- 2020-01-10 1:07
-Worked on template.html 
+Worked on template.html
 Added a new html file (yet to make additions to it)
 It is quite late, and I may have made the navbar cleaner, but its functionality is far from good in the homepage
 I need to work on color scheme (black, blue, purple)
 will connect the hrefs appropriately
 Also created a new css file just for template.html
+
+khanN -- 2020-01-12 22:46
+Worked on template html, much cleaner UI
+Worked on homepage setup, cleaned it up a bit
+Login not much to add
+Same goes with register
+When trying to add pictures as backgrounds I am not able to display them, but I'm guessing it's due to my different
+Will fix this later**
