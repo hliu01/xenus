@@ -22,6 +22,8 @@ DB_FILE = "Info.db"
 db = sqlite3.connect(DB_FILE)
 c = db.cursor() #facilitate db operations
 dbfunctions.setup()
+db.commit()
+db.close()
 #-----------------------------------------------------------------
 
 # DICTIONARY FOR IMPORTANT SEARCH DATA
@@ -161,6 +163,24 @@ def snake():
     if "user" not in session:
         return redirect(url_for('root'))
     return render_template("snake.html", heading = session["user"],sessionstatus = "user" in session)
+
+
+@app.route("/typeracer")
+def typeracer():
+    if "user" not in session:
+        return redirect(url_for('root'))
+    return render_template("typeracer.html", heading = session["user"],sessionstatus = "user" in session)
+
+@app.route('/checktyperacer', methods=['POST'])
+def checktyperacer():
+    if "user" not in session:
+        return redirect(url_for('root'))
+    comment = request.form['comment']
+    if comment == "hi":
+        return render_template("checktyperacer.html", heading = session["user"],sessionstatus = "user" in session)
+    else:
+        return render_template("typeracer.html", heading = session["user"],sessionstatus = "user" in session)
+
 
 @app.route("/computation")
 def computation():
