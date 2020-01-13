@@ -41,8 +41,8 @@
 
 <div class="container-fluid">
   <center>
-    <h1>Level 1</h1>
-    <p> You have successfully gathered the resources you needed. Now you need to hack into the spaceship. Use your computational acumen to successfully hack into the spaceship. </p>
+    <h1>Level 2</h1>
+    <p> Congratulations, the message sent.</p>
 
   </center>
 </div>
@@ -87,10 +87,10 @@ function initializeClock(id, endtime){
 
 function timeRemaining()
 {
-  // if there's a cookie with the name myClock52, use that value as the deadline
-  if(document.cookie && document.cookie.match('myClock5')){
+  // if there's a cookie with the name myClock8, use that value as the deadline
+  if(document.cookie && document.cookie.match('myClock8')){
     // get deadline value from cookie
-    var deadline = document.cookie.match(/(^|;)myClock5=([^;]+)/)[2];
+    var deadline = document.cookie.match(/(^|;)myClock8=([^;]+)/)[2];
       }
   // otherwise, set a deadline 10 minutes from now and
   // save it in a cookie with that name
@@ -103,7 +103,7 @@ function timeRemaining()
     var now = new Date();
     var minutes = 10;
     now.setTime(now.getTime() + (minutes * 60 * 1000));
-    document.cookie = 'myClock5=' + deadline + '; path=/;' + "expires=" + now.toUTCString() + ";";
+    document.cookie = 'myClock8=' + deadline + '; path=/;' + "expires=" + now.toUTCString() + ";";
   }
   initializeClock('clockdiv', deadline);
 
@@ -113,43 +113,18 @@ function timeRemaining()
 <body onload="timeRemaining()">
   <center><div>You have <span id="clockdiv"></span></div></center>
 </body>
-<div class = "form-group">
-   <form action = "/triviaresults" method='POST'>
-     <ol>
-             {% for i in q %}
-
-             <li class="lead">
-               {{i[0]|safe}}
-                  <div class="form-check">
-                     <input required="true" class ="form-check-input" type='radio' value='{{i[1]}}' name='mathq' />
-                     <label class="form-check-label"> {{i[1]|safe}} </label>
-                     <br>
-                     <input required="true" class ="form-check-input" type='radio' value='{{i[2]}}' name='mathq' />
-                     <label class="form-check-label"> {{i[2]|safe}} </label>
-                     <br>
-                     <input required="true" class ="form-check-input" type='radio' value='{{i[3]}}' name='mathq' />
-                     <label class="form-check-label"> {{i[3]|safe}} </label>
-                     <br>
-                     <input required="true" class ="form-check-input" type='radio' value='{{i[4]}}' name='mathq' />
-                     <label class="form-check-label"> {{i[4]|safe}} </label>
-                     <br>
-
-                 </div>
-
-             </li>
-             {% endfor %}
 
 
-           <br>
+<center>
+Read the email that Earth has sent to you
+Insert image of email
+Press continue to play blackjack to make money
+<br><br><br>
+<form action="/blackjack">
+  <input type="submit" value = "continue" id="blackjackButton" >
+</form>
 
-       <br>
-     </ol>
-     <div class="text-center">
-       <button type="submit" class="btn btn-success btn-lg">Submit</button>
-     </div>
-   </form>
- </div>
-
+</center>
 
 <br><br><br>
 

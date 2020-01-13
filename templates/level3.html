@@ -34,14 +34,78 @@
 {% block searchresults %}
 <div class="container-fluid">
   <center>
-      <h1>Room 3</h1>
-        <p> Earth is in sight! You want to communicate to Earth people telling them that you have arrived.
- </p>
+      <h1>Level 3</h1>
+        <p> You must alert Earth that you have landed</p>
 
 
   </center>
 
 </div>
+
+<p id="demo"></p>
+
+<script>
+
+  function getTimeRemaining(endtime){
+    var t = Date.parse(endtime) - Date.parse(new Date());
+    var seconds = Math.floor( (t/1000) % 60 );
+    var minutes = Math.floor( (t/1000/60) % 60 );
+    return {
+      'total': t,
+      'minutes': minutes,
+      'seconds': seconds
+    };
+  }
+  function initializeClock(id, endtime){
+    var clock = document.getElementById(id);
+    var timeinterval = setInterval(function(){
+      var t = getTimeRemaining(endtime);
+      clock.innerHTML = t.minutes + ' minutes ' + 'and ' +
+      t.seconds + ' seconds ';
+      if(t.total<=0){
+        clearInterval(timeinterval);
+      }
+    },1000);
+  }
+
+
+  function timeRemaining()
+  {
+    // if there's a cookie with the name myClock9, use that value as the deadline
+    if(document.cookie && document.cookie.match('myClock9')){
+      // get deadline value from cookie
+      var deadline = document.cookie.match(/(^|;)myClock9=([^;]+)/)[2];
+        }
+    // otherwise, set a deadline 10 minutes from now and
+    // save it in a cookie with that name
+    else{
+      // create deadline 10 minutes from now
+      var timeInMinutes = 10;
+      var currentTime = Date.parse(new Date());
+      var deadline = new Date(currentTime + timeInMinutes*60*1000);
+      // store deadline in cookie for future reference
+      var now = new Date();
+      var minutes = 10;
+      now.setTime(now.getTime() + (minutes * 60 * 1000));
+      document.cookie = 'myClock9=' + deadline + '; path=/;' + "expires=" + now.toUTCString() + ";";
+    }
+    initializeClock('clockdiv', deadline);
+
+  }
+
+
+</script>
+
+
+<body onload="timeRemaining()">
+
+  <center><div>You have <span id="clockdiv"></span></div>
+    <form action="/typeracer2">
+      <input type="submit" value = "continue">
+
+    </form>
+    </center>
+</body>
 
 <br><br><br>
 

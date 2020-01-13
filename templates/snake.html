@@ -139,15 +139,15 @@ function initializeClock(id, endtime){
 
 function timeRemaining()
 {
-  // if there's a cookie with the name myClock52, use that value as the deadline
-  if(document.cookie && document.cookie.match('myClock5')){
+  // if there's a cookie with the name myClock72, use that value as the deadline
+  if(document.cookie && document.cookie.match('myClock7')){
     // get deadline value from cookie
-    var deadline = document.cookie.match(/(^|;)myClock5=([^;]+)/)[2];
+    var deadline = document.cookie.match(/(^|;)myClock7=([^;]+)/)[2];
       }
   // otherwise, set a deadline 10 minutes from now and
   // save it in a cookie with that name
   else{
-    window.location.assisgn("https://www.sitepoint.com/build-javascript-countdown-timer-no-dependencies/")
+    window.location.replace("/level1")
     // create deadline 10 minutes from now
 
   }

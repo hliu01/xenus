@@ -41,9 +41,8 @@
 
 <div class="container-fluid">
   <center>
-    <h1>Level 2</h1>
-    <p> You want to send a message back to earth asking for a landing sight.</p>
-    <p> Copy the text below and press submit</p>
+    <h1>Level 3</h1>
+    <p> Congratulations, the email has been sent</p>
 
   </center>
 </div>
@@ -96,7 +95,7 @@ function timeRemaining()
   // otherwise, set a deadline 10 minutes from now and
   // save it in a cookie with that name
   else{
-    window.location.replace("/level2")
+    window.location.replace("/level3")
   }
   initializeClock('clockdiv', deadline);
 
@@ -109,14 +108,17 @@ function timeRemaining()
 
 
 <center>
-Insert image here of text
-for now: I need a landing sight
-<br><br><br>
+Read the email that Earth has sent to you
+Insert image of email: should say
+You are an invader.
+You are entering Earth’s atmosphere. Get ready for action.
+Play clo to test your luck and see if Earths air defenses will hit you
 
-<textarea form ="testformid" name="comment" id="taid" cols="35" wrap="soft"></textarea>
-<form action="/checktyperacer" method="post" id="testformid">
-    <input type="submit" />
+<br><br><br>
+<form action="/Congratulations">
+  <input type="submit" value = "continue" id="cloButton" >
 </form>
+
 </center>
 
 <br><br><br>
