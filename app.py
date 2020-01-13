@@ -211,6 +211,14 @@ def computation():
         connection.commit()
     return render_template('computation.html',q = List, heading = session["user"],sessionstatus = "user" in session)
 
+
+@app.route("/computationchecker",methods=["POST"])
+def computationchecker():
+    if "user" not in session:
+        return redirect(url_for('root'))
+    print(request.form)
+    return "woo"
+
 if __name__ == "__main__":
     app.debug = True
     app.run()

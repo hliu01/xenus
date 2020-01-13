@@ -106,35 +106,37 @@ function timeRemaining()
   <center><div>You have <span id="clockdiv"></span></div></center>
 </body>
 <div class = "form-group">
-   <form action = "/triviaresults" method='POST'>
      <ol>
              {% for i in q %}
+             <form method='POST'>
 
              <li class="lead">
                {{i[0]|safe}}
+
                   <div class="form-check">
-                     <input required="true" class ="form-check-input" type='radio' value='{{i[1]}}' name='mathq' />
+                     <input required="true" class ="form-check-input" type='radio' value='{{i[1]}}' name={{loop.index0}}/>
                      <label class="form-check-label"> {{i[1]|safe}} </label>
                      <br>
-                     <input required="true" class ="form-check-input" type='radio' value='{{i[2]}}' name='mathq' />
+                     <input required="true" class ="form-check-input" type='radio' value='{{i[2]}}' name={{loop.index0}} />
                      <label class="form-check-label"> {{i[2]|safe}} </label>
                      <br>
-                     <input required="true" class ="form-check-input" type='radio' value='{{i[3]}}' name='mathq' />
+                     <input required="true" class ="form-check-input" type='radio' value='{{i[3]}}' name={{loop.index0}} />
                      <label class="form-check-label"> {{i[3]|safe}} </label>
                      <br>
-                     <input required="true" class ="form-check-input" type='radio' value='{{i[4]}}' name='mathq' />
+                     <input required="true" class ="form-check-input" type='radio' value='{{i[4]}}' name={{loop.index0}} />
                      <label class="form-check-label"> {{i[4]|safe}} </label>
                      <br>
                  </div>
              </li>
+            </form>
              {% endfor %}
+
            <br>
        <br>
      </ol>
-     <div class="text-center">
-       <button type="submit" class="btn btn-success btn-lg">Submit</button>
-     </div>
-   </form>
+     <form action="/computationchecker" method="post" id="testformid">
+         <input type="submit" />
+     </form>
  </div>
 
 
