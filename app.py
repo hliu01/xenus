@@ -17,17 +17,7 @@ import random
 app = Flask(__name__)
 app.secret_key = urandom(32)
 
-#-----------------------------------------------------------------
-
-#DATABASE SETUP
 DB_FILE = "Info.db"
-db = sqlite3.connect(DB_FILE)
-c = db.cursor() #facilitate db operations
-dbfunctions.setup()
-db.commit()
-db.close()
-#-----------------------------------------------------------------
-
 # DICTIONARY FOR IMPORTANT SEARCH DATA
 searchdict = {}
 
@@ -325,7 +315,6 @@ def computationchecker():
     print(dict)
     with sqlite3.connect(DB_FILE) as connection:
         c = connection.cursor()
-        dbfunctions.addQuestionsToDatabase()
         q = 'SELECT answer FROM answers;'
         foo = c.execute(q)
         List = foo.fetchall()
@@ -336,7 +325,19 @@ def computationchecker():
         print(List[i])
         if dict[str(i)] == List[i][0]:
             score = score + 1
-    return str(score)
+    if score > 2:
+        return render_template("computationchecker.html", heading = session["user"],sessionstatus = "user" in session)
+    else:
+        if "user" not in session:
+            return redirect(url_for('root'))
+        with sqlite3.connect(DB_FILE) as connection:
+            c = connection.cursor()
+            q = 'SELECT questions, one, two , three, four FROM TRIVIA;'
+            foo = c.execute(q)
+            List = foo.fetchall()
+            connection.commit()
+        return render_template("computation.html", q = List, heading = session["user"],sessionstatus = "user" in session)
+
 
     #list of list answers
     #for each in list answers check if the anser is equal to dict[question]
