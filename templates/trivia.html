@@ -41,9 +41,10 @@
 
 <div class="container-fluid">
   <center>
-    <h1>Level 2</h1>
-    <p> You want to send a message back to earth asking for a landing sight.</p>
-    <p> Copy the text below and press submit</p>
+    <h1>Level 1</h1>
+    <p> You have successfully gathered the resources you needed. Now you need to hack into the spaceship. Use your mathematical knowledge to successfully hack into the spaceship.
+      Get at least 3 questions correct in do this. If you do not, you must retry.
+    </p>
 
   </center>
 </div>
@@ -88,15 +89,15 @@ function initializeClock(id, endtime){
 
 function timeRemaining()
 {
-  // if there's a cookie with the name myclock10, use that value as the deadline
-  if(document.cookie && document.cookie.match('myclock10')){
+  // if there's a cookie with the name myClock7, use that value as the deadline
+  if(document.cookie && document.cookie.match('myClock9')){
     // get deadline value from cookie
-    var deadline = document.cookie.match(/(^|;)myclock10=([^;]+)/)[2];
+    var deadline = document.cookie.match(/(^|;)myClock9=([^;]+)/)[2];
       }
   // otherwise, set a deadline 10 minutes from now and
   // save it in a cookie with that name
   else{
-    window.location.replace("/level2")
+    window.location.replace("/level1")
   }
   initializeClock('clockdiv', deadline);
 
@@ -106,18 +107,37 @@ function timeRemaining()
 <body onload="timeRemaining()">
   <center><div>You have <span id="clockdiv"></span></div></center>
 </body>
+<div class = "form-group">
+  <form action = "/triviachecker" method='POST'>
+    <ol>
+      {% for i in q %}
+      <li class="lead">{{i[0]|safe}}</li>
+      <div class="form-check">
+        <input required="true" class ="form-check-input" type='radio' value='{{i[1]}}' name='{{loop.index0}}' checked/>
+        <label class="form-check-label"> {{i[1]|safe}} </label>
+        <br>
+        <input required="true" class ="form-check-input" type='radio' value='{{i[2]}}' name='{{loop.index0}}' checked/>
+        <label class="form-check-label"> {{i[2]|safe}} </label>
+        <br>
+        <input required="true" class ="form-check-input" type='radio' value='{{i[3]}}' name='{{loop.index0}}' checked/>
+        <label class="form-check-label"> {{i[3]|safe}} </label>
+        <br>
+        <input required="true" class ="form-check-input" type='radio' value='{{i[4]}}' name='{{loop.index0}}' checked/>
+        <label class="form-check-label"> {{i[4]|safe}} </label>
+        <br>
+      </div>
+      <br>
+      {% endfor %}
+      <br>
+    </ol>
+    <div class="text-center">
+      <button type="submit" class="btn btn-success btn-lg">Submit</button>
+    </div>
+  </form>
+</div>
 
 
-<center>
-Insert image here of text
-for now: I need a landing sight
-<br><br><br>
 
-<textarea form ="testformid" name="comment" id="taid" cols="35" wrap="soft"></textarea>
-<form action="/checktyperacer" method="post" id="testformid">
-    <input type="submit" />
-</form>
-</center>
 
 <br><br><br>
 

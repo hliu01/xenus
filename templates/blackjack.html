@@ -1,95 +1,201 @@
-{% extends "template.html" %}
+{% extends "homepage.html" %}
 
 {% block css %}
+<style>
+  .col-lg{
+    margin: 15px;
+    padding: 20px;
+  }
+  .btn-primary, .btn-success, .btn-primary:hover, .btn-primary:active, .btn-primary:visited {
+    background-color: white !important;
+    border-color: black !important;
+    color: black !important;
+
+}
+  .footer-copyright{
+    padding: 6px;
+    margin-top: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    color: white; text-align: center;
+    border-top: solid;
+    border-color:lightgray;
+    border-width: 5px;
+  }
+
+  .submitLink {
+    background-color: transparent;
+    text-decoration: underline;
+    border: none;
+    color: blue;
+    cursor: pointer;
+  }
+  submitLink:focus {
+    outline: none;
+  }
+
+</style>
+{% endblock %}
+{% block body %}
+{% block searchresults %}
+
+<div class="container-fluid">
+  <center>
+    <h1>Level 2</h1>
+    <p>Win in order to get enough money for the landing site</p>
+
+  </center>
+</div>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+p {
+  text-align: center;
+  font-size: 15px;
+  margin-top: 0px;
+}
+</style>
+</head>
+<p id="demo"></p>
+
+<script>
+
+function getTimeRemaining(endtime){
+  var t = Date.parse(endtime) - Date.parse(new Date());
+  var seconds = Math.floor( (t/1000) % 60 );
+  var minutes = Math.floor( (t/1000/60) % 60 );
+  return {
+    'total': t,
+    'minutes': minutes,
+    'seconds': seconds
+  };
+}
+function initializeClock(id, endtime){
+  var clock = document.getElementById(id);
+  var timeinterval = setInterval(function(){
+    var t = getTimeRemaining(endtime);
+    clock.innerHTML = t.minutes + ' minutes ' + 'and ' +
+    t.seconds + ' seconds ';
+    if(t.total<=0){
+      clearInterval(timeinterval);
+    }
+  },1000);
+}
+
+
+
+
+function timeRemaining()
+{
+  // if there's a cookie with the name myclock10, use that value as the deadline
+  if(document.cookie && document.cookie.match('myclock10')){
+    // get deadline value from cookie
+    var deadline = document.cookie.match(/(^|;)myclock10=([^;]+)/)[2];
+      }
+  // otherwise, set a deadline 10 minutes from now and
+  // save it in a cookie with that name
+  else{
+    // create deadline 10 minutes from now
+    window.location.replace("/level2")
+  }
+  initializeClock('clockdiv', deadline);
+
+}
+
+</script>
+<body onload="timeRemaining()">
+  <center><div>You have <span id="clockdiv"></span></div></center>
+</body>
+{% if gameOver %}
+    {% if userWin %}
+        <br>
+        <br>
+        <br>
+        <center><h3>WINNER WINNER</h3>
+        <img src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/easy-chicken-dinners-zesty-orange-glazed-drumsticks-1561669174.jpg?crop=0.860xw:0.859xh;0.0700xw,0.0748xh&resize=640:*">
+        </center>
+        <br>
+        <center><h1><a href="/blackjack"><button type="button" class="btn btn-success">Play Again?</button></a></h1></center>
+    {% else %}
+        <br>
+        <br>
+        <br>
+        <center><h3>YOU LOSE!</h3></center>
+        <center><h3>AT LEAST YOU TRIED ... next time try harder I guess</h3></center>
+        <br>
+        <center><h1><a href="/blackjack"><button type="button" class="btn btn-success">Redemption?</button></a></h1></center>
+    {% endif %}
+{% endif %}
+<div class=container-fluid>
+    {% if gameStarted %}
+            {% if userMove %}
+                <br>
+                <br>
+                <h1 class="display-3"> The House</h1>
+                <div class="row">
+                    <div class = "col">
+                        <img src={{ourcards[0][0]}}>
+                    </div>
+                    <div class = "col">
+                        <img src="https://bicyclecards.com/wp-content/uploads/2015/06/Oak-Leaf-Back.jpg">
+                    </div>
+                    <h3 class="display-4">Our Score: {{ourscore}}</h3>
+                </div>
+                <br>
+                <h1 class="display-3"> Your Cards</h1>
+                <div class="row">
+                    {% for card in usercards%}
+                    <div class = "col">
+                        <img src={{card[0]}}>
+                    </div>
+                    {% endfor %}
+                </div>
+                <center><h1><a href="/draw"><button type="button" class="btn btn-success">HIT ME</button></a></h1></center>
+                <center><h1><a href="/houseblackjack"><button type="button" class="btn btn-success">STAY</button></a></h1></center>
+                <h3 class="display-4">Your Score: {{userscore}}</h3>
+            {% else %}
+                <h1 class="display-3"> The House</h1>
+                <br>
+                <div class="row">
+                    {% for card in ourcards%}
+                        <div class = "col">
+                            <img src={{card[0]}}>
+                        </div>
+                    {% endfor %}
+                </div>
+                <h3 class="display-4">Our Score: {{ourscore}}</h3>
+                <br>
+                <h1 class="display-3"> Your Cards</h1>
+                <div class="row">
+                    {% for card in usercards%}
+                    <div class = "col">
+                        <img src={{card[0]}}>
+                    </div>
+                    {% endfor %}
+                </div>
+                <h3 class="display-4">Your Score: {{userscore}}</h3>
+                <br>
+            <center><h1><a href="/houseblackjack"><button type="button" class="btn btn-success">Continue</button></a></h1></center>
+            {% endif %}
+        </div>
+        <br>
+        <br>
+        <br>
+    {% else %}
+        {% if not gameOver %}
+            <br>
+            <br>
+            <center><h1><a href="/playblackjack"><button type="button" class="btn btn-success">START GAME</button></a></h1></center>
+        {% endif %}
+    {% endif %}
+
+
+
+
+
+<br><br><br>
+
 
 {% endblock %}
 
-{% block body %}
-    <style>
-        div{
-            display:inline;
-        }
-    </style>
-    {% if gameOver %}
-        {% if userWin %}
-            <br>
-            <br>
-            <br>
-            <center><h3>WINNER WINNER</h3>
-            <img src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/easy-chicken-dinners-zesty-orange-glazed-drumsticks-1561669174.jpg?crop=0.860xw:0.859xh;0.0700xw,0.0748xh&resize=640:*">
-            </center>
-            <br>
-            <center><h1><a href="/blackjack"><button type="button" class="btn btn-success">Play Again?</button></a></h1></center>
-        {% else %}
-            <br>
-            <br>
-            <br>
-            <center><h3>YOU LOSE!</h3></center>
-            <center><h3>AT LEAST YOU TRIED ... next time try harder I guess</h3></center>
-            <br>
-            <center><h1><a href="/blackjack"><button type="button" class="btn btn-success">Redemption?</button></a></h1></center>
-        {% endif %}
-    {% endif %}
-    <div class=container-fluid>
-        {% if gameStarted %}
-                {% if userMove %}
-                    <br>
-                    <br>
-                    <h1 class="display-3"> The House</h1>
-                    <div class="row">
-                        <div class = "col">
-                            <img src={{ourcards[0][0]}}>
-                        </div>
-                        <div class = "col">
-                            <img src="https://bicyclecards.com/wp-content/uploads/2015/06/Oak-Leaf-Back.jpg">
-                        </div>
-                        <h3 class="display-4">Our Score: {{ourscore}}</h3>
-                    </div>
-                    <br>
-                    <h1 class="display-3"> Your Cards</h1>
-                    <div class="row">
-                        {% for card in usercards%}
-                        <div class = "col">
-                            <img src={{card[0]}}>
-                        </div>
-                        {% endfor %}
-                    </div>
-                    <center><h1><a href="/draw"><button type="button" class="btn btn-success">HIT ME</button></a></h1></center>
-                    <center><h1><a href="/houseblackjack"><button type="button" class="btn btn-success">STAY</button></a></h1></center>
-                    <h3 class="display-4">Your Score: {{userscore}}</h3>
-                {% else %}
-                    <h1 class="display-3"> The House</h1>
-                    <br>
-                    <div class="row">
-                        {% for card in ourcards%}
-                            <div class = "col">
-                                <img src={{card[0]}}>
-                            </div>
-                        {% endfor %}
-                    </div>
-                    <h3 class="display-4">Our Score: {{ourscore}}</h3>
-                    <br>
-                    <h1 class="display-3"> Your Cards</h1>
-                    <div class="row">
-                        {% for card in usercards%}
-                        <div class = "col">
-                            <img src={{card[0]}}>
-                        </div>
-                        {% endfor %}
-                    </div>
-                    <h3 class="display-4">Your Score: {{userscore}}</h3>
-                    <br>
-                <center><h1><a href="/houseblackjack"><button type="button" class="btn btn-success">Continue</button></a></h1></center>
-                {% endif %}
-            </div>
-            <br>
-            <br>
-            <br>
-        {% else %}
-            {% if not gameOver %}
-                <br>
-                <br>
-                <center><h1><a href="/playblackjack"><button type="button" class="btn btn-success">START GAME</button></a></h1></center>
-            {% endif %}
-        {% endif %}
 {% endblock %}
