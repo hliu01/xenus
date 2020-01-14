@@ -1,0 +1,41 @@
+{% extends "template.html" %}
+
+{% block css %}
+
+{% endblock %}
+
+{% block body %}
+<style>
+    div{
+        display:inline;
+    }
+</style>
+
+<div class=container-fluid>
+    <h3>Your Roll</h3>
+    <div class="row">
+        <div class = "col">
+            <img src={{die1}}>
+        </div>
+        <div class = "col">
+            <img src={{die2}}>
+        </div>
+        <div class = "col">
+            <img src={{die3}}>
+        </div>
+    </div>
+    <br>
+    <br>
+    <br>
+    <h3>Your Roll</h3>
+    <div class="row">
+        <div class = "col">
+        </div>
+        <div class = "col">
+        </div>
+        <div class = "col">
+        </div>
+    </div>
+</div>
+
+{% endblock%}

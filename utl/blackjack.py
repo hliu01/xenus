@@ -2,7 +2,7 @@ import sqlite3, random
 
 DB_FILE = "Info.db"
 
-cardvalues = {"ACE":1,"2": 2, "3": 3, "4": 4, "5": 5, "6": 6, "7": 7, "8": 8, "9": 9,"10" : 10, "JACK": 10, "QUEEN": 10, "KING":10}
+cardvalues = {"ACE":11,"2": 2, "3": 3, "4": 4, "5": 5, "6": 6, "7": 7, "8": 8, "9": 9,"10" : 10, "JACK": 10, "QUEEN": 10, "KING":10}
 
 def newGame():
     db = sqlite3.connect(DB_FILE)

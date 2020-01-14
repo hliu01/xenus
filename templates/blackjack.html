@@ -12,21 +12,29 @@
     </style>
     {% if gameOver %}
         {% if userWin %}
-            <h3>WINNER WINNER</h3>
             <br>
-            <center><h1><a href="/startBlackJack"><button type="button" class="btn btn-success">Play Again?</button></a></h1></center>
+            <br>
+            <br>
+            <center><h3>WINNER WINNER</h3>
+            <img src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/easy-chicken-dinners-zesty-orange-glazed-drumsticks-1561669174.jpg?crop=0.860xw:0.859xh;0.0700xw,0.0748xh&resize=640:*">
+            </center>
+            <br>
+            <center><h1><a href="/blackjack"><button type="button" class="btn btn-success">Play Again?</button></a></h1></center>
         {% else %}
             <br>
             <br>
             <br>
-            <h3>AT LEAST YOU TRIED, next time try harder</h3>
+            <center><h3>YOU LOSE!</h3></center>
+            <center><h3>AT LEAST YOU TRIED ... next time try harder I guess</h3></center>
             <br>
-            <center><h1><a href="/startBlackJack"><button type="button" class="btn btn-success">Redemption?</button></a></h1></center>
+            <center><h1><a href="/blackjack"><button type="button" class="btn btn-success">Redemption?</button></a></h1></center>
         {% endif %}
     {% endif %}
     <div class=container-fluid>
         {% if gameStarted %}
                 {% if userMove %}
+                    <br>
+                    <br>
                     <h1 class="display-3"> The House</h1>
                     <div class="row">
                         <div class = "col">
@@ -71,6 +79,7 @@
                     </div>
                     <h3 class="display-4">Your Score: {{userscore}}</h3>
                     <br>
+                <center><h1><a href="/houseblackjack"><button type="button" class="btn btn-success">Continue</button></a></h1></center>
                 {% endif %}
             </div>
             <br>
@@ -78,6 +87,8 @@
             <br>
         {% else %}
             {% if not gameOver %}
+                <br>
+                <br>
                 <center><h1><a href="/playblackjack"><button type="button" class="btn btn-success">START GAME</button></a></h1></center>
             {% endif %}
         {% endif %}

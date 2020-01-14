@@ -64,3 +64,8 @@ Login not much to add
 Same goes with register
 When trying to add pictures as backgrounds I am not able to display them, but I'm guessing it's due to my different
 Will fix this later**
+
+chowdhuryB -- 2020-01-13 19:06
+Finished BlackJack
+Worked On C-low
+Worked on time

@@ -13,6 +13,7 @@ from os import urandom
 import utl.dbfunctions as dbfunctions
 import utl.blackjack as blackjack
 import urllib.request as urlrequest
+import random
 app = Flask(__name__)
 app.secret_key = urandom(32)
 
@@ -238,10 +239,14 @@ def houseBlackJack():
     ours =  blackjack.getourcards()
     uscore = blackjack.getUserScore()
     oscore = blackjack.getOurScore()
-    if (uscore > oscore):
-        housedrawCard()
-    if (uscore > 21):
+    if (oscore > 21):
         return render_template('blackjack.html',gameOver = True, userWin = True)
+    if (oscore > uscore):
+        return render_template('blackjack.html',gameOver= True, userWin = False)
+    if (uscore >= oscore):
+        housedrawCard()
+        ours =  blackjack.getourcards()
+        oscore = blackjack.getOurScore()
     print(users)
     print(ours)
     return render_template('blackjack.html',gameOver = False ,gameStarted =True,userMove = False,ourcards = ours,ourscore = oscore,usercards = users,userscore = uscore)
@@ -257,11 +262,47 @@ def checktyperacer():
     if "user" not in session:
         return redirect(url_for('root'))
     comment = request.form['comment']
-    if comment == "hi":
+    if comment == "I need a landing sight":
         return render_template("checktyperacer.html", heading = session["user"],sessionstatus = "user" in session)
     else:
         return render_template("typeracer.html", heading = session["user"],sessionstatus = "user" in session)
 
+@app.route("/typeracer2")
+def typeracer2():
+    if "user" not in session:
+        return redirect(url_for('root'))
+    return render_template("typeracer2.html", heading = session["user"],sessionstatus = "user" in session)
+
+@app.route('/checktyperacer2', methods=['POST'])
+def checktyperacer2():
+    if "user" not in session:
+        return redirect(url_for('root'))
+    comment = request.form['comment']
+    if comment == "I am here":
+        return render_template("checktyperacer2.html", heading = session["user"],sessionstatus = "user" in session)
+    else:
+        return render_template("typeracer2.html", heading = session["user"],sessionstatus = "user" in session)
+
+@app.route('/playclo')
+def playclo():
+    dice = ["http://roll.diceapi.com/images/poorly-drawn/d6/1.png","http://roll.diceapi.com/images/poorly-drawn/d6/2.png","http://roll.diceapi.com/images/poorly-drawn/d6/3.png","http://roll.diceapi.com/images/poorly-drawn/d6/4.png","http://roll.diceapi.com/images/poorly-drawn/d6/5.png","http://roll.diceapi.com/images/poorly-drawn/d6/6.png"]
+    ourroll = rolldice()
+
+    while ((ourroll[0] != ourroll[1]) and (ourroll[1] != ourroll[2]) and (ourroll[0] != ourroll[2])):
+        print(ourroll)
+        ourroll = rolldice()
+    ourdie1 = dice[ourroll[0]-1]
+    ourdie2 = dice[ourroll[1]-1]
+    ourdie3 = dice[ourroll[2]-1]
+    return render_template('clo.html',die1 = ourdie1,die2=ourdie2,die3=ourdie3)
+
+
+def rolldice():
+    die1 = random.randint(0,6)
+    die2 = random.randint(0,6)
+    die3 = random.randint(0,6)
+    ans = [die1,die2,die3]
+    return ans
 
 @app.route("/computation")
 def computation():
