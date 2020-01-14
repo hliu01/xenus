@@ -100,7 +100,7 @@ p {
       var deadline = new Date(currentTime + timeInMinutes*60*1000);
       // store deadline in cookie for future reference
       var now = new Date();
-      var minutes = 1;
+      var minutes = 10;
       now.setTime(now.getTime() + (minutes * 60 * 1000));
       document.cookie = 'myClock7=' + deadline + '; path=/;' + "expires=" + now.toUTCString() + ";";
     }

@@ -88,9 +88,9 @@ function initializeClock(id, endtime){
 function timeRemaining()
 {
   // if there's a cookie with the name myclock10, use that value as the deadline
-  if(document.cookie && document.cookie.match('myclock10')){
+  if(document.cookie && document.cookie.match('myclock15')){
     // get deadline value from cookie
-    var deadline = document.cookie.match(/(^|;)myclock10=([^;]+)/)[2];
+    var deadline = document.cookie.match(/(^|;)myclock15=([^;]+)/)[2];
       }
   // otherwise, set a deadline 10 minutes from now and
   // save it in a cookie with that name
@@ -115,7 +115,7 @@ function timeRemaining()
         <img src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/easy-chicken-dinners-zesty-orange-glazed-drumsticks-1561669174.jpg?crop=0.860xw:0.859xh;0.0700xw,0.0748xh&resize=640:*">
         </center>
         <br>
-        <center><h1><a href="/blackjack"><button type="button" class="btn btn-success">Play Again?</button></a></h1></center>
+        <center><h1><a href="/level3"><button type="button" class="btn btn-success">continue</button></a></h1></center>
     {% else %}
         <br>
         <br>

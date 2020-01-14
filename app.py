@@ -158,6 +158,8 @@ def snake():
 
 @app.route("/blackjack")
 def startBlackJack():
+    if "user" not in session:
+        return redirect(url_for('root'))
     blackjack.newGame()
     url = "https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=6"
     req = urlrequest.Request(url,headers={'User-Agent': 'Mozilla/5.0'})
@@ -170,7 +172,7 @@ def startBlackJack():
     ours =  blackjack.getourcards()
     print(users)
     print(ours)
-    return render_template('blackjack.html',gameOver = False,gameStarted = False)
+    return render_template('blackjack.html',gameOver = False,gameStarted = False,  heading = session["user"],sessionstatus = "user" in session)
 
 def shuffle():
     if not ('deckid' in session):
@@ -184,6 +186,8 @@ def shuffle():
 
 @app.route("/draw")
 def drawCard():
+    if "user" not in session:
+        return redirect(url_for('root'))
     if not ('deckid' in session):
         return redirect(url_for('startBlackJack'))
     url = "https://deckofcardsapi.com/api/deck/" + session['deckid'] +"/draw/?count=1"
@@ -196,6 +200,8 @@ def drawCard():
     return redirect(url_for('playBlackJack'))
 
 def housedrawCard():
+    if "user" not in session:
+        return redirect(url_for('root'))
     if not ('deckid' in session):
         return redirect(url_for('startBlackJack'))
     url = "https://deckofcardsapi.com/api/deck/" + session['deckid'] +"/draw/?count=1"
@@ -209,6 +215,8 @@ def housedrawCard():
 
 @app.route("/playblackjack")
 def playBlackJack():
+    if "user" not in session:
+        return redirect(url_for('root'))
     users = blackjack.getusercards()
     ours =  blackjack.getourcards()
     uscore = blackjack.getUserScore()
@@ -218,28 +226,30 @@ def playBlackJack():
         housedrawCard()
         ours =  blackjack.getourcards()
     if (uscore > 21):
-        return render_template('blackjack.html',gameOver = True, userWin = False)
+        return render_template('blackjack.html',gameOver = True, userWin = False,  heading = session["user"],sessionstatus = "user" in session)
     print(users)
     print(ours)
-    return render_template('blackjack.html',gameOver = False ,gameStarted =True,userMove = True,ourcards = ours,ourscore = oscore,usercards = users,userscore =uscore)
+    return render_template('blackjack.html',gameOver = False ,gameStarted =True,userMove = True,ourcards = ours,ourscore = oscore,usercards = users,userscore =uscore,  heading = session["user"],sessionstatus = "user" in session)
 
 @app.route("/houseblackjack")
 def houseBlackJack():
+    if "user" not in session:
+        return redirect(url_for('root'))
     users = blackjack.getusercards()
     ours =  blackjack.getourcards()
     uscore = blackjack.getUserScore()
     oscore = blackjack.getOurScore()
     if (oscore > 21):
-        return render_template('blackjack.html',gameOver = True, userWin = True)
+        return render_template('blackjack.html',gameOver = True, userWin = True, heading = session["user"],sessionstatus = "user" in session)
     if (oscore > uscore):
-        return render_template('blackjack.html',gameOver= True, userWin = False)
+        return render_template('blackjack.html',gameOver= True, userWin = False,  heading = session["user"],sessionstatus = "user" in session)
     if (uscore >= oscore):
         housedrawCard()
         ours =  blackjack.getourcards()
         oscore = blackjack.getOurScore()
     print(users)
     print(ours)
-    return render_template('blackjack.html',gameOver = False ,gameStarted =True,userMove = False,ourcards = ours,ourscore = oscore,usercards = users,userscore = uscore)
+    return render_template('blackjack.html',gameOver = False ,gameStarted =True,userMove = False,ourcards = ours,ourscore = oscore,usercards = users,userscore = uscore,  heading = session["user"],sessionstatus = "user" in session)
 
 @app.route("/typeracer")
 def typeracer():
@@ -337,6 +347,55 @@ def computationchecker():
             List = foo.fetchall()
             connection.commit()
         return render_template("computation.html", q = List, heading = session["user"],sessionstatus = "user" in session)
+
+
+    #list of list answers
+    #for each in list answers check if the anser is equal to dict[question]
+
+
+@app.route("/trivia")
+def trivia():
+    if "user" not in session:
+        return redirect(url_for('root'))
+    with sqlite3.connect(DB_FILE) as connection:
+        c = connection.cursor()
+        q = 'SELECT questions, one, two , three, four FROM REALTRIVIA;'
+        foo = c.execute(q)
+        List = foo.fetchall()
+        connection.commit()
+    return render_template('trivia.html',q = List, heading = session["user"],sessionstatus = "user" in session)
+
+
+@app.route("/triviachecker",methods=["POST"])
+def triviachecker():
+    if "user" not in session:
+        return redirect(url_for('root'))
+    dict = request.form
+    print(dict)
+    with sqlite3.connect(DB_FILE) as connection:
+        c = connection.cursor()
+        q = 'SELECT answer FROM realanswers;'
+        foo = c.execute(q)
+        List = foo.fetchall()
+        connection.commit()
+    score = 0
+    for i in range(0,10):
+        print(dict[str(i)])
+        print(List[i])
+        if dict[str(i)] == List[i][0]:
+            score = score + 1
+    if score > 2:
+        return render_template("triviachecker.html", heading = session["user"],sessionstatus = "user" in session)
+    else:
+        if "user" not in session:
+            return redirect(url_for('root'))
+        with sqlite3.connect(DB_FILE) as connection:
+            c = connection.cursor()
+            q = 'SELECT questions, one, two , three, four FROM REALTRIVIA;'
+            foo = c.execute(q)
+            List = foo.fetchall()
+            connection.commit()
+        return render_template("trivia.html", q = List, heading = session["user"],sessionstatus = "user" in session)
 
 
     #list of list answers
