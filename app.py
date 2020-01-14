@@ -310,7 +310,6 @@ def computation():
         return redirect(url_for('root'))
     with sqlite3.connect(DB_FILE) as connection:
         c = connection.cursor()
-        dbfunctions.addQuestionsToDatabase()
         q = 'SELECT questions, one, two , three, four FROM TRIVIA;'
         foo = c.execute(q)
         List = foo.fetchall()
@@ -323,9 +322,24 @@ def computationchecker():
     if "user" not in session:
         return redirect(url_for('root'))
     dict = request.form
+    print(dict)
+    with sqlite3.connect(DB_FILE) as connection:
+        c = connection.cursor()
+        dbfunctions.addQuestionsToDatabase()
+        q = 'SELECT answer FROM answers;'
+        foo = c.execute(q)
+        List = foo.fetchall()
+        connection.commit()
+    score = 0
+    for i in range(0,10):
+        print(dict[str(i)])
+        print(List[i])
+        if dict[str(i)] == List[i][0]:
+            score = score + 1
+    return str(score)
+
     #list of list answers
     #for each in list answers check if the anser is equal to dict[question]
-    return "woo"
 
 if __name__ == "__main__":
     app.debug = True

@@ -1,6 +1,7 @@
 import sqlite3
 import urllib.request as request
 import simplejson as json
+import random
 
 #DATABASE SETUP
 DB_FILE = "Info.db"
@@ -67,15 +68,16 @@ def quest(list):
 def addQuestionsToDatabase():
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
-    c.execute('DROP TABLE IF EXISTS TRIVIA')
     c.execute('CREATE TABLE IF NOT EXISTS TRIVIA (questions TEXT, one TEXT, two TEXT, three TEXT, four TEXT)')
-    c.execute('DROP TABLE IF EXISTS answers')
-    c.execute('CREATE TABLE IF NOT EXISTS answers (answer TEXT)')
+    c.execute('CREATE TABLE IF NOT EXISTS answers (question TEXT, answer TEXT)')
     """Adds questions and choices into the database"""
     que = {}
     que = quest(que)
     for i in range(10):
         ques = list(que)[i]
-        c.execute('INSERT INTO TRIVIA VALUES (?, ?, ?, ?, ?)', (str(ques), str(que[ques][0]), str(que[ques][1]), str(que[ques][2]), str(que[ques][3])))
+        c.execute('INSERT INTO answers VALUES (?, ?)', (str(ques), str(que[ques][0])))
+        randolist = [0,1,2,3]
+        random.shuffle(randolist)
+        c.execute('INSERT INTO TRIVIA VALUES (?, ?, ?, ?, ?)', (str(ques), str(que[ques][randolist[0]]), str(que[ques][randolist[1]]), str(que[ques][randolist[2]]), str(que[ques][randolist[3]])))
     db.commit()
     db.close()
