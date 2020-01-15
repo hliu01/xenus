@@ -260,9 +260,10 @@ def typeracer():
 @app.route('/checktyperacer', methods=['POST'])
 def checktyperacer():
     if "user" not in session:
+        print(hi)
         return redirect(url_for('root'))
     comment = request.form['comment']
-    if comment == "I need a landing sight":
+    if comment == "Hello Earth, I hope you take time to read this. I found a connection suddenly, so I have barely any time waste. I woke up on a planet called Xenus, and I am currently flying back to Earth. It’s been very tough for me to survive, and the fact that I am writing you this message is a miracle. I don’t know my name, my age, basically anything. I hope you will give me consent to enter, as I bring no harm. I am going to need a landing site with x and y coordinates. Although I have no money, I have resources from Xenus that have never been seen before. This will attract many people and bring light to new innovations. If possible, please send help to me because I am running out of food and liquid. I am currently traveling directly south about 1400 million miles away from Earth. Thank you.":
         return render_template("checktyperacer.html", heading = session["user"],sessionstatus = "user" in session)
     else:
         return render_template("typeracer.html", heading = session["user"],sessionstatus = "user" in session)
@@ -278,7 +279,7 @@ def checktyperacer2():
     if "user" not in session:
         return redirect(url_for('root'))
     comment = request.form['comment']
-    if comment == "I am here":
+    if comment == "Hello Earth. It is me again. I have communicated with you people a long time ago so please do not act with hostility. I come in peace. I have resources with me that would give benefits to Earth. I have travelled for decades and it is extremely tragic that you are not accepting me. I only ask for a landing site, so I can come back to my home. If you do act with hostility I will survive any hostility. My skills come from Xenus and years of experience in space, battling worse things than the worst Earth can offer. Do not waste your weapons on me, as I will survive no matter what. I just need consent to enter Earth. Please comply with me.":
         return render_template("checktyperacer2.html", heading = session["user"],sessionstatus = "user" in session)
     else:
         return render_template("typeracer2.html", heading = session["user"],sessionstatus = "user" in session)
@@ -335,7 +336,7 @@ def computationchecker():
         print(List[i])
         if dict[str(i)] == List[i][0]:
             score = score + 1
-    if score > 2:
+    if score > 5:
         return render_template("computationchecker.html", heading = session["user"],sessionstatus = "user" in session)
     else:
         if "user" not in session:
@@ -347,59 +348,6 @@ def computationchecker():
             List = foo.fetchall()
             connection.commit()
         return render_template("computation.html", q = List, heading = session["user"],sessionstatus = "user" in session)
-
-
-    #list of list answers
-    #for each in list answers check if the anser is equal to dict[question]
-
-
-@app.route("/trivia")
-def trivia():
-    if "user" not in session:
-        return redirect(url_for('root'))
-    with sqlite3.connect(DB_FILE) as connection:
-        c = connection.cursor()
-        q = 'SELECT questions, one, two , three, four FROM REALTRIVIA;'
-        foo = c.execute(q)
-        List = foo.fetchall()
-        connection.commit()
-    return render_template('trivia.html',q = List, heading = session["user"],sessionstatus = "user" in session)
-
-
-@app.route("/triviachecker",methods=["POST"])
-def triviachecker():
-    if "user" not in session:
-        return redirect(url_for('root'))
-    dict = request.form
-    print(dict)
-    with sqlite3.connect(DB_FILE) as connection:
-        c = connection.cursor()
-        q = 'SELECT answer FROM realanswers;'
-        foo = c.execute(q)
-        List = foo.fetchall()
-        connection.commit()
-    score = 0
-    for i in range(0,10):
-        print(dict[str(i)])
-        print(List[i])
-        if dict[str(i)] == List[i][0]:
-            score = score + 1
-    if score > 2:
-        return render_template("triviachecker.html", heading = session["user"],sessionstatus = "user" in session)
-    else:
-        if "user" not in session:
-            return redirect(url_for('root'))
-        with sqlite3.connect(DB_FILE) as connection:
-            c = connection.cursor()
-            q = 'SELECT questions, one, two , three, four FROM REALTRIVIA;'
-            foo = c.execute(q)
-            List = foo.fetchall()
-            connection.commit()
-        return render_template("trivia.html", q = List, heading = session["user"],sessionstatus = "user" in session)
-
-
-    #list of list answers
-    #for each in list answers check if the anser is equal to dict[question]
 
 if __name__ == "__main__":
     app.debug = True

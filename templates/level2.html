@@ -36,7 +36,7 @@
   <center>
       <h1>Level 2</h1>
         <p> Congratulations! You have successfully hacked into the spaceship.</p>
-        <p>You want to send a message back to earth asking for a landing sight. Copy the text that will appear on the next screen to send the message.</p>
+        <p>You want to send a message back to earth asking for a landing site. Copy the text that will appear on the next screen to send the message.</p>
 
   </center>
 
@@ -72,9 +72,9 @@
   function timeRemaining()
   {
     // if there's a cookie with the name myclock10, use that value as the deadline
-    if(document.cookie && document.cookie.match('myclock16')){
+    if(document.cookie && document.cookie.match('myclock21')){
       // get deadline value from cookie
-      var deadline = document.cookie.match(/(^|;)myclock16=([^;]+)/)[2];
+      var deadline = document.cookie.match(/(^|;)myclock21=([^;]+)/)[2];
         }
     // otherwise, set a deadline 10 minutes from now and
     // save it in a cookie with that name
@@ -87,7 +87,7 @@
       var now = new Date();
       var minutes = 10;
       now.setTime(now.getTime() + (minutes * 60 * 1000));
-      document.cookie = 'myclock16=' + deadline + '; path=/;' + "expires=" + now.toUTCString() + ";";
+      document.cookie = 'myclock21=' + deadline + '; path=/;' + "expires=" + now.toUTCString() + ";";
     }
     initializeClock('clockdiv', deadline);
 

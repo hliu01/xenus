@@ -42,8 +42,6 @@
 <div class="container-fluid">
   <center>
     <h1>Level 2</h1>
-    <p>Win in order to get enough money for the landing site</p>
-
   </center>
 </div>
 <head>
@@ -88,9 +86,9 @@ function initializeClock(id, endtime){
 function timeRemaining()
 {
   // if there's a cookie with the name myclock10, use that value as the deadline
-  if(document.cookie && document.cookie.match('myclock15')){
+  if(document.cookie && document.cookie.match('myclock21')){
     // get deadline value from cookie
-    var deadline = document.cookie.match(/(^|;)myclock15=([^;]+)/)[2];
+    var deadline = document.cookie.match(/(^|;)myclock21=([^;]+)/)[2];
       }
   // otherwise, set a deadline 10 minutes from now and
   // save it in a cookie with that name
@@ -128,6 +126,8 @@ function timeRemaining()
 {% endif %}
 <div class=container-fluid>
     {% if gameStarted %}
+    <p>Mission #4: Win in order to get enough money for the landing site</p>
+
             {% if userMove %}
                 <br>
                 <br>
