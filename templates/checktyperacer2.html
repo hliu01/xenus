@@ -89,9 +89,9 @@ function initializeClock(id, endtime){
 function timeRemaining()
 {
   // if there's a cookie with the name myClock9, use that value as the deadline
-  if(document.cookie && document.cookie.match('myClock25')){
+  if(document.cookie && document.cookie.match('myClock26')){
     // get deadline value from cookie
-    var deadline = document.cookie.match(/(^|;)myClock25=([^;]+)/)[2];
+    var deadline = document.cookie.match(/(^|;)myClock26=([^;]+)/)[2];
       }
   // otherwise, set a deadline 10 minutes from now and
   // save it in a cookie with that name
@@ -111,7 +111,7 @@ function timeRemaining()
 <center>
 
 <br><br><br>
-<form action="/Congratulations">
+<form action="/playclo">
   <input type="submit" value = "continue" id="cloButton" >
 </form>
 

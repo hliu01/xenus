@@ -1,20 +1,113 @@
-{% extends "template.html" %}
+{% extends "homepage.html" %}
 
 {% block css %}
-
-{% endblock %}
-
-{% block body %}
 <style>
-    div{
-        display:inline;
-    }
+  .col-lg{
+    margin: 15px;
+    padding: 20px;
+  }
+  .btn-primary, .btn-success, .btn-primary:hover, .btn-primary:active, .btn-primary:visited {
+    background-color: white !important;
+    border-color: black !important;
+    color: black !important;
+
+}
+  .footer-copyright{
+    padding: 6px;
+    margin-top: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    color: white; text-align: center;
+    border-top: solid;
+    border-color:lightgray;
+    border-width: 5px;
+  }
+
+  .submitLink {
+    background-color: transparent;
+    text-decoration: underline;
+    border: none;
+    color: blue;
+    cursor: pointer;
+  }
+  submitLink:focus {
+    outline: none;
+  }
+
 </style>
+{% endblock %}
+{% block body %}
+{% block searchresults %}
+
+<div class="container-fluid">
+  <center>
+    <h1>Level 3</h1>
+  </center>
+</div>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+p {
+  text-align: center;
+  font-size: 15px;
+  margin-top: 0px;
+}
+</style>
+</head>
+<p id="demo"></p>
+
+<script>
+
+function getTimeRemaining(endtime){
+  var t = Date.parse(endtime) - Date.parse(new Date());
+  var seconds = Math.floor( (t/1000) % 60 );
+  var minutes = Math.floor( (t/1000/60) % 60 );
+  return {
+    'total': t,
+    'minutes': minutes,
+    'seconds': seconds
+  };
+}
+function initializeClock(id, endtime){
+  var clock = document.getElementById(id);
+  var timeinterval = setInterval(function(){
+    var t = getTimeRemaining(endtime);
+    clock.innerHTML = t.minutes + ' minutes ' + 'and ' +
+    t.seconds + ' seconds ';
+    if(t.total<=0){
+      clearInterval(timeinterval);
+    }
+  },1000);
+}
+
+
+
+
+function timeRemaining()
+{
+  // if there's a cookie with the name myclock10, use that value as the deadline
+  if(document.cookie && document.cookie.match('myclock26')){
+    // get deadline value from cookie
+    var deadline = document.cookie.match(/(^|;)myclock26=([^;]+)/)[2];
+      }
+  // otherwise, set a deadline 10 minutes from now and
+  // save it in a cookie with that name
+  else{
+    // create deadline 10 minutes from now
+    window.location.replace("/level3")
+  initializeClock('clockdiv', deadline);
+
+}
+
+</script>
+<body onload="timeRemaining()">
+  <center><div>You have <span id="clockdiv"></span></div></center>
+</body>
 
 <div class=container-fluid>
     <br>
     <br>
-    <h3>Our Roll</h3>
+    <h3>Earth's Roll</h3>
     <div class="row">
         <div class = "col">
             <img src={{die1}}>
@@ -42,17 +135,25 @@
         </div>
     </div>
     {% if validRoll%}
-    <center><h1><a href="/playclo"><button type="button" class="btn btn-success">Continue</button></a></h1></center>
+    <form action="/playclo" method="post" id="testformid">
+        <input type="submit" />
+    </form>
     {% else %}
     <center>
-        <h1>
-            <a href="/reroll">
-                <button type="button" class="btn btn-success">Roll Again</button>
-            </a>
-        </h1>
+        <h3>
+          Roll Again
+          <form action="/reroll" method="post" id="testformid">
+              <input type="submit" />
+          </form>
+        </h3>
     </center>
 </div>
     {% endif %}
     <br>
     <br>
-{% endblock%}
+
+<br><br><br>
+
+
+{% endblock %}
+{% endblock %}

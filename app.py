@@ -232,7 +232,7 @@ def playBlackJack():
         uscore = blackjack.getUserScore()
         oscore = blackjack.getOurScore()
         session.pop('deckid')
-        return render_template('blackjack.html',gameOver = True, userWin = False,ourcards=ours,ourscore = oscore,usercards = users,yourscore =uscore)
+        return render_template('blackjack.html',gameOver = True, userWin = False,ourcards=ours,ourscore = oscore,usercards = users,yourscore =uscore,  heading = session["user"],sessionstatus = "user" in session)
     print(users)
     print(ours)
     return render_template('blackjack.html',gameOver = False ,gameStarted =True,userMove = True,ourcards = ours,ourscore = oscore,usercards = users,userscore =uscore,  heading = session["user"],sessionstatus = "user" in session)
@@ -250,21 +250,21 @@ def houseBlackJack():
         oscore = blackjack.getOurScore()
         session.pop('deckid')
         winner = False
-        if 'blackjackwins' in session
+        if 'blackjackwins' in sessio:
             session['blackjackwins'] = session['blackjackwins'] + 1
             if (session['blackjackwins'] >= 3):
                 winner = True
-        return render_template('blackjack.html',gameOver = True, userWin = True,moveOn = winner,ourcards=ours,ourscore = oscore,usercards = users,yourscore =uscore)
+        return render_template('blackjack.html',gameOver = True, userWin = True,moveOn = winner,ourcards=ours,ourscore = oscore,usercards = users,yourscore =uscore,  heading = session["user"],sessionstatus = "user" in session)
     if (oscore > uscore):
         uscore = blackjack.getUserScore()
         oscore = blackjack.getOurScore()
         session.pop('deckid')
-        return render_template('blackjack.html',gameOver = True, userWin = False,ourcards=ours,ourscore = oscore,usercards = users,yourscore =uscore)
+        return render_template('blackjack.html',gameOver = True, userWin = False,ourcards=ours,ourscore = oscore,usercards = users,yourscore =uscore,  heading = session["user"],sessionstatus = "user" in session)
     if (uscore >= oscore):
         housedrawCard()
         ours =  blackjack.getourcards()
         oscore = blackjack.getOurScore()
-    return render_template('blackjack.html',gameOver = False ,gameStarted =True,userMove = False,ourcards = ours,ourscore = oscore,usercards = users,userscore = uscore)
+    return render_template('blackjack.html',gameOver = False ,gameStarted =True,userMove = False,ourcards = ours,ourscore = oscore,usercards = users,userscore = uscore,  heading = session["user"],sessionstatus = "user" in session)
 
 @app.route("/typeracer")
 def typeracer():
