@@ -161,7 +161,7 @@ def startBlackJack():
     shuffle()
     users = blackjack.getusercards()
     ours =  blackjack.getourcards()
-    return render_template('blackjack.html',gameOver = False,gameStarted = False)
+    return render_template('blackjack.html',gameOver = False,gameStarted = False,heading = session["user"],sessionstatus = True)
 
 def shuffle():
     if "user" not in session:
@@ -238,7 +238,7 @@ def houseBlackJack():
         oscore = blackjack.getOurScore()
         session.pop('deckid')
         winner = False
-        if 'blackjackwins' in sessio:
+        if 'blackjackwins' in session:
             session['blackjackwins'] = session['blackjackwins'] + 1
             if (session['blackjackwins'] >= 3):
                 winner = True
@@ -325,7 +325,21 @@ def reroll():
     validroll = True
     if ((yourroll[0] != yourroll[1]) and (yourroll[1] != yourroll[2]) and (yourroll[0] != yourroll[2])):
         validroll = False
-    return render_template('clo.html',die1 = ourdie1,die2=ourdie2,die3=ourdie3,die4=yourdie1,die5=yourdie2,die6=yourdie3, heading = session["user"],sessionstatus = "user" in session)
+    else:
+        session['yourdie1'] = yourdie1
+        session['yourdie2'] = yourdie2
+        session['yourdie3'] = yourdie3
+    return render_template('clo.html',die1 = ourdie1,die2=ourdie2,die3=ourdie3,die4=yourdie1,die5=yourdie2,die6=yourdie3,validRoll = validroll,heading = session["user"],sessionstatus = "user" in session)
+
+app.route('/evalscores')
+def whowon():
+    ourdie1 = session['ourdie1']
+    ourdie2 = session['ourdie2']
+    ourdie3 = session['ourdie3']
+    yourdie1 = session['yourdie1']
+    yourdie2 = session['yourdie2']
+    yourdie3 = session['yourdie3']
+
 
 def rolldice():
     die1 = random.randint(0,6)
