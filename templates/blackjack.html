@@ -20,6 +20,29 @@
             </center>
             <br>
             <center><h1><a href="/blackjack"><button type="button" class="btn btn-success">Play Again?</button></a></h1></center>
+            <h1 class="display-3"> The House</h1>
+            <br>
+            <br>
+            <br>
+            <br>
+            <div class="row">
+                {% for card in ourcards%}
+                    <div class = "col">
+                        <img src={{card[0]}}>
+                    </div>
+                {% endfor %}
+            </div>
+            <h3 class="display-4">Our Score: {{ourscore}}</h3>
+            <br>
+            <h1 class="display-3"> Your Cards</h1>
+            <div class="row">
+                {% for card in usercards%}
+                <div class = "col">
+                    <img src={{card[0]}}>
+                </div>
+                {% endfor %}
+                <h3 class="display-4">Your Score: {{yourscore}}</h3>
+            </div>
         {% else %}
             <br>
             <br>
@@ -28,6 +51,28 @@
             <center><h3>AT LEAST YOU TRIED ... next time try harder I guess</h3></center>
             <br>
             <center><h1><a href="/blackjack"><button type="button" class="btn btn-success">Redemption?</button></a></h1></center>
+            <br>
+            <br>
+            <br>
+            <h1 class="display-3"> The House</h1>
+            <br>
+            <div class="row">
+                {% for card in ourcards%}
+                    <div class = "col">
+                        <img src={{card[0]}}>
+                    </div>
+                {% endfor %}
+            </div>
+            <h3 class="display-4">Our Score: {{ourscore}}</h3>
+            <br>
+            <h1 class="display-3"> Your Cards</h1>
+            <div class="row">
+                {% for card in usercards%}
+                <div class = "col">
+                    <img src={{card[0]}}>
+                </div>
+                {% endfor %}
+                <h3 class="display-4">Your Score: {{yourscore}}</h3>
         {% endif %}
     {% endif %}
     <div class=container-fluid>

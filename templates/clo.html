@@ -12,7 +12,9 @@
 </style>
 
 <div class=container-fluid>
-    <h3>Your Roll</h3>
+    <br>
+    <br>
+    <h3>Our Roll</h3>
     <div class="row">
         <div class = "col">
             <img src={{die1}}>
@@ -30,12 +32,27 @@
     <h3>Your Roll</h3>
     <div class="row">
         <div class = "col">
+            <img src={{die4}}>
         </div>
         <div class = "col">
+            <img src={{die5}}>
         </div>
         <div class = "col">
+            <img src={{die6}}>
         </div>
     </div>
+    {% if validRoll%}
+    <center><h1><a href="/playclo"><button type="button" class="btn btn-success">Continue</button></a></h1></center>
+    {% else %}
+    <center>
+        <h1>
+            <a href="/reroll">
+                <button type="button" class="btn btn-success">Roll Again</button>
+            </a>
+        </h1>
+    </center>
 </div>
-
+    {% endif %}
+    <br>
+    <br>
 {% endblock%}
