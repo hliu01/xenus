@@ -41,8 +41,7 @@
 
 <div class="container-fluid">
   <center>
-    <h1>Level 2</h1>
-    <p> Congratulations! The message sent.</p>
+    <h1>Level 1</h1>
 
   </center>
 </div>
@@ -88,37 +87,27 @@ function initializeClock(id, endtime){
 function timeRemaining()
 {
   // if there's a cookie with the name myClock8, use that value as the deadline
-  if(document.cookie && document.cookie.match('myClock8')){
+  if(document.cookie && document.cookie.match('myClock7')){
     // get deadline value from cookie
-    var deadline = document.cookie.match(/(^|;)myClock8=([^;]+)/)[2];
+    var deadline = document.cookie.match(/(^|;)myClock7=([^;]+)/)[2];
       }
   // otherwise, set a deadline 10 minutes from now and
   // save it in a cookie with that name
   else{
-    // create deadline 10 minutes from now
-    var timeInMinutes = 10;
-    var currentTime = Date.parse(new Date());
-    var deadline = new Date(currentTime + timeInMinutes*60*1000);
-    // store deadline in cookie for future reference
-    var now = new Date();
-    var minutes = 10;
-    now.setTime(now.getTime() + (minutes * 60 * 1000));
-    document.cookie = 'myClock8=' + deadline + '; path=/;' + "expires=" + now.toUTCString() + ";";
-  }
+      window.location.replace("/level1")
+    }
+
   initializeClock('clockdiv', deadline);
 
 }
 
 </script>
 <body onload="timeRemaining()">
-  <center><div>You have <span id="clockdiv"></span></div></center>
+  <p> Congratulations! You have succesfully hacked into the spaceship.</p>
 </body>
 
 
 <center>
-Read the email that Earth has sent to you
-Insert image of email
-Press continue to play blackjack to make money
 <br><br><br>
 <form action="/level2">
   <input type="submit" value = "continue" id="blackjackButton" >

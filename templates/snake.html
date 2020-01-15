@@ -93,7 +93,7 @@ canvas {
 #headerr{
   color:white;
   position:absolute;
-  left:645px;
+  left:665px;
   top:70px;
 
 }
@@ -105,8 +105,8 @@ canvas {
 <p id="p2">HIGH:</p>
 <p id="score"></p>
 <p id="high"></p>
-<center><p id="mission1">Mission #1:Gather 300 resources to last you for your trip to Earth.</p></center>
-<p id="successMessage">You have succesfully collected 300 resources!</p>
+<center><p id="mission1">Mission #1:Gather 100 resources to last you for your trip to Earth.</p></center>
+<p id="successMessage">You have succesfully collected 100 resources!</p>
 <p id="timeMessage">You have</p>
 <center><div><span id="clockdiv"></span></div></center>
 <canvas width="400" height="400" id="game"></canvas>
@@ -193,12 +193,11 @@ function getRandomInt(min, max) {
 // game loop
 function loop() {
   requestAnimationFrame(loop);
-  if(score>50){
+  if(score>90){
     document.getElementById("computationButton").style.visibility = "visible";
     document.getElementById("successMessage").style.display = "block";
   }
-  //change to 299 later
-  else if(max>50){
+  else if(max>90){
     document.getElementById("computationButton").style.visibility = "visible";
     document.getElementById("successMessage").style.display = "block";
   }

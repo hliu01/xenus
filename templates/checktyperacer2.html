@@ -42,7 +42,8 @@
 <div class="container-fluid">
   <center>
     <h1>Level 3</h1>
-    <p> Congratulations, the email has been sent</p>
+    <p> Congratulations, the email has been sent!</p>
+    <p> Earth still does not believe you. They will start shooting at your spaceship soon!!! Play cee-lo to test your luck.
 
   </center>
 </div>
@@ -88,9 +89,9 @@ function initializeClock(id, endtime){
 function timeRemaining()
 {
   // if there's a cookie with the name myClock9, use that value as the deadline
-  if(document.cookie && document.cookie.match('myClock9')){
+  if(document.cookie && document.cookie.match('myClock26')){
     // get deadline value from cookie
-    var deadline = document.cookie.match(/(^|;)myClock9=([^;]+)/)[2];
+    var deadline = document.cookie.match(/(^|;)myClock26=([^;]+)/)[2];
       }
   // otherwise, set a deadline 10 minutes from now and
   // save it in a cookie with that name
@@ -108,11 +109,6 @@ function timeRemaining()
 
 
 <center>
-Read the email that Earth has sent to you
-Insert image of email: should say
-You are an invader.
-You are entering Earth’s atmosphere. Get ready for action.
-Play clo to test your luck and see if Earths air defenses will hit you
 
 <br><br><br>
 <form action="/playclo">

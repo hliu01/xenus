@@ -40,17 +40,5 @@ for i in range(10):
     randolist = [0,1,2,3]
     random.shuffle(randolist)
     c.execute('INSERT INTO TRIVIA VALUES (?, ?, ?, ?, ?)', (str(ques), str(que[ques][randolist[0]]), str(que[ques][randolist[1]]), str(que[ques][randolist[2]]), str(que[ques][randolist[3]])))
-
-c.execute('CREATE TABLE REALTRIVIA (questions TEXT, one TEXT, two TEXT, three TEXT, four TEXT)')
-c.execute('CREATE TABLE realanswers (question TEXT, answer TEXT)')
-"""Adds questions and choices into the database"""
-que = {}
-que = realquest(que)
-for i in range(10):
-    ques = list(que)[i]
-    c.execute('INSERT INTO realanswers VALUES (?, ?)', (str(ques), str(que[ques][0])))
-    randolist = [0,1,2,3]
-    random.shuffle(randolist)
-    c.execute('INSERT INTO REALTRIVIA VALUES (?, ?, ?, ?, ?)', (str(ques), str(que[ques][randolist[0]]), str(que[ques][randolist[1]]), str(que[ques][randolist[2]]), str(que[ques][randolist[3]])))
 db.commit()
 c.close()
