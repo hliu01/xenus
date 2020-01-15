@@ -114,16 +114,16 @@ function timeRemaining()
       {% for i in q %}
       <li class="lead">{{i[0]|safe}}</li>
       <div class="form-check">
-        <input required="true" class ="form-check-input" type='radio' value='{{i[1]}}' name='{{loop.index0}}' checked/>
+        <input required="true" class ="form-check-input" type='radio' value='{{i[1]}}' name='{{loop.index0}}' required/>
         <label class="form-check-label"> {{i[1]|safe}} </label>
         <br>
-        <input required="true" class ="form-check-input" type='radio' value='{{i[2]}}' name='{{loop.index0}}' checked/>
+        <input required="true" class ="form-check-input" type='radio' value='{{i[2]}}' name='{{loop.index0}}' required/>
         <label class="form-check-label"> {{i[2]|safe}} </label>
         <br>
-        <input required="true" class ="form-check-input" type='radio' value='{{i[3]}}' name='{{loop.index0}}' checked/>
+        <input required="true" class ="form-check-input" type='radio' value='{{i[3]}}' name='{{loop.index0}}' required/>
         <label class="form-check-label"> {{i[3]|safe}} </label>
         <br>
-        <input required="true" class ="form-check-input" type='radio' value='{{i[4]}}' name='{{loop.index0}}' checked/>
+        <input required="true" class ="form-check-input" type='radio' value='{{i[4]}}' name='{{loop.index0}}' required/>
         <label class="form-check-label"> {{i[4]|safe}} </label>
         <br>
       </div>
