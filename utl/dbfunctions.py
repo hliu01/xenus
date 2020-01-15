@@ -1,25 +1,13 @@
 import sqlite3
 import urllib.request as request
 import simplejson as json
+import random
 
 #DATABASE SETUP
 DB_FILE = "Info.db"
+db = sqlite3.connect(DB_FILE)
+c = db.cursor()
 
-
-def setup():
-    db = sqlite3.connect(DB_FILE)
-    c = db.cursor()
-    c.execute(''' SELECT count(name) FROM sqlite_master WHERE type='table' AND name='USER' ''')
-    if c.fetchone()[0] < 1:
-        c.execute("CREATE TABLE USER(username TEXT, password TEXT);")
-        c.execute("INSERT INTO USER VALUES ('{}', '{}')".format("hliu00","hi"))
-        c.execute("INSERT INTO USER VALUES ('{}', '{}')".format("hliu01","hi"))
-    c.execute(''' SELECT count(name) FROM sqlite_master WHERE type='table' AND name='TRIVIA' ''')
-    if c.fetchone()[0] < 1:
-        addQuestionsToDatabase();
-    db.commit()
-    c.close()
-    return
 
 def userExists(user):
     db = sqlite3.connect(DB_FILE)
@@ -52,30 +40,3 @@ def addUser(user, pswd, conf):
     else:
         flash('Passwords do not match. Please try again.')
         return False
-
-
-
-def quest(list):
-    q = request.urlopen("https://opentdb.com/api.php?amount=10&category=19&type=multiple").read()
-    for i in range(10):
-        count = json.loads(q)['results'][i]
-        ans = [count['correct_answer']]
-        list[count['question']] = [*ans,*count['incorrect_answers']]
-    return list
-
-
-def addQuestionsToDatabase():
-    db = sqlite3.connect(DB_FILE)
-    c = db.cursor()
-    c.execute('DROP TABLE IF EXISTS TRIVIA')
-    c.execute('CREATE TABLE IF NOT EXISTS TRIVIA (questions TEXT, one TEXT, two TEXT, three TEXT, four TEXT)')
-    c.execute('DROP TABLE IF EXISTS answers')
-    c.execute('CREATE TABLE IF NOT EXISTS answers (answer TEXT)')
-    """Adds questions and choices into the database"""
-    que = {}
-    que = quest(que)
-    for i in range(10):
-        ques = list(que)[i]
-        c.execute('INSERT INTO TRIVIA VALUES (?, ?, ?, ?, ?)', (str(ques), str(que[ques][0]), str(que[ques][1]), str(que[ques][2]), str(que[ques][3])))
-    db.commit()
-    db.close()

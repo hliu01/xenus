@@ -18,17 +18,7 @@ import time
 app = Flask(__name__)
 app.secret_key = urandom(32)
 
-#-----------------------------------------------------------------
-
-#DATABASE SETUP
 DB_FILE = "Info.db"
-db = sqlite3.connect(DB_FILE)
-c = db.cursor() #facilitate db operations
-dbfunctions.setup()
-db.commit()
-db.close()
-#-----------------------------------------------------------------
-
 # DICTIONARY FOR IMPORTANT SEARCH DATA
 searchdict = {}
 
@@ -245,7 +235,7 @@ def playBlackJack():
         return render_template('blackjack.html',gameOver = True, userWin = False,ourcards=ours,ourscore = oscore,usercards = users,yourscore =uscore)
     print(users)
     print(ours)
-    return render_template('blackjack.html',gameOver = False ,gameStarted =True,userMove = True,ourcards = ours,ourscore = oscore,usercards = users,userscore =uscore)
+    return render_template('blackjack.html',gameOver = False ,gameStarted =True,userMove = True,ourcards = ours,ourscore = oscore,usercards = users,userscore =uscore,  heading = session["user"],sessionstatus = "user" in session)
 
 @app.route("/houseblackjack")
 def houseBlackJack():
@@ -259,9 +249,12 @@ def houseBlackJack():
         uscore = blackjack.getUserScore()
         oscore = blackjack.getOurScore()
         session.pop('deckid')
+        winner = False
         if 'blackjackwins' in session
             session['blackjackwins'] = session['blackjackwins'] + 1
-        return render_template('blackjack.html',gameOver = True, userWin = True,ourcards=ours,ourscore = oscore,usercards = users,yourscore =uscore)
+            if (session['blackjackwins'] >= 3):
+                winner = True
+        return render_template('blackjack.html',gameOver = True, userWin = True,moveOn = winner,ourcards=ours,ourscore = oscore,usercards = users,yourscore =uscore)
     if (oscore > uscore):
         uscore = blackjack.getUserScore()
         oscore = blackjack.getOurScore()
@@ -356,7 +349,6 @@ def computation():
         return redirect(url_for('root'))
     with sqlite3.connect(DB_FILE) as connection:
         c = connection.cursor()
-        dbfunctions.addQuestionsToDatabase()
         q = 'SELECT questions, one, two , three, four FROM TRIVIA;'
         foo = c.execute(q)
         List = foo.fetchall()
@@ -369,9 +361,84 @@ def computationchecker():
     if "user" not in session:
         return redirect(url_for('root'))
     dict = request.form
+    print(dict)
+    with sqlite3.connect(DB_FILE) as connection:
+        c = connection.cursor()
+        q = 'SELECT answer FROM answers;'
+        foo = c.execute(q)
+        List = foo.fetchall()
+        connection.commit()
+    score = 0
+    for i in range(0,10):
+        print(dict[str(i)])
+        print(List[i])
+        if dict[str(i)] == List[i][0]:
+            score = score + 1
+    if score > 2:
+        return render_template("computationchecker.html", heading = session["user"],sessionstatus = "user" in session)
+    else:
+        if "user" not in session:
+            return redirect(url_for('root'))
+        with sqlite3.connect(DB_FILE) as connection:
+            c = connection.cursor()
+            q = 'SELECT questions, one, two , three, four FROM TRIVIA;'
+            foo = c.execute(q)
+            List = foo.fetchall()
+            connection.commit()
+        return render_template("computation.html", q = List, heading = session["user"],sessionstatus = "user" in session)
+
+
     #list of list answers
     #for each in list answers check if the anser is equal to dict[question]
-    return "woo"
+
+
+@app.route("/trivia")
+def trivia():
+    if "user" not in session:
+        return redirect(url_for('root'))
+    with sqlite3.connect(DB_FILE) as connection:
+        c = connection.cursor()
+        q = 'SELECT questions, one, two , three, four FROM REALTRIVIA;'
+        foo = c.execute(q)
+        List = foo.fetchall()
+        connection.commit()
+    return render_template('trivia.html',q = List, heading = session["user"],sessionstatus = "user" in session)
+
+
+@app.route("/triviachecker",methods=["POST"])
+def triviachecker():
+    if "user" not in session:
+        return redirect(url_for('root'))
+    dict = request.form
+    print(dict)
+    with sqlite3.connect(DB_FILE) as connection:
+        c = connection.cursor()
+        q = 'SELECT answer FROM realanswers;'
+        foo = c.execute(q)
+        List = foo.fetchall()
+        connection.commit()
+    score = 0
+    for i in range(0,10):
+        print(dict[str(i)])
+        print(List[i])
+        if dict[str(i)] == List[i][0]:
+            score = score + 1
+    if score > 2:
+        return render_template("triviachecker.html", heading = session["user"],sessionstatus = "user" in session)
+    else:
+        if "user" not in session:
+            return redirect(url_for('root'))
+        with sqlite3.connect(DB_FILE) as connection:
+            c = connection.cursor()
+            q = 'SELECT questions, one, two , three, four FROM REALTRIVIA;'
+            foo = c.execute(q)
+            List = foo.fetchall()
+            connection.commit()
+        return render_template("trivia.html", q = List, heading = session["user"],sessionstatus = "user" in session)
+
+
+    #list of list answers
+    #for each in list answers check if the anser is equal to dict[question]
 
 if __name__ == "__main__":
     app.debug = True
