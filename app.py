@@ -30,23 +30,20 @@ def root():
 def level1():
     if "user" not in session:
         return redirect(url_for('root'))
-    return render_template("level1.html",
-    title = "Profile - {}".format(session["user"]), heading = session["user"],sessionstatus = "user" in session)
+    return render_template("level1.html",heading = session["user"],sessionstatus = "user" in session)
 
 @app.route("/level2")
 def level2():
     if "user" not in session:
         return redirect(url_for('root'))
-    return render_template("level2.html",
-    title = "Profile - {}".format(session["user"]), heading = session["user"],sessionstatus = "user" in session)
+    return render_template("level2.html",heading = session["user"],sessionstatus = "user" in session)
 
 
 @app.route("/level3")
 def level3():
     if "user" not in session:
         return redirect(url_for('root'))
-    return render_template("level3.html",
-    title = "Profile - {}".format(session["user"]), heading = session["user"],sessionstatus = "user" in session)
+    return render_template("level3.html",heading = session["user"],sessionstatus = "user" in session)
 
 
 @app.route("/login")
@@ -131,16 +128,7 @@ def addUser(user, pswd, conf):
 def play():
     if "user" not in session:
         return redirect(url_for('root'))
-    return render_template("play.html",
-    title = "Play - {}".format(session["user"]), heading = session["user"],sessionstatus = "user" in session)
-
-@app.route("/indexxx")
-def index():
-    if "user" not in session:
-        return redirect(url_for('root'))
-    return render_template("indexxx.html",
-    title = "Play - {}".format(session["user"]), heading = session["user"],sessionstatus = "user" in session)
-
+    return render_template("play.html",heading = session["user"],sessionstatus = "user" in session)
 
 # Dispalys user's personal blog page and loads HTML with blog writing form
 @app.route("/profile")
