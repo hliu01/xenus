@@ -301,6 +301,8 @@ def checktyperacer2():
 
 @app.route('/playclo')
 def playclo():
+    if "user" not in session:
+        return redirect(url_for('root'))
     dice = ["http://roll.diceapi.com/images/poorly-drawn/d6/1.png","http://roll.diceapi.com/images/poorly-drawn/d6/2.png","http://roll.diceapi.com/images/poorly-drawn/d6/3.png","http://roll.diceapi.com/images/poorly-drawn/d6/4.png","http://roll.diceapi.com/images/poorly-drawn/d6/5.png","http://roll.diceapi.com/images/poorly-drawn/d6/6.png"]
     ourroll = rolldice()
     while ((ourroll[0] != ourroll[1]) and (ourroll[1] != ourroll[2]) and (ourroll[0] != ourroll[2])):
@@ -318,10 +320,12 @@ def playclo():
     validroll = True
     if ((yourroll[0] != yourroll[1]) and (yourroll[1] != yourroll[2]) and (yourroll[0] != yourroll[2])):
             validroll = False
-    return render_template('clo.html',die1 = ourdie1,die2=ourdie2,die3=ourdie3,die4=yourdie1,die5=yourdie2,die6=yourdie3,validRoll = validroll)
+    return render_template('clo.html',die1 = ourdie1,die2=ourdie2,die3=ourdie3,die4=yourdie1,die5=yourdie2,die6=yourdie3,validRoll = validroll, heading = session["user"],sessionstatus = "user" in session)
 
 @app.route('/reroll')
 def reroll():
+    if "user" not in session:
+        return redirect(url_for('root'))
     dice = ["http://roll.diceapi.com/images/poorly-drawn/d6/1.png","http://roll.diceapi.com/images/poorly-drawn/d6/2.png","http://roll.diceapi.com/images/poorly-drawn/d6/3.png","http://roll.diceapi.com/images/poorly-drawn/d6/4.png","http://roll.diceapi.com/images/poorly-drawn/d6/5.png","http://roll.diceapi.com/images/poorly-drawn/d6/6.png"]
     yourroll = rolldice()
     ourdie1 = session['ourdie1']
@@ -333,7 +337,7 @@ def reroll():
     validroll = True
     if ((yourroll[0] != yourroll[1]) and (yourroll[1] != yourroll[2]) and (yourroll[0] != yourroll[2])):
         validroll = False
-    return render_template('clo.html',die1 = ourdie1,die2=ourdie2,die3=ourdie3,die4=yourdie1,die5=yourdie2,die6=yourdie3)
+    return render_template('clo.html',die1 = ourdie1,die2=ourdie2,die3=ourdie3,die4=yourdie1,die5=yourdie2,die6=yourdie3, heading = session["user"],sessionstatus = "user" in session)
 
 def rolldice():
     die1 = random.randint(0,6)

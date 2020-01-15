@@ -141,10 +141,9 @@ function timeRemaining()
     {% else %}
     <center>
         <h3>
-          Roll Again
-          <form action="/reroll" method="post" id="testformid">
-              <input type="submit" />
-          </form>
+          <a href="/reroll">
+                <button type="button" class="btn btn-success">Roll Again</button>
+            </a>
         </h3>
     </center>
 </div>
