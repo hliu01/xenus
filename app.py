@@ -161,7 +161,7 @@ def startBlackJack():
     shuffle()
     users = blackjack.getusercards()
     ours =  blackjack.getourcards()
-    return render_template('blackjack.html',gameOver = False,gameStarted = False,heading = session["user"],sessionstatus = True))
+    return render_template('blackjack.html',gameOver = False,gameStarted = False,heading = session["user"],sessionstatus = True)
 
 def shuffle():
     if "user" not in session:
@@ -329,7 +329,7 @@ def reroll():
         session['yourdie1'] = yourdie1
         session['yourdie2'] = yourdie2
         session['yourdie3'] = yourdie3
-    return render_template('clo.html',die1 = ourdie1,die2=ourdie2,die3=ourdie3,die4=yourdie1,die5=yourdie2,die6=yourdie3,validRoll = validroll,heading = session["user"],sessionstatus = "user" in session))
+    return render_template('clo.html',die1 = ourdie1,die2=ourdie2,die3=ourdie3,die4=yourdie1,die5=yourdie2,die6=yourdie3,validRoll = validroll,heading = session["user"],sessionstatus = "user" in session)
 
 app.route('/evalscores')
 def whowon():
