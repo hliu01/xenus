@@ -14,6 +14,7 @@ import utl.dbfunctions as dbfunctions
 import utl.blackjack as blackjack
 import urllib.request as urlrequest
 import random
+import time
 app = Flask(__name__)
 app.secret_key = urandom(32)
 
@@ -160,6 +161,8 @@ def snake():
 def startBlackJack():
     if "user" not in session:
         return redirect(url_for('root'))
+    if 'blackjackwins' not in session:
+        session['blackjackwins'] = 0
     blackjack.newGame()
     url = "https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=6"
     req = urlrequest.Request(url,headers={'User-Agent': 'Mozilla/5.0'})
@@ -170,11 +173,11 @@ def startBlackJack():
     shuffle()
     users = blackjack.getusercards()
     ours =  blackjack.getourcards()
-    print(users)
-    print(ours)
-    return render_template('blackjack.html',gameOver = False,gameStarted = False,  heading = session["user"],sessionstatus = "user" in session)
+    return render_template('blackjack.html',gameOver = False,gameStarted = False)
 
 def shuffle():
+    if "user" not in session:
+        return redirect(url_for('root'))
     if not ('deckid' in session):
         return url_for('startBlackJack')
     url = "https://deckofcardsapi.com/api/deck/" + session['deckid'] + "/shuffle/?deck_count=6"
@@ -226,7 +229,10 @@ def playBlackJack():
         housedrawCard()
         ours =  blackjack.getourcards()
     if (uscore > 21):
-        return render_template('blackjack.html',gameOver = True, userWin = False,  heading = session["user"],sessionstatus = "user" in session)
+        uscore = blackjack.getUserScore()
+        oscore = blackjack.getOurScore()
+        session.pop('deckid')
+        return render_template('blackjack.html',gameOver = True, userWin = False,ourcards=ours,ourscore = oscore,usercards = users,yourscore =uscore)
     print(users)
     print(ours)
     return render_template('blackjack.html',gameOver = False ,gameStarted =True,userMove = True,ourcards = ours,ourscore = oscore,usercards = users,userscore =uscore,  heading = session["user"],sessionstatus = "user" in session)
@@ -240,16 +246,25 @@ def houseBlackJack():
     uscore = blackjack.getUserScore()
     oscore = blackjack.getOurScore()
     if (oscore > 21):
-        return render_template('blackjack.html',gameOver = True, userWin = True, heading = session["user"],sessionstatus = "user" in session)
+        uscore = blackjack.getUserScore()
+        oscore = blackjack.getOurScore()
+        session.pop('deckid')
+        winner = False
+        if 'blackjackwins' in session
+            session['blackjackwins'] = session['blackjackwins'] + 1
+            if (session['blackjackwins'] >= 3):
+                winner = True
+        return render_template('blackjack.html',gameOver = True, userWin = True,moveOn = winner,ourcards=ours,ourscore = oscore,usercards = users,yourscore =uscore)
     if (oscore > uscore):
-        return render_template('blackjack.html',gameOver= True, userWin = False,  heading = session["user"],sessionstatus = "user" in session)
+        uscore = blackjack.getUserScore()
+        oscore = blackjack.getOurScore()
+        session.pop('deckid')
+        return render_template('blackjack.html',gameOver = True, userWin = False,ourcards=ours,ourscore = oscore,usercards = users,yourscore =uscore)
     if (uscore >= oscore):
         housedrawCard()
         ours =  blackjack.getourcards()
         oscore = blackjack.getOurScore()
-    print(users)
-    print(ours)
-    return render_template('blackjack.html',gameOver = False ,gameStarted =True,userMove = False,ourcards = ours,ourscore = oscore,usercards = users,userscore = uscore,  heading = session["user"],sessionstatus = "user" in session)
+    return render_template('blackjack.html',gameOver = False ,gameStarted =True,userMove = False,ourcards = ours,ourscore = oscore,usercards = users,userscore = uscore)
 
 @app.route("/typeracer")
 def typeracer():
@@ -288,15 +303,37 @@ def checktyperacer2():
 def playclo():
     dice = ["http://roll.diceapi.com/images/poorly-drawn/d6/1.png","http://roll.diceapi.com/images/poorly-drawn/d6/2.png","http://roll.diceapi.com/images/poorly-drawn/d6/3.png","http://roll.diceapi.com/images/poorly-drawn/d6/4.png","http://roll.diceapi.com/images/poorly-drawn/d6/5.png","http://roll.diceapi.com/images/poorly-drawn/d6/6.png"]
     ourroll = rolldice()
-
     while ((ourroll[0] != ourroll[1]) and (ourroll[1] != ourroll[2]) and (ourroll[0] != ourroll[2])):
-        print(ourroll)
         ourroll = rolldice()
     ourdie1 = dice[ourroll[0]-1]
     ourdie2 = dice[ourroll[1]-1]
     ourdie3 = dice[ourroll[2]-1]
-    return render_template('clo.html',die1 = ourdie1,die2=ourdie2,die3=ourdie3)
+    session['ourdie1'] = ourdie1
+    session['ourdie2'] = ourdie2
+    session['ourdie3'] = ourdie3
+    yourroll = rolldice()
+    yourdie1 = dice[yourroll[0]-1]
+    yourdie2 = dice[yourroll[1]-1]
+    yourdie3 = dice[yourroll[2]-1]
+    validroll = True
+    if ((yourroll[0] != yourroll[1]) and (yourroll[1] != yourroll[2]) and (yourroll[0] != yourroll[2])):
+            validroll = False
+    return render_template('clo.html',die1 = ourdie1,die2=ourdie2,die3=ourdie3,die4=yourdie1,die5=yourdie2,die6=yourdie3,validRoll = validroll)
 
+@app.route('/reroll')
+def reroll():
+    dice = ["http://roll.diceapi.com/images/poorly-drawn/d6/1.png","http://roll.diceapi.com/images/poorly-drawn/d6/2.png","http://roll.diceapi.com/images/poorly-drawn/d6/3.png","http://roll.diceapi.com/images/poorly-drawn/d6/4.png","http://roll.diceapi.com/images/poorly-drawn/d6/5.png","http://roll.diceapi.com/images/poorly-drawn/d6/6.png"]
+    yourroll = rolldice()
+    ourdie1 = session['ourdie1']
+    ourdie2 = session['ourdie2']
+    ourdie3 = session['ourdie3']
+    yourdie1 = dice[yourroll[0]-1]
+    yourdie2 = dice[yourroll[1]-1]
+    yourdie3 = dice[yourroll[2]-1]
+    validroll = True
+    if ((yourroll[0] != yourroll[1]) and (yourroll[1] != yourroll[2]) and (yourroll[0] != yourroll[2])):
+        validroll = False
+    return render_template('clo.html',die1 = ourdie1,die2=ourdie2,die3=ourdie3,die4=yourdie1,die5=yourdie2,die6=yourdie3)
 
 def rolldice():
     die1 = random.randint(0,6)
@@ -304,6 +341,8 @@ def rolldice():
     die3 = random.randint(0,6)
     ans = [die1,die2,die3]
     return ans
+
+
 
 @app.route("/computation")
 def computation():

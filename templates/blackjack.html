@@ -106,6 +106,39 @@ function timeRemaining()
 </body>
 {% if gameOver %}
     {% if userWin %}
+        {% if moveOn %}
+            <br>
+            <br>
+            <br>
+            <center><h3>WINNER WINNER</h3>
+                <img src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/easy-chicken-dinners-zesty-orange-glazed-drumsticks-1561669174.jpg?crop=0.860xw:0.859xh;0.0700xw,0.0748xh&resize=640:*">
+            </center>
+            <br>
+            <center><h1><a href="/level3"><button type="button" class="btn btn-success">Continue To The Next Level</button></a></h1></center>
+            <h1 class="display-3"> The House</h1>
+            <br>
+            <br>
+            <br>
+            <br>
+            <div class="row">
+                {% for card in ourcards%}
+                    <div class = "col">
+                        <img src={{card[0]}}>
+                    </div>
+                {% endfor %}
+            </div>
+            <h3 class="display-4">Our Score: {{ourscore}}</h3>
+            <br>
+            <h1 class="display-3"> Your Cards</h1>
+            <div class="row">
+                {% for card in usercards%}
+                <div class = "col">
+                    <img src={{card[0]}}>
+                </div>
+                {% endfor %}
+                <h3 class="display-4">Your Score: {{yourscore}}</h3>
+            </div>
+        {% else %}
         <br>
         <br>
         <br>
@@ -113,7 +146,31 @@ function timeRemaining()
         <img src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/easy-chicken-dinners-zesty-orange-glazed-drumsticks-1561669174.jpg?crop=0.860xw:0.859xh;0.0700xw,0.0748xh&resize=640:*">
         </center>
         <br>
-        <center><h1><a href="/level3"><button type="button" class="btn btn-success">continue</button></a></h1></center>
+        <center><h1><a href="/blackjack"><button type="button" class="btn btn-success">Win Three Games To Move On</button></a></h1></center>
+        <h1 class="display-3"> The House</h1>
+        <br>
+        <br>
+        <br>
+        <br>
+        <div class="row">
+            {% for card in ourcards%}
+                <div class = "col">
+                    <img src={{card[0]}}>
+                </div>
+            {% endfor %}
+        </div>
+        <h3 class="display-4">Our Score: {{ourscore}}</h3>
+        <br>
+        <h1 class="display-3"> Your Cards</h1>
+        <div class="row">
+            {% for card in usercards%}
+            <div class = "col">
+                <img src={{card[0]}}>
+            </div>
+            {% endfor %}
+            <h3 class="display-4">Your Score: {{yourscore}}</h3>
+        </div>
+        {% endif %}
     {% else %}
         <br>
         <br>
