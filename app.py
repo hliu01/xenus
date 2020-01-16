@@ -37,10 +37,12 @@ def updateTime(userr, level, time):
             for row in userList:
                 if (userr == row[0]):
                     if (row[1] < time or row[1] == 0):
-                        q = """ UPDATE USER
-                        SET level1 = TIME
-                        WHERE username = USERR; """
-                        cur.execute(q)
+                        cur.execute("""
+                        UPDATE USER
+                        SET level1 = ?
+                        WHERE
+                            username = ?
+                        """,(time,userr,))
                         connection.commit()
         if level == 2:
             m = 'SELECT username, level2 FROM USER;'
@@ -49,10 +51,12 @@ def updateTime(userr, level, time):
             for row in userList:
                 if (row[0] == userr):
                     if (row[1] < time or row[1] == 0):
-                        q = """ UPDATE USER
-                        SET level2 = TIME
-                        WHERE username = USERR; """
-                        cur.execute(q)
+                        cur.execute("""
+                        UPDATE USER
+                        SET level2 = ?
+                        WHERE
+                        username = ?
+                    """,(time,userr,))
                         connection.commit()
         if level == 3:
             m = 'SELECT user, level3 FROM USER;'
@@ -61,13 +65,15 @@ def updateTime(userr, level, time):
             for row in userList:
                 if (row[0] == userr):
                     if (row[1] < time or row[1] == 0):
-                        q = """ UPDATE USER
-                        set level3 = TIME
-                        WHERE username = USERR; """
-                        cur.execute(q)
+                        cur.execute("""
+                        UPDATE USER
+                        SET level3 = ?
+                        WHERE
+                        username = ?
+                    """,(time,userr,))
                         connection.commit()
         return True
-updateTime("hliu01", 1, 2)
+updateTime("test", 1, 2)
 
 @app.route("/")
 def root():
