@@ -61,7 +61,7 @@ def updateWins(userr, level):
                     connection.commit()
 
         if level == 3:
-            m = 'SELECT user, level3 FROM USER;'
+            m = 'SELECT username, level3 FROM USER;'
             foo = cur.execute(m)
             userList = foo.fetchall()
             for row in userList:
@@ -144,6 +144,7 @@ def level1():
 def level2():
     if "user" not in session:
         return redirect(url_for('root'))
+    userr = session["user"]
     with sqlite3.connect(DB_FILE) as connection:
         cur = connection.cursor()
         m = 'SELECT username, level1 FROM USER;'
@@ -152,7 +153,8 @@ def level2():
         connection.commit()
         for row in userList:
             if (userr == row[0]):
-                return render_template("level2.html",heading = session["user"],sessionstatus = "user" in session)
+                if (row[1] > 0):
+                    return render_template("level2.html",heading = session["user"],sessionstatus = "user" in session)
         return redirect(url_for('play'))
 
 
@@ -160,6 +162,7 @@ def level2():
 def level3():
     if "user" not in session:
         return redirect(url_for('root'))
+    userr = session["user"]
     with sqlite3.connect(DB_FILE) as connection:
         cur = connection.cursor()
         m = 'SELECT username, level2 FROM USER;'
@@ -168,7 +171,8 @@ def level3():
         connection.commit()
         for row in userList:
             if (userr == row[0]):
-                return render_template("level3.html",heading = session["user"],sessionstatus = "user" in session)
+                if (row[1] > 0):
+                    return render_template("level3.html",heading = session["user"],sessionstatus = "user" in session)
         return redirect(url_for('play'))
 
 @app.route("/login")
@@ -377,6 +381,7 @@ def houseBlackJack():
             session['blackjackwins'] = session['blackjackwins'] + 1
             if (session['blackjackwins'] >= 3):
                 winner = True
+        updateWins(session["user"], 2)
         return render_template('blackjack.html',gameOver = True, userWin = True,moveOn = winner,ourcards=ours,ourscore = oscore,usercards = users,yourscore =uscore,  heading = session["user"],sessionstatus = "user" in session)
     if (oscore > uscore):
         uscore = blackjack.getUserScore()
@@ -401,7 +406,7 @@ def checktyperacer():
         print(hi)
         return redirect(url_for('root'))
     comment = request.form['comment']
-    if comment == "Hello Earth, I hope you take time to read this. I found a connection suddenly, so I have barely any time waste. I woke up on a planet called Xenus, and I am currently flying back to Earth. It’s been very tough for me to survive, and the fact that I am writing you this message is a miracle. I don’t know my name, my age, basically anything. I hope you will give me consent to enter, as I bring no harm. I am going to need a landing site with x and y coordinates. Although I have no money, I have resources from Xenus that have never been seen before. This will attract many people and bring light to new innovations. If possible, please send help to me because I am running out of food and liquid. I am currently traveling directly south about 1400 million miles away from Earth. Thank you.":
+    if comment.strip().lower() == "Hello Earth, I found a connection suddenly, so please respond fast. I woke up on a planet called Xenus, and I am currently flying back to Earth. It’s been very tough for me, and the fact that I am writing you this message is a miracle. I am going to need a landing site with x and y coordinates. Although I have no money, I have extremely valuable resources from Xenus. If possible, please send help to me because I am running out of food and liquid.".strip().lower():
         return render_template("checktyperacer.html", incorrect = False,heading = session["user"],sessionstatus = "user" in session)
     else:
         return render_template("typeracer.html", incorrect = True, comment = comment, heading = session["user"],sessionstatus = "user" in session)
@@ -417,7 +422,7 @@ def checktyperacer2():
     if "user" not in session:
         return redirect(url_for('root'))
     comment = request.form['comment']
-    if comment == "Hello Earth. It is me again. I come in peace. I have resources with me that would give great benefits to Earth. I only ask for a landing site, so I can come back to my home. My skills come from Xenus and my years of experience in space. Please comply with me.":
+    if comment.strip().lower() == "Hello Earth. It is me again. I come in peace. I have resources with me that would give great benefits to Earth. I only ask for a landing site, so I can come back to my home. My skills come from Xenus and my years of experience in space. Please comply with me.".strip().lower():
         return render_template("checktyperacer2.html", incorrect = False, heading = session["user"],sessionstatus = "user" in session)
     else:
         return render_template("typeracer2.html", incorrect = True, comment = comment, heading = session["user"],sessionstatus = "user" in session)
@@ -533,6 +538,7 @@ def whowon():
         userwin = True
     elif (ourscore == yourscore):
         return redirect(url_for('playclo'))
+    updateWins(session["user"], 3)
     return render_template('Congratulations.html',heading = session["user"],sessionstatus = "user" in session)
 
 def rolldice():
