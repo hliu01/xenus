@@ -33,7 +33,7 @@ def addUser(user, pswd, conf):
     if (pswd == conf):
         with sqlite3.connect(DB_FILE) as connection:
             cur = connection.cursor()
-            q = "INSERT INTO USER VALUES('{}', '{}');".format(user, pswd) # Successfully registers new user
+            q = "INSERT INTO USER VALUES('{}', '{}', 0, 0, 0);".format(user, pswd) # Successfully registers new user
             cur.execute(q)
             connection.commit()
         return True

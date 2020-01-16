@@ -22,6 +22,45 @@ DB_FILE = "Info.db"
 # DICTIONARY FOR IMPORTANT SEARCH DATA
 searchdict = {}
 
+
+
+
+def updateTime(userr, level, time):
+    with sqlite3.connect(DB_FILE) as connection:
+        cur = connection.cursor()
+        if level == 1:
+            m = 'SELECT user, level1 FROM USER;'
+            foo = cur.execute(m)
+            userList = foo.fetchall()
+            if (userList[user] < time or time == 0):
+                q = """ UPDATE USER
+                SET level1 = time
+                WHERE user = userr; """
+                cur.execute(q)
+                connection.commit()
+
+        if level == 2:
+            m = 'SELECT user, level2 FROM USER;'
+            foo = cur.execute(m)
+            userList = foo.fetchall()
+            if (userList[user] < time or time == 0):
+                q = """ UPDATE USER
+                SET level2 = time
+                WHERE user = userr; """
+                cur.execute(q)
+                connection.commit()
+        if level == 3:
+            m = 'SELECT user, level3 FROM USER;'
+            foo = cur.execute(m)
+            userList = foo.fetchall()
+            if (userList[user] < time or time == 0):
+                q = """ UPDATE USER
+                SET level3 = time
+                WHERE user = userr; """
+                cur.execute(q)
+                connection.commit()
+        return True
+
 @app.route("/")
 def root():
     return render_template("play.html", sessionstatus = "user" in session)
@@ -116,7 +155,7 @@ def addUser(user, pswd, conf):
     if (pswd == conf):
         with sqlite3.connect(DB_FILE) as connection:
             cur = connection.cursor()
-            q = "INSERT INTO USER VALUES('{}', '{}');".format(user, pswd) # Successfully registers new user
+            q = "INSERT INTO USER VALUES('{}', '{}', 0, 0, 0);".format(user, pswd) # Successfully registers new user
             cur.execute(q)
             connection.commit()
         return True
@@ -258,34 +297,40 @@ def houseBlackJack():
 def typeracer():
     if "user" not in session:
         return redirect(url_for('root'))
-    comment = "none"
-    return render_template("typeracer.html", incorrect = False, heading = session["user"],sessionstatus = "user" in session)
+    return render_template("typeracer.html", heading = session["user"],sessionstatus = "user" in session)
 
 @app.route('/checktyperacer', methods=['POST'])
 def checktyperacer():
     if "user" not in session:
+        print(hi)
         return redirect(url_for('root'))
     comment = request.form['comment']
-    if comment.strip().lower() == "Hello Earth, I found a connection suddenly, so please respond fast. I woke up on a planet called Xenus, and I am currently flying back to Earth. It’s been very tough for me, and the fact that I am writing you this message is a miracle. I am going to need a landing site with x and y coordinates. Although I have no money, I have extremely valuable resources from Xenus. If possible, please send help to me because I am running out of food and liquid. ".strip().lower():
+    if comment == "Hello Earth, I hope you take time to read this. I found a connection suddenly, so I have barely any time waste. I woke up on a planet called Xenus, and I am currently flying back to Earth. It’s been very tough for me to survive, and the fact that I am writing you this message is a miracle. I don’t know my name, my age, basically anything. I hope you will give me consent to enter, as I bring no harm. I am going to need a landing site with x and y coordinates. Although I have no money, I have resources from Xenus that have never been seen before. This will attract many people and bring light to new innovations. If possible, please send help to me because I am running out of food and liquid. I am currently traveling directly south about 1400 million miles away from Earth. Thank you.":
         return render_template("checktyperacer.html", heading = session["user"],sessionstatus = "user" in session)
     else:
-        return render_template("typeracer.html", comment = comment, incorrect = True, heading = session["user"],sessionstatus = "user" in session)
+        return render_template("typeracer.html", heading = session["user"],sessionstatus = "user" in session)
 
 @app.route("/typeracer2")
 def typeracer2():
     if "user" not in session:
         return redirect(url_for('root'))
-    return render_template("typeracer2.html", incorrect = False, heading = session["user"],sessionstatus = "user" in session)
+    return render_template("typeracer2.html", heading = session["user"],sessionstatus = "user" in session)
 
 @app.route('/checktyperacer2', methods=['POST'])
 def checktyperacer2():
     if "user" not in session:
         return redirect(url_for('root'))
     comment = request.form['comment']
-    if comment.strip().lower() == "Hello Earth. It is me again. I come in peace. I have resources with me that would give great benefits to Earth. I only ask for a landing site, so I can come back to my home. My skills come from Xenus and my years of experience in space. Please comply with me. ".strip().lower():
+    if comment == "Hello Earth. It is me again. I have communicated with you people a long time ago so please do not act with hostility. I come in peace. I have resources with me that would give benefits to Earth. I have travelled for decades and it is extremely tragic that you are not accepting me. I only ask for a landing site, so I can come back to my home. If you do act with hostility I will survive any hostility. My skills come from Xenus and years of experience in space, battling worse things than the worst Earth can offer. Do not waste your weapons on me, as I will survive no matter what. I just need consent to enter Earth. Please comply with me.":
         return render_template("checktyperacer2.html", heading = session["user"],sessionstatus = "user" in session)
     else:
-        return render_template("typeracer2.html", heading = session["user"], comment = comment, incorrect = True ,sessionstatus = "user" in session)
+        return render_template("typeracer2.html", heading = session["user"],sessionstatus = "user" in session)
+
+@app.route('/startclo')
+def startclo():
+    if "user" not in session:
+        return redirect(url_for('root'))
+    return render_template('clo.html',startGame=True)
 
 @app.route('/playclo')
 def playclo():
@@ -295,20 +340,26 @@ def playclo():
     ourroll = rolldice()
     while ((ourroll[0] != ourroll[1]) and (ourroll[1] != ourroll[2]) and (ourroll[0] != ourroll[2])):
         ourroll = rolldice()
-    ourdie1 = dice[ourroll[0]-1]
-    ourdie2 = dice[ourroll[1]-1]
-    ourdie3 = dice[ourroll[2]-1]
-    session['ourdie1'] = ourdie1
-    session['ourdie2'] = ourdie2
-    session['ourdie3'] = ourdie3
+    session['ourdie1'] = ourroll[0]
+    session['ourdie2'] = ourroll[1]
+    session['ourdie3'] = ourroll[2]
     yourroll = rolldice()
-    yourdie1 = dice[yourroll[0]-1]
-    yourdie2 = dice[yourroll[1]-1]
-    yourdie3 = dice[yourroll[2]-1]
+    session['yourdie1'] = yourroll[0]
+    session['yourdie2'] = yourroll[1]
+    session['yourdie3'] = yourroll[2]
     validroll = True
     if ((yourroll[0] != yourroll[1]) and (yourroll[1] != yourroll[2]) and (yourroll[0] != yourroll[2])):
             validroll = False
-    return render_template('clo.html',die1 = ourdie1,die2=ourdie2,die3=ourdie3,die4=yourdie1,die5=yourdie2,die6=yourdie3,validRoll = validroll, heading = session["user"],sessionstatus = "user" in session)
+    return render_template('clo.html',startGame=False,
+                                    die1 = dice[session['ourdie1']-1],
+                                    die2=dice[session['ourdie2']-1],
+                                    die3=dice[session['ourdie3']-1],
+                                    die4=dice[session['yourdie1']-1],
+                                    die5=dice[session['yourdie2']-1],
+                                    die6=dice[session['yourdie3']-1],
+                                    validRoll = validroll,
+                                    heading = session["user"],
+                                    sessionstatus = "user" in session)
 
 @app.route('/reroll')
 def reroll():
@@ -316,30 +367,77 @@ def reroll():
         return redirect(url_for('root'))
     dice = ["http://roll.diceapi.com/images/poorly-drawn/d6/1.png","http://roll.diceapi.com/images/poorly-drawn/d6/2.png","http://roll.diceapi.com/images/poorly-drawn/d6/3.png","http://roll.diceapi.com/images/poorly-drawn/d6/4.png","http://roll.diceapi.com/images/poorly-drawn/d6/5.png","http://roll.diceapi.com/images/poorly-drawn/d6/6.png"]
     yourroll = rolldice()
-    ourdie1 = session['ourdie1']
-    ourdie2 = session['ourdie2']
-    ourdie3 = session['ourdie3']
-    yourdie1 = dice[yourroll[0]-1]
-    yourdie2 = dice[yourroll[1]-1]
-    yourdie3 = dice[yourroll[2]-1]
+    session['yourdie1'] = yourroll[0]
+    session['yourdie2'] = yourroll[1]
+    session['yourdie3'] = yourroll[2]
     validroll = True
     if ((yourroll[0] != yourroll[1]) and (yourroll[1] != yourroll[2]) and (yourroll[0] != yourroll[2])):
         validroll = False
-    else:
-        session['yourdie1'] = yourdie1
-        session['yourdie2'] = yourdie2
-        session['yourdie3'] = yourdie3
-    return render_template('clo.html',die1 = ourdie1,die2=ourdie2,die3=ourdie3,die4=yourdie1,die5=yourdie2,die6=yourdie3,validRoll = validroll,heading = session["user"],sessionstatus = "user" in session)
+    if (yourroll[0] == 4 or yourroll[1] == 4 or yourroll[2] == 4 ):
+        if (yourroll[0] == 5 or yourroll[1] == 5 or yourroll[2] == 5 ):
+            if (yourroll[0] == 6 or yourroll[1] == 6 or yourroll[2] == 6 ):
+                return render_template('clo.html',startGame=False,gameOver = True, userWin = True,
+                                                die1 = dice[session['ourdie1']-1],
+                                                die2=dice[session['ourdie2']-1],
+                                                die3=dice[session['ourdie3']-1],
+                                                die4=dice[session['yourdie1']-1],
+                                                die5=dice[session['yourdie2']-1],
+                                                die6=dice[session['yourdie3']-1],
+                                                heading = session["user"],
+                                                sessionstatus = "user" in session)
+    if (yourroll[0] == 1 or yourroll[1] == 1 or yourroll[2] == 1 ):
+        if (yourroll[0] == 2 or yourroll[1] == 2 or yourroll[2] == 2 ):
+            if (yourroll[0] == 3 or yourroll[1] == 3 or yourroll[2] == 3 ):
+                return render_template('clo.html',startGame=False,gameOver = True, userWin = False,
+                                                die1 = dice[session['ourdie1']-1],
+                                                die2=dice[session['ourdie2']-1],
+                                                die3=dice[session['ourdie3']-1],
+                                                die4=dice[session['yourdie1']-1],
+                                                die5=dice[session['yourdie2']-1],
+                                                die6=dice[session['yourdie3']-1],
+                                                heading = session["user"],
+                                                sessionstatus = "user" in session)
+    return render_template('clo.html',startGame = False, gameOver=False,
+                                    die1 = dice[session['ourdie1']-1],
+                                    die2=dice[session['ourdie2']-1],
+                                    die3=dice[session['ourdie3']-1],
+                                    die4=dice[session['yourdie1']-1],
+                                    die5=dice[session['yourdie2']-1],
+                                    die6=dice[session['yourdie3']-1],
+                                    validRoll = validroll,
+                                    heading = session["user"],
+                                    sessionstatus = "user" in session)
 
-app.route('/evalscores')
+@app.route('/evalscores')
 def whowon():
-    ourdie1 = session['ourdie1']
-    ourdie2 = session['ourdie2']
-    ourdie3 = session['ourdie3']
-    yourdie1 = session['yourdie1']
-    yourdie2 = session['yourdie2']
-    yourdie3 = session['yourdie3']
-
+    if "user" not in session:
+        return redirect(url_for('root'))
+    if ('yourdie1' not in session):
+        return redirect(url_for('playclo'))
+    if ('ourdie1' not in session):
+        return redirect(url_for('playclo'))
+    if (session['ourdie1'] == session['ourdie2'] and session['ourdie2'] == session['ourdie3']):
+        ourscore = session['ourdie1'] * session['ourdie1']
+    if (session['ourdie1'] == session['ourdie2']):
+        ourscore = session['ourdie3']
+    elif (session['ourdie1'] == session['ourdie3']):
+        ourscore = session['ourdie2']
+    else:
+        ourscore = session['ourdie1']
+    if (session['yourdie1'] == session['yourdie2'] and session['yourdie2'] == session['yourdie3']):
+        yourscore = session['yourdie1'] * session['yourdie1']
+    if (session['yourdie1'] == session['yourdie2']):
+        yourscore = session['yourdie3']
+    elif (session['yourdie1'] == session['yourdie3']):
+        yourscore = session['yourdie2']
+    else:
+        yourscore = session['yourdie1']
+    userwin = False
+    if (ourscore > yourscore):
+        userwin = True
+    elif (ourscore == yourscore):
+        return redirect(url_for('playclo'))
+    return render_template('clo.html',startGame=False,gameOver = True, userWin = userwin)
 
 def rolldice():
     die1 = random.randint(0,6)
