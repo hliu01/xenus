@@ -116,6 +116,10 @@ Worked on multiple bugs and added pictures to the website
 wanA -- 2020-01-15 18:35
 Fixed sitemap and finished directions for games. I also added to the storyline and typeracer.
 
+liuH-- 2020-01-16 12:30
+Added functionality to lock levels until a player completed the previous ones
+Added a leaderboard to keep track of other users
+
 khanN -- 2020-01-16 1:30
 Messed around with a ton of JS for the aesthetic, it did not go well...
 Tried to neat up the website homepage looks beautiful
