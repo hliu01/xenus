@@ -33,7 +33,7 @@ def updateWins(userr, level):
             userList = foo.fetchall()
             for row in userList:
                 if (userr == row[0]):
-                    original = row[0][2]
+                    original = row[1]
                     age_int = int(original)
                     age_int = age_int + 1
                     cur.execute("""
@@ -49,13 +49,15 @@ def updateWins(userr, level):
             userList = foo.fetchall()
             for row in userList:
                 if (userr == row[0]):
-                    original = row[0][3]
+                    original = row[1]
+                    age_int = int(original)
+                    age_int = age_int + 1
                     cur.execute("""
                     UPDATE USER
                     SET level2 = ?
                     WHERE
                     username = ?
-                    """,(original,userr,))
+                    """,(age_int,userr,))
                     connection.commit()
 
         if level == 3:
@@ -64,13 +66,15 @@ def updateWins(userr, level):
             userList = foo.fetchall()
             for row in userList:
                 if (userr == row[0]):
-                    original = row[0][4]
+                    original = row[1]
+                    age_int = int(original)
+                    age_int = age_int + 1
                     cur.execute("""
                     UPDATE USER
                     SET level3 = ?
                     WHERE
                     username = ?
-                    """,(original,userr,))
+                    """,(age_int,userr,))
                     connection.commit()
 
         return True
@@ -140,15 +144,32 @@ def level1():
 def level2():
     if "user" not in session:
         return redirect(url_for('root'))
-    return render_template("level2.html",heading = session["user"],sessionstatus = "user" in session)
+    with sqlite3.connect(DB_FILE) as connection:
+        cur = connection.cursor()
+        'SELECT username, level1 FROM USER;'
+        foo = cur.execute(m)
+        userList = foo.fetchall()
+        connection.commit()
+        for row in userList:
+            if (userr == row[0]):
+                return render_template("level2.html",heading = session["user"],sessionstatus = "user" in session)
+        return redirect(url_for('play'))
 
 
 @app.route("/level3")
 def level3():
     if "user" not in session:
         return redirect(url_for('root'))
-    return render_template("level3.html",heading = session["user"],sessionstatus = "user" in session)
-
+    with sqlite3.connect(DB_FILE) as connection:
+        cur = connection.cursor()
+        'SELECT username, level2 FROM USER;'
+        foo = cur.execute(m)
+        userList = foo.fetchall()
+        connection.commit()
+        for row in userList:
+            if (userr == row[0]):
+                return render_template("level3.html",heading = session["user"],sessionstatus = "user" in session)
+        return redirect(url_for('play'))
 
 @app.route("/login")
 def login():
