@@ -1,0 +1,61 @@
+{% extends "homepage.html" %}
+
+{% block css %}
+<style>
+  .col-lg{
+    margin: 15px;
+    padding: 20px;
+  }
+  .btn-primary, .btn-success, .btn-primary:hover, .btn-primary:active, .btn-primary:visited {
+    background-color: white !important;
+    border-color: black !important;
+    color: black !important;
+
+}
+  .footer-copyright{
+    padding: 6px;
+    margin-top: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    color: white; text-align: center;
+    border-top: solid;
+    border-color:lightgray;
+    border-width: 5px;
+  }
+
+  .submitLink {
+    background-color: transparent;
+    text-decoration: underline;
+    border: none;
+    color: blue;
+    cursor: pointer;
+  }
+  submitLink:focus {
+    outline: none;
+  }
+
+</style>
+{% endblock %}
+{% block body %}
+{% block searchresults %}
+<br>
+<br>
+<br>
+<div class="container-fluid">
+  <center>
+    <h1>BADA BOOM BADA BANG</h1>
+    <p> You have successfully beat all of the levels and made it through it all of Earth's nefarious attempts to slow you down. </p>
+  </center>
+</div>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+p {
+  text-align: center;
+  font-size: 15px;
+  margin-top: 0px;
+}
+</style>
+</head>
+{% endblock %}
+{% endblock %}
