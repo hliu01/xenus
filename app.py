@@ -78,7 +78,6 @@ def updateWins(userr, level):
                     connection.commit()
 
         return True
-updateWins("test", 1)
 # '''def updateTime(userr, level, time):
 #     USERR = userr
 #     LEVEL = level

@@ -6,20 +6,14 @@
 - Albert Wan (Database and HTML)
 
 ## Project Overview
-The overall goal of the project is to create a game with a storyline where players attempt to escape the universe Xenus. We will have puzzles like type racer, Galactica, trivia, chance, blackjack, snake and computation problems which will be timed and will only be available once the player completes the puzzles before that one. Through the use of REST APIs, JavaScript, Flask, and databases managed by SQLite, our site will give players a fun game that they won't want to stop playing.
+The objective of this game is to escape xenus. The user must complete challenges to move up levels and work towards escaping xenus. They will have 10 min on each level. Through the use of REST APIs, JavaScript, Flask, and databases managed by SQLite, our site will give players a fun game that they won't want to stop playing.
 
 ## APIs Utilized:
 [Diceful API](http://roll.diceapi.com/)
-  - We will use this API to roll die for our chance game.
+  - We will use this API to roll die for our cee-lo game.
 
 [Deck Of Cards](https://deckofcardsapi.com/)
   - We will use this API to get cards for our blackjack game.
-
-[NBA Player API](https://nba-players.herokuapp.com)
-  - we will use this API to get pictures for users' profile pictures.
-
-[The Open Trivia API](https://opentdb.com/api_config.php)
-  - We will use this API to get trivia questions for use in our trivia game.
 
 
 ## How to Run the Project:  
