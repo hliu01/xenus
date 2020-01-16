@@ -146,7 +146,7 @@ def level2():
         return redirect(url_for('root'))
     with sqlite3.connect(DB_FILE) as connection:
         cur = connection.cursor()
-        'SELECT username, level1 FROM USER;'
+        m = 'SELECT username, level1 FROM USER;'
         foo = cur.execute(m)
         userList = foo.fetchall()
         connection.commit()
@@ -162,7 +162,7 @@ def level3():
         return redirect(url_for('root'))
     with sqlite3.connect(DB_FILE) as connection:
         cur = connection.cursor()
-        'SELECT username, level2 FROM USER;'
+        m = 'SELECT username, level2 FROM USER;'
         foo = cur.execute(m)
         userList = foo.fetchall()
         connection.commit()
