@@ -23,7 +23,6 @@ DB_FILE = "Info.db"
 searchdict = {}
 
 
-<<<<<<< HEAD
 
 def updateTime(userr, level, time):
     USERR = userr
@@ -75,52 +74,6 @@ def updateTime(userr, level, time):
                         connection.commit()
         return True
 updateTime("test", 1, 2)
-=======
-# '''def updateTime(userr, level, time):
-#     USERR = userr
-#     LEVEL = level
-#     TIME = time
-#     with sqlite3.connect(DB_FILE) as connection:
-#         cur = connection.cursor()
-#         if level == 1:
-#             m = 'SELECT username, level1 FROM USER;'
-#             foo = cur.execute(m)
-#             userList = foo.fetchall()
-#             for row in userList:
-#                 if (userr == row[0]):
-#                     if (row[1] < time or row[1] == 0):
-#                         q = """ UPDATE USER
-#                         SET level1 = TIME
-#                         WHERE username = USERR; """
-#                         cur.execute(q)
-#                         connection.commit()
-#         if level == 2:
-#             m = 'SELECT username, level2 FROM USER;'
-#             foo = cur.execute(m)
-#             userList = foo.fetchall()
-#             for row in userList:
-#                 if (row[0] == userr):
-#                     if (row[1] < time or row[1] == 0):
-#                         q = """ UPDATE USER
-#                         SET level2 = TIME
-#                         WHERE username = USERR; """
-#                         cur.execute(q)
-#                         connection.commit()
-#         if level == 3:
-#             m = 'SELECT user, level3 FROM USER;'
-#             foo = cur.execute(m)
-#             userList = foo.fetchall()
-#             for row in userList:
-#                 if (row[0] == userr):
-#                     if (row[1] < time or row[1] == 0):
-#                         q = """ UPDATE USER
-#                         set level3 = TIME
-#                         WHERE username = USERR; """
-#                         cur.execute(q)
-#                         connection.commit()
-#         return True
-# updateTime("hliu01", 1, 2)
->>>>>>> 1e2a42dd798cfe3bc00cf8489ac4705e6f730306
 
 @app.route("/")
 def root():
