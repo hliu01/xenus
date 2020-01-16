@@ -112,3 +112,6 @@ Computation is complete
 
 liuH -- 2020-01-15 18:30
 Worked on multiple bugs and added pictures to the website
+
+wanA -- 2020-01-15 18:35
+Fixed sitemap and finished directions for games. I also added to the storyline and typeracer. 
