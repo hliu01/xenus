@@ -22,6 +22,45 @@ DB_FILE = "Info.db"
 # DICTIONARY FOR IMPORTANT SEARCH DATA
 searchdict = {}
 
+
+
+
+def updateTime(userr, level, time):
+    with sqlite3.connect(DB_FILE) as connection:
+        cur = connection.cursor()
+        if level == 1:
+            m = 'SELECT user, level1 FROM USER;'
+            foo = cur.execute(m)
+            userList = foo.fetchall()
+            if (userList[user] < time || time == 0:
+                q = """ UPDATE USER
+                SET level1 = time
+                WHERE user = userr; """
+                cur.execute(q)
+                connection.commit()
+
+        if level == 2:
+            m = 'SELECT user, level2 FROM USER;'
+            foo = cur.execute(m)
+            userList = foo.fetchall()
+            if (userList[user] < time || time == 0:
+                q = """ UPDATE USER
+                SET level2 = time
+                WHERE user = userr; """
+                cur.execute(q)
+                connection.commit()
+        if level == 3:
+            m = 'SELECT user, level3 FROM USER;'
+            foo = cur.execute(m)
+            userList = foo.fetchall()
+            if (userList[user] < time || time == 0:
+                q = """ UPDATE USER
+                SET level3 = time
+                WHERE user = userr; """
+                cur.execute(q)
+                connection.commit()
+        return True
+
 @app.route("/")
 def root():
     return render_template("play.html", sessionstatus = "user" in session)
@@ -116,7 +155,7 @@ def addUser(user, pswd, conf):
     if (pswd == conf):
         with sqlite3.connect(DB_FILE) as connection:
             cur = connection.cursor()
-            q = "INSERT INTO USER VALUES('{}', '{}');".format(user, pswd) # Successfully registers new user
+            q = "INSERT INTO USER VALUES('{}', '{}', 0, 0, 0);".format(user, pswd) # Successfully registers new user
             cur.execute(q)
             connection.commit()
         return True
