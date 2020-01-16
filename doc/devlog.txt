@@ -114,4 +114,10 @@ liuH -- 2020-01-15 18:30
 Worked on multiple bugs and added pictures to the website
 
 wanA -- 2020-01-15 18:35
-Fixed sitemap and finished directions for games. I also added to the storyline and typeracer. 
+Fixed sitemap and finished directions for games. I also added to the storyline and typeracer.
+
+khanN -- 2020-01-16 1:30
+Messed around with a ton of JS for the aesthetic, it did not go well...
+Tried to neat up the website homepage looks beautiful
+UI very friendly
+Trying to finish up the congratulations html and we should be good other than our updated maps
