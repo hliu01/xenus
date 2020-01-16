@@ -103,6 +103,105 @@ function timeRemaining()
 <body onload="timeRemaining()">
   <center><div>You have <span id="clockdiv"></span></div></center>
 </body>
+<style>
+    .col{
+        display:inline;
+    }
+</style>
+{% if startGame%}
+<center>
+    <h3>
+      <a href="/playclo">
+            <button type="button" class="btn btn-success">Start Game</button>
+        </a>
+    </h3>
+</center>
+
+{% else%}
+
+{% if gameOver%}
+    {% if userWin%}
+    <br>
+    <br>
+    <br>
+    <h2>You WIN!</h2>
+    <br>
+    <h2>You Are UN-IMPEDE-ABLE!</h2>
+    <center>
+        <h3>
+          <a href="/">
+                <button type="button" class="btn btn-success">Move On</button>
+            </a>
+        </h3>
+    </center>
+    <h3>Earth's Roll</h3>
+    <div class="row">
+        <div class = "col">
+            <img src={{die1}}>
+        </div>
+        <div class = "col">
+            <img src={{die2}}>
+        </div>
+        <div class = "col">
+            <img src={{die3}}>
+        </div>
+    </div>
+    <br>
+    <br>
+    <br>
+    <h3>Your Roll</h3>
+    <div class="row">
+        <div class = "col">
+            <img src={{die4}}>
+        </div>
+        <div class = "col">
+            <img src={{die5}}>
+        </div>
+        <div class = "col">
+            <img src={{die6}}>
+        </div>
+    </div>
+    {% else %}
+    <br>
+    <br>
+    <br>
+    <h2>this time you caught an L, but hey, don't stress it man, its just a game</h2>
+    <center>
+        <h3>
+          <a href="/playclo">
+                <button type="button" class="btn btn-success">Bounce Back?</button>
+            </a>
+        </h3>
+    </center>
+    <h3>Earth's Roll</h3>
+    <div class="row">
+        <div class = "col">
+            <img src={{die1}}>
+        </div>
+        <div class = "col">
+            <img src={{die2}}>
+        </div>
+        <div class = "col">
+            <img src={{die3}}>
+        </div>
+    </div>
+    <br>
+    <br>
+    <br>
+    <h3>Your Roll</h3>
+    <div class="row">
+        <div class = "col">
+            <img src={{die4}}>
+        </div>
+        <div class = "col">
+            <img src={{die5}}>
+        </div>
+        <div class = "col">
+            <img src={{die6}}>
+        </div>
+    </div>
+    {% endif %}
+{% else %}
 
 <div class=container-fluid>
     <br>
@@ -135,9 +234,13 @@ function timeRemaining()
         </div>
     </div>
     {% if validRoll%}
-    <form action="/playclo" method="post" id="testformid">
-        <input type="submit" />
-    </form>
+    <center>
+        <h3>
+          <a href="/evalscores">
+                <button type="button" class="btn btn-success">Move On</button>
+            </a>
+        </h3>
+    </center>
     {% else %}
     <center>
         <h3>
@@ -153,6 +256,7 @@ function timeRemaining()
 
 <br><br><br>
 
-
+{% endif %}
+{% endif%}
 {% endblock %}
 {% endblock %}
