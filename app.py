@@ -32,7 +32,7 @@ def updateTime(userr, level, time):
             m = 'SELECT user, level1 FROM USER;'
             foo = cur.execute(m)
             userList = foo.fetchall()
-            if (userList[user] < time || time == 0:
+            if (userList[user] < time or time == 0):
                 q = """ UPDATE USER
                 SET level1 = time
                 WHERE user = userr; """
@@ -43,7 +43,7 @@ def updateTime(userr, level, time):
             m = 'SELECT user, level2 FROM USER;'
             foo = cur.execute(m)
             userList = foo.fetchall()
-            if (userList[user] < time || time == 0:
+            if (userList[user] < time or time == 0):
                 q = """ UPDATE USER
                 SET level2 = time
                 WHERE user = userr; """
@@ -53,7 +53,7 @@ def updateTime(userr, level, time):
             m = 'SELECT user, level3 FROM USER;'
             foo = cur.execute(m)
             userList = foo.fetchall()
-            if (userList[user] < time || time == 0:
+            if (userList[user] < time or time == 0):
                 q = """ UPDATE USER
                 SET level3 = time
                 WHERE user = userr; """
