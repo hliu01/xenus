@@ -49,6 +49,13 @@ Added more games to the designdoc which was discussed in class
 Decided to make the puzzles timed
 Added in-depth explanation of different games/puzzles
 
+liuH -- 2020-01-07 17:30
+Worked on snake game and added timer to the game.
+Worked on level 1 page
+
+liuH -- 2020-01-08 18:30
+Fixed bugs relating to the timer
+
 wanA -- 2020-01-09 3:40
 Worked on trivia game. Made the api connection work and made sure there were only 10 questions displayed.
 I made buttons that allow the user to select and answer choice. I still need to connect the answers from the API
@@ -62,6 +69,23 @@ I need to work on color scheme (black, blue, purple)
 will connect the hrefs appropriately
 Also created a new css file just for template.html
 
+liuH -- 2020-01-10 19:30
+Updated read.me
+Added score counter so that user could only advance once they obtained a certain score
+Started computation games
+Started linking time to JS
+Connected level1 to snake
+
+
+liuH -- 2020-01-10 23:30
+Added radio buttons to the trivia game
+Worked on type racer game and made it more simple
+
+liuH -- 2020-01-11 18:30
+Made cookies and made differnet ones for each level
+Worked on trivia game to make sure questions showed up
+Worked on time
+
 khanN -- 2020-01-12 22:46
 Worked on template html, much cleaner UI
 Worked on homepage setup, cleaned it up a bit
@@ -70,11 +94,21 @@ Same goes with register
 When trying to add pictures as backgrounds I am not able to display them, but I'm guessing it's due to my different
 Will fix this later**
 
+
 chowdhuryB -- 2020-01-13 19:06
 Finished BlackJack
 Worked On C-low
 
-wanA -- 2020-01-14 2:30
-Worked on storyline. 
+liuH -- 2020-01-13 19:30
+Worked on computation checker to link trivia to answers
+Fixed clock
+Added computation.html
 
-Worked on time
+wanA -- 2020-01-14 2:30
+Worked on storyline.
+
+liuH -- 2020-01-14 18:30
+Computation is complete
+
+liuH -- 2020-01-15 18:30
+Worked on multiple bugs and added pictures to the website

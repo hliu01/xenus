@@ -345,7 +345,7 @@ def whowon():
         return redirect(url_for('playclo'))
     if ('ourdie1' not in session):
         return redirect(url_for('playclo'))
-    if (session['ourdie1'] == session['ourdie2'] && session['ourdie2'] == session['ourdie3']):
+    if (session['ourdie1'] == session['ourdie2'] & session['ourdie2'] == session['ourdie3']):
         ourscore = session['ourdie1'] * session['ourdie1']
     if (session['ourdie1'] == session['ourdie2']):
         ourscore = session['ourdie3']
