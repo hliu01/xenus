@@ -295,20 +295,25 @@ def playclo():
     ourroll = rolldice()
     while ((ourroll[0] != ourroll[1]) and (ourroll[1] != ourroll[2]) and (ourroll[0] != ourroll[2])):
         ourroll = rolldice()
-    ourdie1 = dice[ourroll[0]-1]
-    ourdie2 = dice[ourroll[1]-1]
-    ourdie3 = dice[ourroll[2]-1]
-    session['ourdie1'] = ourdie1
-    session['ourdie2'] = ourdie2
-    session['ourdie3'] = ourdie3
+    session['ourdie1'] = ourroll[0]
+    session['ourdie2'] = ourroll[1]
+    session['ourdie3'] = ourroll[2]
     yourroll = rolldice()
-    yourdie1 = dice[yourroll[0]-1]
-    yourdie2 = dice[yourroll[1]-1]
-    yourdie3 = dice[yourroll[2]-1]
+    session['yourdie1'] = yourroll[0]
+    session['yourdie2'] = yourroll[1]
+    session['yourdie3'] = yourroll[2]
     validroll = True
     if ((yourroll[0] != yourroll[1]) and (yourroll[1] != yourroll[2]) and (yourroll[0] != yourroll[2])):
             validroll = False
-    return render_template('clo.html',die1 = ourdie1,die2=ourdie2,die3=ourdie3,die4=yourdie1,die5=yourdie2,die6=yourdie3,validRoll = validroll, heading = session["user"],sessionstatus = "user" in session)
+    return render_template('clo.html',die1 = dice[session['ourdie1']-1],
+                                    die2=dice[session['ourdie2']-1],
+                                    die3=dice[session['ourdie3']-1],
+                                    die4=dice[session['yourdie1']-1],
+                                    die5=dice[session['yourdie2']-1],
+                                    die6=dice[session['yourdie3']-1],
+                                    validRoll = validroll,
+                                    heading = session["user"],
+                                    sessionstatus = "user" in session)
 
 @app.route('/reroll')
 def reroll():
@@ -316,29 +321,40 @@ def reroll():
         return redirect(url_for('root'))
     dice = ["http://roll.diceapi.com/images/poorly-drawn/d6/1.png","http://roll.diceapi.com/images/poorly-drawn/d6/2.png","http://roll.diceapi.com/images/poorly-drawn/d6/3.png","http://roll.diceapi.com/images/poorly-drawn/d6/4.png","http://roll.diceapi.com/images/poorly-drawn/d6/5.png","http://roll.diceapi.com/images/poorly-drawn/d6/6.png"]
     yourroll = rolldice()
-    ourdie1 = session['ourdie1']
-    ourdie2 = session['ourdie2']
-    ourdie3 = session['ourdie3']
-    yourdie1 = dice[yourroll[0]-1]
-    yourdie2 = dice[yourroll[1]-1]
-    yourdie3 = dice[yourroll[2]-1]
+    session['yourdie1'] = yourroll[0]
+    session['yourdie2'] = yourroll[1]
+    session['yourdie3'] = yourroll[2]
     validroll = True
     if ((yourroll[0] != yourroll[1]) and (yourroll[1] != yourroll[2]) and (yourroll[0] != yourroll[2])):
         validroll = False
-    else:
-        session['yourdie1'] = yourdie1
-        session['yourdie2'] = yourdie2
-        session['yourdie3'] = yourdie3
-    return render_template('clo.html',die1 = ourdie1,die2=ourdie2,die3=ourdie3,die4=yourdie1,die5=yourdie2,die6=yourdie3,validRoll = validroll,heading = session["user"],sessionstatus = "user" in session)
+    return render_template('clo.html',die1 = dice[session['ourdie1']-1],
+                                    die2=dice[session['ourdie2']-1],
+                                    die3=dice[session['ourdie3']-1],
+                                    die4=dice[session['yourdie1']-1],
+                                    die5=dice[session['yourdie2']-1],
+                                    die6=dice[session['yourdie3']-1],
+                                    validRoll = validroll,
+                                    heading = session["user"],
+                                    sessionstatus = "user" in session)
 
 app.route('/evalscores')
 def whowon():
-    ourdie1 = session['ourdie1']
-    ourdie2 = session['ourdie2']
-    ourdie3 = session['ourdie3']
-    yourdie1 = session['yourdie1']
-    yourdie2 = session['yourdie2']
-    yourdie3 = session['yourdie3']
+    if "user" not in session:
+        return redirect(url_for('root'))
+    if ('yourdie1' not in session):
+        return redirect(url_for('playclo'))
+    if ('ourdie1' not in session):
+        return redirect(url_for('playclo'))
+    if (session['ourdie1'] == session['ourdie2'] && session['ourdie2'] == session['ourdie3']):
+        ourscore = session['ourdie1'] * session['ourdie1']
+    if (session['ourdie1'] == session['ourdie2']):
+        ourscore = session['ourdie3']
+    elif (session['ourdie1'] == session['ourdie3']):
+        ourscore = session['ourdie2']
+    else:
+        ourscore = session['ourdie1']
+
+
 
 
 def rolldice():
