@@ -90,6 +90,7 @@ function timeRemaining()
   if(document.cookie && document.cookie.match('myClock7')){
     // get deadline value from cookie
     var deadline = document.cookie.match(/(^|;)myClock7=([^;]+)/)[2];
+
       }
   // otherwise, set a deadline 10 minutes from now and
   // save it in a cookie with that name
@@ -104,6 +105,7 @@ function timeRemaining()
 </script>
 <body onload="timeRemaining()">
   <p> Congratulations! You have succesfully hacked into the spaceship.</p>
+
 </body>
 
 
@@ -111,6 +113,7 @@ function timeRemaining()
 <br><br><br>
 <form action="/level2">
   <input type="submit" value = "continue" id="blackjackButton" >
+
 </form>
 
 </center>

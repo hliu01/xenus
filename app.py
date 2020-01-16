@@ -24,10 +24,7 @@ searchdict = {}
 
 
 
-def updateTime(userr, level, time):
-    USERR = userr
-    LEVEL = level
-    TIME = time
+def updateWins(userr, level):
     with sqlite3.connect(DB_FILE) as connection:
         cur = connection.cursor()
         if level == 1:
@@ -36,44 +33,48 @@ def updateTime(userr, level, time):
             userList = foo.fetchall()
             for row in userList:
                 if (userr == row[0]):
-                    if (row[1] < time or row[1] == 0):
-                        cur.execute("""
-                        UPDATE USER
-                        SET level1 = ?
-                        WHERE
-                            username = ?
-                        """,(time,userr,))
-                        connection.commit()
+                    original = row[0][2]
+                    age_int = int(original)
+                    age_int = age_int + 1
+                    cur.execute("""
+                    UPDATE USER
+                    SET level1 = ?
+                    WHERE
+                    username = ?
+                    """,(age_int ,userr,))
+                    connection.commit()
         if level == 2:
             m = 'SELECT username, level2 FROM USER;'
             foo = cur.execute(m)
             userList = foo.fetchall()
             for row in userList:
-                if (row[0] == userr):
-                    if (row[1] < time or row[1] == 0):
-                        cur.execute("""
-                        UPDATE USER
-                        SET level2 = ?
-                        WHERE
-                        username = ?
-                    """,(time,userr,))
-                        connection.commit()
+                if (userr == row[0]):
+                    original = row[0][3]
+                    cur.execute("""
+                    UPDATE USER
+                    SET level2 = ?
+                    WHERE
+                    username = ?
+                    """,(original,userr,))
+                    connection.commit()
+
         if level == 3:
             m = 'SELECT user, level3 FROM USER;'
             foo = cur.execute(m)
             userList = foo.fetchall()
             for row in userList:
-                if (row[0] == userr):
-                    if (row[1] < time or row[1] == 0):
-                        cur.execute("""
-                        UPDATE USER
-                        SET level3 = ?
-                        WHERE
-                        username = ?
-                    """,(time,userr,))
-                        connection.commit()
+                if (userr == row[0]):
+                    original = row[0][4]
+                    cur.execute("""
+                    UPDATE USER
+                    SET level3 = ?
+                    WHERE
+                    username = ?
+                    """,(original,userr,))
+                    connection.commit()
+
         return True
-updateTime("test", 1, 2)
+updateWins("test", 1)
 # '''def updateTime(userr, level, time):
 #     USERR = userr
 #     LEVEL = level
@@ -554,6 +555,7 @@ def computationchecker():
         if dict[str(i)] == List[i][0]:
             score = score + 1
     if score > 5:
+        updateWins(session["user"], 1)
         return render_template("computationchecker.html", heading = session["user"],sessionstatus = "user" in session)
     else:
         if "user" not in session:
