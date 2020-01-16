@@ -74,8 +74,6 @@ def updateTime(userr, level, time):
                         connection.commit()
         return True
 updateTime("test", 1, 2)
-<<<<<<< HEAD
-
 # '''def updateTime(userr, level, time):
 #     USERR = userr
 #     LEVEL = level
@@ -126,8 +124,6 @@ def updateUsers():
         foo = cur.execute('SELECT * FROM USER;') # Selects all username/password combinations
         userList = foo.fetchall()
         return userList
-=======
->>>>>>> ddec3721f4fb2c19f2dc83411999079055e060ce
 
 @app.route("/")
 def root():
@@ -248,8 +244,7 @@ def profile():
        q = "SELECT * FROM USER WHERE level1 > 0"
        foo = cur.execute(q)
        level1list = foo.fetchall()
-       q = "SELECT * FROM USER WHERE username = name"
-       foo = cur.execute(q)
+       foo = cur.execute("""SELECT * FROM USER WHERE username = ?""",(name,))
        userstatlist = foo.fetchall()
 
     return render_template("profile.html",
@@ -384,7 +379,7 @@ def checktyperacer():
         print(hi)
         return redirect(url_for('root'))
     comment = request.form['comment']
-    if comment == "Hello Earth, I found a connection suddenly, so please respond fast. I woke up on a planet called Xenus, and I am currently flying back to Earth. It’s been very tough for me, and the fact that I am writing you this message is a miracle. I am going to need a landing site with x and y coordinates. Although I have no money, I have extremely valuable resources from Xenus. If possible, please send help to me because I am running out of food and liquid.":
+    if comment == "Hello Earth, I hope you take time to read this. I found a connection suddenly, so I have barely any time waste. I woke up on a planet called Xenus, and I am currently flying back to Earth. It’s been very tough for me to survive, and the fact that I am writing you this message is a miracle. I don’t know my name, my age, basically anything. I hope you will give me consent to enter, as I bring no harm. I am going to need a landing site with x and y coordinates. Although I have no money, I have resources from Xenus that have never been seen before. This will attract many people and bring light to new innovations. If possible, please send help to me because I am running out of food and liquid. I am currently traveling directly south about 1400 million miles away from Earth. Thank you.":
         return render_template("checktyperacer.html", incorrect = False,heading = session["user"],sessionstatus = "user" in session)
     else:
         return render_template("typeracer.html", incorrect = True, comment = comment, heading = session["user"],sessionstatus = "user" in session)

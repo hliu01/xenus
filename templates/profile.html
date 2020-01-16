@@ -36,10 +36,10 @@
 <div class="container-fluid">
   <center>
     <h1>{{title}}</h1>
-    My Best times:
-    Level 1: {{userstatlist[1]}}
-    Level 2: {{userstatlist[2]}}
-    Level 3: {{userstatlist[3]}}
+    <p>My Best times:</p>
+    <p>Level 1: {{userstatlist[0][2]}}</p>
+    <p>Level 2: {{userstatlist[0][3]}}</p>
+    <p>Level 3: {{userstatlist[0][4]}}</p>
 
     <h3>Leaderboard</h3>
 
@@ -53,7 +53,7 @@
   {% for user in level1list%}
   <tr>
     <td>{{user[0]}}</td>
-    <td>{{user[1]}}</td>
+    <td>{{user[2]}}</td>
     <td>{{user[3]}}</td>
     <td>{{user[4]}}</td>
 
