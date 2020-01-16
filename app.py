@@ -23,6 +23,7 @@ DB_FILE = "Info.db"
 searchdict = {}
 
 
+<<<<<<< HEAD
 
 def updateTime(userr, level, time):
     USERR = userr
@@ -74,6 +75,52 @@ def updateTime(userr, level, time):
                         connection.commit()
         return True
 updateTime("test", 1, 2)
+=======
+# '''def updateTime(userr, level, time):
+#     USERR = userr
+#     LEVEL = level
+#     TIME = time
+#     with sqlite3.connect(DB_FILE) as connection:
+#         cur = connection.cursor()
+#         if level == 1:
+#             m = 'SELECT username, level1 FROM USER;'
+#             foo = cur.execute(m)
+#             userList = foo.fetchall()
+#             for row in userList:
+#                 if (userr == row[0]):
+#                     if (row[1] < time or row[1] == 0):
+#                         q = """ UPDATE USER
+#                         SET level1 = TIME
+#                         WHERE username = USERR; """
+#                         cur.execute(q)
+#                         connection.commit()
+#         if level == 2:
+#             m = 'SELECT username, level2 FROM USER;'
+#             foo = cur.execute(m)
+#             userList = foo.fetchall()
+#             for row in userList:
+#                 if (row[0] == userr):
+#                     if (row[1] < time or row[1] == 0):
+#                         q = """ UPDATE USER
+#                         SET level2 = TIME
+#                         WHERE username = USERR; """
+#                         cur.execute(q)
+#                         connection.commit()
+#         if level == 3:
+#             m = 'SELECT user, level3 FROM USER;'
+#             foo = cur.execute(m)
+#             userList = foo.fetchall()
+#             for row in userList:
+#                 if (row[0] == userr):
+#                     if (row[1] < time or row[1] == 0):
+#                         q = """ UPDATE USER
+#                         set level3 = TIME
+#                         WHERE username = USERR; """
+#                         cur.execute(q)
+#                         connection.commit()
+#         return True
+# updateTime("hliu01", 1, 2)
+>>>>>>> 1e2a42dd798cfe3bc00cf8489ac4705e6f730306
 
 @app.route("/")
 def root():
@@ -311,7 +358,7 @@ def houseBlackJack():
 def typeracer():
     if "user" not in session:
         return redirect(url_for('root'))
-    return render_template("typeracer.html", heading = session["user"],sessionstatus = "user" in session)
+    return render_template("typeracer.html", incorrect = False, heading = session["user"],sessionstatus = "user" in session)
 
 @app.route('/checktyperacer', methods=['POST'])
 def checktyperacer():
@@ -320,25 +367,25 @@ def checktyperacer():
         return redirect(url_for('root'))
     comment = request.form['comment']
     if comment == "Hello Earth, I hope you take time to read this. I found a connection suddenly, so I have barely any time waste. I woke up on a planet called Xenus, and I am currently flying back to Earth. It’s been very tough for me to survive, and the fact that I am writing you this message is a miracle. I don’t know my name, my age, basically anything. I hope you will give me consent to enter, as I bring no harm. I am going to need a landing site with x and y coordinates. Although I have no money, I have resources from Xenus that have never been seen before. This will attract many people and bring light to new innovations. If possible, please send help to me because I am running out of food and liquid. I am currently traveling directly south about 1400 million miles away from Earth. Thank you.":
-        return render_template("checktyperacer.html", heading = session["user"],sessionstatus = "user" in session)
+        return render_template("checktyperacer.html", incorrect = False,heading = session["user"],sessionstatus = "user" in session)
     else:
-        return render_template("typeracer.html", heading = session["user"],sessionstatus = "user" in session)
+        return render_template("typeracer.html", incorrect = True, comment = comment, heading = session["user"],sessionstatus = "user" in session)
 
 @app.route("/typeracer2")
 def typeracer2():
     if "user" not in session:
         return redirect(url_for('root'))
-    return render_template("typeracer2.html", heading = session["user"],sessionstatus = "user" in session)
+    return render_template("typeracer2.html", incorrect = False, heading = session["user"],sessionstatus = "user" in session)
 
 @app.route('/checktyperacer2', methods=['POST'])
 def checktyperacer2():
     if "user" not in session:
         return redirect(url_for('root'))
     comment = request.form['comment']
-    if comment == "Hello Earth. It is me again. I have communicated with you people a long time ago so please do not act with hostility. I come in peace. I have resources with me that would give benefits to Earth. I have travelled for decades and it is extremely tragic that you are not accepting me. I only ask for a landing site, so I can come back to my home. If you do act with hostility I will survive any hostility. My skills come from Xenus and years of experience in space, battling worse things than the worst Earth can offer. Do not waste your weapons on me, as I will survive no matter what. I just need consent to enter Earth. Please comply with me.":
-        return render_template("checktyperacer2.html", heading = session["user"],sessionstatus = "user" in session)
+    if comment == "Hello Earth. It is me again. I come in peace. I have resources with me that would give great benefits to Earth. I only ask for a landing site, so I can come back to my home. My skills come from Xenus and my years of experience in space. Please comply with me.":
+        return render_template("checktyperacer2.html", incorrect = False, heading = session["user"],sessionstatus = "user" in session)
     else:
-        return render_template("typeracer2.html", heading = session["user"],sessionstatus = "user" in session)
+        return render_template("typeracer2.html", incorrect = True, comment = comment, heading = session["user"],sessionstatus = "user" in session)
 
 @app.route('/startclo')
 def startclo():
@@ -451,7 +498,7 @@ def whowon():
         userwin = True
     elif (ourscore == yourscore):
         return redirect(url_for('playclo'))
-    return render_template('clo.html',startGame=False,gameOver = True, userWin = userwin)
+    return render_template('Congratulations.html',heading = session["user"],sessionstatus = "user" in session)
 
 def rolldice():
     die1 = random.randint(0,6)
@@ -505,6 +552,12 @@ def computationchecker():
             List = foo.fetchall()
             connection.commit()
         return render_template("computation.html", q = List, heading = session["user"],sessionstatus = "user" in session)
+
+@app.route("/Congratulations")
+def Congratulations():
+    if "user" not in session:
+        return redirect(url_for('root'))
+    return render_template("Congratulations.html", heading = session["user"],sessionstatus = "user" in session)
 
 if __name__ == "__main__":
     app.debug = True
