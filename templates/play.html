@@ -1,6 +1,9 @@
 {% extends "homepage.html" %}
 
 {% block css %}
+<head>
+<title>Levels</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
 <style>
   .col-lg{
     margin: 15px;
@@ -30,33 +33,46 @@
   submitLink:focus {
     outline: none;
   }
+
+  .card-body {
+    min-height: 500px;
+    min-width: 500px;
+    margin-right: 5px;
+    border-color: blue;
+}
 </style>
+</head>
 {% endblock %}
 
 {% block searchresults %}
-<div class="container-fluid">
+<body>
   <center>
-
+    <h1><font size="5">Levels</font></h1>
   </center>
 <!---FIXME---->
 <!--Make into cards/Have the button with the card, horizontal scroll under the cards, aligned horizontally-->
-  <div class="row">
-
-    <div class="col-lg border">
-        <center><h1><a href="{{ url_for('level1') }}"><button type="button" class="btn btn-success">Level 1</button></a></h1></center>
+<div class="container-fluid py-2">
+    <h2 class="font-weight-light">Bootstrap 4 Horizontal Scrolling Cards with Flexbox</h2>
+    <div class="d-flex flex-row flex-nowrap">
+        <div class="card card-body">Chapter 1</div>
+            <p class="card-text">Your first quest.</p>
+            <a href="{{ url_for('level1') }}" class="btn btn-primary">Level 1</a>
+          </div>
+        <div class="card card-body">Chapter 2</div>
+          <p class="card-text">Your second quest.</p>
+          <a href="{{ url_for('level2') }}" class="btn btn-primary">Level 2</a>
+        <div class="card card-body">Chapter 3</div>
+        <p class="card-text">Your final quest.</p>
+        <a href="{{ url_for('level3') }}" class="btn btn-primary">Level 3</a>
     </div>
 
-    <div class="col-lg border">
-        <center><h1><a href="{{ url_for('level2') }}"><button type="button" class="btn btn-success">Level 2</button></a></h1></center>
-    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 
-    <div class="col-lg border">
-        <center><h1><a href="{{ url_for('level3') }}"><button type="button" class="btn btn-success">Level 3</button></a></h1></center>
-    </div>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
 
-  </div>
-</div>
 
-<br><br><br>
+<br>
+<br>
+<br>
 
 {% endblock %}

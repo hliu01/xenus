@@ -11,68 +11,10 @@ p{
   font-family:Roboto;
 }
 
-.jumbotron{
-  background-image: url("images/snake.jpg");
-  background-size: cover;
-  background-repeat: no-repeat;
-}
-
-.navbar-default{
-  background:#000;
+.navbar{
+  background:#2e1670;
   border:0;
-  font-family:Poppins;
-}
-
-.navbar-brand{
-  font-size:20px;
-  color:#000 !important;
-  font-weight:bold;
-}
-
-.dropdown {
-  float: right;
-  overflow: hidden;
-}
-
-.dropdown .dropbtn {
-  font-size: 20px;
-  border: none;
-  outline: none;
-  color: white;
-  padding: 14px 16px;
-  background-color: Poppins;
-  font-family: inherit;
-  margin: 0;
-}
-
-.navbar-brand:hover, .dropdown:hover .dropbtn {
-  background-color: SlateBlue
-}
-
-.dropdown-content {
-  display: none;
-  position: absolute;
-  background-color: #f9f9f9;
-  min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 1;
-}
-
-.dropdown-content a {
-  float: none;
-  color: black;
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
-  text-align: left;
-}
-
-.dropdown-content a:hover {
-  background-color: #ddd;
-}
-
-.dropdown:hover .dropdown-content {
-  display: block;
+  font-family: Poppins;
 }
 
 #showcase h1{
@@ -113,14 +55,6 @@ p{
 
 #info2{
   margin:20px 0 60px 0;
-}
-
-#contact{
-  background:url(../doc/image3.png);
-  padding:40px;
-  color:#fff;
-  border-top:#333 7px solid;
-  border-bottom:#333 7px solid;
 }
 
 footer{
