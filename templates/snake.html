@@ -64,16 +64,16 @@ canvas {
 }
 #timeMessage{
   color:white;
-  position:absolute;
-  left:580px;
-  top:118px;
+  position:relative;
+  left:280px;
+  bottom:270px;
 
 }
 #computationButton{
-  color:white;
-  position:absolute;
-  left:660px;
-  top:160px;
+  color:red;
+  position:relative;
+  right:214px;
+  bottom:235px;
 
 }
 #button{
@@ -85,16 +85,16 @@ canvas {
 }
 #clockdiv{
   color:white;
-  position:absolute;
-  left:645px;
-  top:118px;
+  position:relative;
+  left:300px;
+  bottom:270px;
 
 }
 #headerr{
   color:white;
-  position:absolute;
-  left:665px;
-  top:70px;
+  position:relative;
+  left:390px;
+  bottom:310px;
 
 }
 </style>
@@ -105,9 +105,8 @@ canvas {
 <p id="p2">HIGH:</p>
 <p id="score"></p>
 <p id="high"></p>
-<center><p id="mission1">Mission #1:Gather 100 resources to last you for your trip to Earth.</p></center>
-<p id="successMessage">You have succesfully collected 100 resources!</p>
-<p id="timeMessage">You have</p>
+<p id="successMessage"></p>
+
 <center><div><span id="clockdiv"></span></div></center>
 <canvas width="400" height="400" id="game"></canvas>
 <p id="demo"></p>
@@ -197,6 +196,7 @@ function loop() {
     document.getElementById("computationButton").style.visibility = "visible";
     document.getElementById("successMessage").style.display = "block";
   }
+  //change to 299 later
   else if(max>90){
     document.getElementById("computationButton").style.visibility = "visible";
     document.getElementById("successMessage").style.display = "block";
