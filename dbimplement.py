@@ -19,10 +19,12 @@ DB_FILE = "Info.db"
 db = sqlite3.connect(DB_FILE)
 c = db.cursor()
 c.execute("CREATE TABLE IF NOT EXISTS USER(username TEXT, password TEXT);")
-c.execute('CREATE TABLE IF NOT EXISTS TRIVIA (questions TEXT, one TEXT, two TEXT, three TEXT, four TEXT)')
-c.execute('CREATE TABLE IF NOT EXISTS answers (question TEXT, answer TEXT)')
+c.execute('DROP TABLE IF EXISTS TRIVIA;')
+c.execute('CREATE TABLE IF NOT EXISTS TRIVIA (questions TEXT, one TEXT, two TEXT, three TEXT, four TEXT);')
+c.execute('CREATE TABLE IF NOT EXISTS answers (question TEXT, answer TEXT);')
+c.execute('SELECT * FROM TRIVIA;')
 exists = c.fetchall()
-if exists == []:
+if (exists == []):
     que = {}
     que = quest(que)
     for i in range(10):
