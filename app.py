@@ -23,7 +23,6 @@ DB_FILE = "Info.db"
 searchdict = {}
 
 
-<<<<<<< HEAD
 
 def updateTime(userr, level, time):
     USERR = userr
@@ -75,7 +74,7 @@ def updateTime(userr, level, time):
                         connection.commit()
         return True
 updateTime("test", 1, 2)
-=======
+
 # '''def updateTime(userr, level, time):
 #     USERR = userr
 #     LEVEL = level
@@ -120,7 +119,12 @@ updateTime("test", 1, 2)
 #                         connection.commit()
 #         return True
 # updateTime("hliu01", 1, 2)
->>>>>>> 1e2a42dd798cfe3bc00cf8489ac4705e6f730306
+def updateUsers():
+    with sqlite3.connect(DB_FILE) as connection:
+        cur = connection.cursor()
+        foo = cur.execute('SELECT * FROM USER;') # Selects all username/password combinations
+        userList = foo.fetchall()
+        return userList
 
 @app.route("/")
 def root():
@@ -235,8 +239,18 @@ def play():
 def profile():
     if "user" not in session:
         return redirect(url_for('root'))
+    name = format(session["user"])
+    with sqlite3.connect(DB_FILE) as connection:
+       cur = connection.cursor()
+       q = "SELECT * FROM USER WHERE level1 > 0"
+       foo = cur.execute(q)
+       level1list = foo.fetchall()
+       q = "SELECT * FROM USER WHERE username = name"
+       foo = cur.execute(q)
+       userstatlist = foo.fetchall()
+
     return render_template("profile.html",
-    title = "Profile - {}".format(session["user"]), heading = session["user"],sessionstatus = "user" in session)
+    title = "Profile - {}".format(session["user"]),level1list = level1list, userstatlist = userstatlist, heading = session["user"],sessionstatus = "user" in session)
 
 #https://gist.github.com/straker/ff00b4b49669ad3dec890306d348adc4
 @app.route("/snake")
@@ -244,6 +258,7 @@ def snake():
     if "user" not in session:
         return redirect(url_for('root'))
     return render_template("snake.html", heading = session["user"],sessionstatus = "user" in session)
+
 
 @app.route("/blackjack")
 def startBlackJack():

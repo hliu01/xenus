@@ -28,6 +28,7 @@
     outline: none;
   }
 
+
 </style>
 {% endblock %}
 
@@ -35,6 +36,30 @@
 <div class="container-fluid">
   <center>
     <h1>{{title}}</h1>
+    My Best times:
+    Level 1: {{userstatlist[1]}}
+    Level 2: {{userstatlist[2]}}
+    Level 3: {{userstatlist[3]}}
+
+    <h3>Leaderboard</h3>
+
+<table cellspacing="20">
+  <tr>
+    <th>User&nbsp;&nbsp;&nbsp;&nbsp;&nbsp&nbsp;</th>
+    <th>Level 1 time&nbsp;&nbsp;&nbsp;&nbsp;&nbsp&nbsp;</th>
+    <th>Level 2 time&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+    <th>Level 3 time&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+  </tr>
+  {% for user in level1list%}
+  <tr>
+    <td>{{user[0]}}</td>
+    <td>{{user[1]}}</td>
+    <td>{{user[3]}}</td>
+    <td>{{user[4]}}</td>
+
+  </tr>
+  {% endfor %}
+</table>
 
 
 
