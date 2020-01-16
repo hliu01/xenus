@@ -47,6 +47,9 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
+.col{
+    display:inline;
+}
 p {
   text-align: center;
   font-size: 15px;
@@ -86,15 +89,16 @@ function initializeClock(id, endtime){
 function timeRemaining()
 {
   // if there's a cookie with the name myclock10, use that value as the deadline
-  if(document.cookie && document.cookie.match('myclock26')){
+  if(document.cookie && document.cookie.match('myclock21')){
     // get deadline value from cookie
-    var deadline = document.cookie.match(/(^|;)myclock26=([^;]+)/)[2];
+    var deadline = document.cookie.match(/(^|;)myclock21=([^;]+)/)[2];
       }
   // otherwise, set a deadline 10 minutes from now and
   // save it in a cookie with that name
   else{
     // create deadline 10 minutes from now
-    window.location.replace("/level3")
+    window.location.replace("/level2")
+  }
   initializeClock('clockdiv', deadline);
 
 }
@@ -258,5 +262,8 @@ function timeRemaining()
 
 {% endif %}
 {% endif%}
+
+
 {% endblock %}
+
 {% endblock %}

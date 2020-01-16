@@ -444,7 +444,7 @@ def whowon():
         userwin = True
     elif (ourscore == yourscore):
         return redirect(url_for('playclo'))
-    return render_template('clo.html',startGame=False,gameOver = True, userWin = userwin)
+    return render_template('Congratulations.html',heading = session["user"],sessionstatus = "user" in session)
 
 def rolldice():
     die1 = random.randint(0,6)
@@ -498,6 +498,12 @@ def computationchecker():
             List = foo.fetchall()
             connection.commit()
         return render_template("computation.html", q = List, heading = session["user"],sessionstatus = "user" in session)
+
+@app.route("/Congratulations")
+def Congratulations():
+    if "user" not in session:
+        return redirect(url_for('root'))
+    return render_template("Congratulations.html", heading = session["user"],sessionstatus = "user" in session)
 
 if __name__ == "__main__":
     app.debug = True
