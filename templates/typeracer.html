@@ -43,9 +43,12 @@
   <center>
     <h1>Level 2</h1>
     <p> Mission #3: You want to send a message back to earth asking for a landing site.</p>
-    <p> You must make no mistakes. Do not make any errors with the spacing or capitalization either to show that you are professional!</p>
-    <p> Copy the text below and press submit when complete</p>
-    <a href="https://ibb.co/S3sW6Ws"><img src="https://i.ibb.co/mcD1R1D/Screen-Shot-2020-01-15-at-1-02-52-PM.png" alt="Screen-Shot-2020-01-15-at-1-02-52-PM" border="0"></a>
+    {% if incorrect %}
+      Incorrect submission: {{comment}}
+    {% endif %}
+
+    <p> Copy the text exactly how it is written below and press Submit when complete.</p>
+    <a href="https://ibb.co/Sfs84Jg"><img src="https://i.ibb.co/WVxw4sX/Screen-Shot-2020-01-15-at-8-18-01-PM.png" alt="Screen-Shot-2020-01-15-at-8-18-01-PM" border="0"></a>
 
 
 
@@ -116,7 +119,7 @@ function timeRemaining()
 <center>
 <br><br><br>
 
-<textarea form ="testformid" name="comment" id="taid" cols="100" rows = "80" wrap="soft"></textarea>
+<textarea form ="testformid" name="comment" id="taid" cols="100" rows = "8" wrap="soft"></textarea>
 <form action="/checktyperacer" method="post" id="testformid">
     <input type="submit" />
 </form>

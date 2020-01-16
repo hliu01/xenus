@@ -43,11 +43,11 @@
   <center>
     <h1>Level 3</h1>
     <p> Earth people thinks that you are an invader.</p>
-    <p> Mission #5: Quickly send them a message to alert them that you are not an invader</p>
-    <p> You must make no mistakes. Do not make any errors with the spacing or capitalization either to show that you are professional!</p>
-    <p> Copy the text below and press Submit when complete</p>
-
-
+    <p> Mission #5: Quickly send them a message to alert them that you are not an invader.</p>
+    {% if incorrect %}
+      Incorrect submission: {{comment}}
+    {% endif %}
+    <p> Copy the text exactly how it is written below and press Submit when complete.</p>
 
 
   </center>
@@ -114,10 +114,10 @@ function timeRemaining()
 
 
 <center>
-<a href="https://ibb.co/RbqLNm4"><img src="https://i.ibb.co/Jt9Xq4F/Screen-Shot-2020-01-15-at-1-03-01-PM.png" alt="Screen-Shot-2020-01-15-at-1-03-01-PM" border="0"></a>
+<a href="https://ibb.co/YcmBpN5"><img src="https://i.ibb.co/VgRY2LF/Screen-Shot-2020-01-15-at-8-28-42-PM.png" alt="Screen-Shot-2020-01-15-at-8-28-42-PM" border="0"></a>
 <br><br><br>
 
-<textarea form ="testformid" name="comment" id="taid" cols="100" wrap="soft"></textarea>
+<textarea form ="testformid" name="comment" id="taid" cols="100" rows="6" wrap="soft"></textarea>
 <form action="/checktyperacer2" method="post" id="testformid">
     <input type="submit" />
 </form>
