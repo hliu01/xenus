@@ -36,5 +36,8 @@ After activating the virutal environment:
 
 View the webpage by opening a web browser and visiting: http://127.0.0.1:5000/
 
+### Video Demo: 
+[video demo here](https://www.youtube.com/watch?v=hqCkeofNKyM&t=2s)
+
 ---
 © Copyright 2020 xenus -- - Biraj Chowdury, Nahi Khan, Henry Liu & Albert Wan
